@@ -14,6 +14,7 @@ class CompactSuffixArray {
         vector<uint> gaps = vector<uint>(CONTACT_LENGTH);
         vector<Contact> sigma;
         vector<Contact> sigmaLine;
+        vector<uint> Sid;
         Bitvector bitvector;
 
 
@@ -57,6 +58,23 @@ class CompactSuffixArray {
             }
         }
 
+        uint mapId(uint id) {
+            if (bitvector.access(id) == 1) {
+                return bitvector.rank1(id);
+            }
+
+            return 0;
+        }
+
+        void initializeSid() {
+            for (auto contact : sigmaLine) {
+                Sid.push_back(mapId(contact.u));
+                Sid.push_back(mapId(contact.v));
+                Sid.push_back(mapId(contact.ts));
+                Sid.push_back(mapId(contact.te));
+            }
+        }
+
 
         void printSigma() {
             puts("Sigma:\n");
@@ -76,9 +94,20 @@ class CompactSuffixArray {
             puts("");
         }
 
-        void printBitVector() {
+
+        void printBitvector() {
             puts("Bitvevtor:\n");
             bitvector.print();
+            puts("");
+        }
+
+        void printSid() {
+            puts("Sid:\n");
+            for(auto it : Sid) {
+                printf("%2d", it);
+                printf(" ");
+            }
+            puts("");
         }
 
     public:
@@ -88,12 +117,14 @@ class CompactSuffixArray {
             sort(sigma.begin(), sigma.end());
             sigmaLine = addOffsetToTheSequence(sigma);
             initializeBitvector(sigmaLine);
+            initializeSid();
         }
 
         void print() {
             printSigma();
             printSigmaLine();
-            printBitVector();
+            printBitvector();
+            printSid();
         }
 };
 

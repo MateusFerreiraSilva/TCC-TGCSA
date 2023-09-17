@@ -47,11 +47,29 @@ void testCSA() {
     csa.print();
 }
 
+void bookExample() {
+    vector<Contact> contacts {
+        Contact(1, 3, 1, 8),
+        Contact(1, 4, 5, 8),
+        Contact(2, 1, 1, 5),
+        Contact(4, 3, 7, 8),
+        Contact(4, 5, 5, 7)
+    };
+
+    printContacts(contacts);
+
+    CompactSuffixArray csa(contacts);
+
+    csa.print();
+}
+
 
 int main() {
     // testBitvector();
 
-    testCSA();
+    // testCSA();
+
+    bookExample();
 
     return 0;
 }
