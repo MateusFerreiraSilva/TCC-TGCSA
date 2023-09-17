@@ -17,8 +17,15 @@ class CompactSuffixArray {
         vector<uint> sid;
         vector<vector<uint>> suffixes;
         vector<uint> iCSA;
+        vector<uint> PsiRegular;
+        vector<uint> Psi;
         Bitvector bitvector;
 
+        uint mod(int a, int b) { // using this function bc in c++ -1 % 5 = 1, and should be -1 % 5 = 4
+            const int r = a % b;
+
+            return r < 0 ? r + b : r;
+        }
 
         void initialzeGapsArray(vector<Contact>& contacts) {
             
@@ -78,7 +85,7 @@ class CompactSuffixArray {
         }
 
         void buildCSA() {
-            for (uint i = 0; i < sid.size(); i++) {
+            for (uint i = 0; i < sid.size(); i++) { // O^2, somatorio
                 suffixes.push_back(vector<uint>());
                 for (uint j = i; j < sid.size(); j++) {
                     suffixes[i].push_back(sid[j]);
@@ -98,6 +105,34 @@ class CompactSuffixArray {
             }
         }
 
+        void buildPsiRegular() { // O^2 to build PSI, can i be better?
+            for (uint i = 0; i < iCSA.size(); i++) {
+
+                if (iCSA[i] == iCSA.size()) {
+                        PsiRegular.push_back(1);
+                        continue;
+                }
+
+                for (uint j = 0; j < iCSA.size(); j++) {
+                    if (iCSA[j] == iCSA[i] + 1) {
+                        const uint successorIdx = j + 1;
+                        PsiRegular.push_back(successorIdx);
+                        break;
+                    }
+                }
+            }
+        }
+
+        void buildPsi() {
+            const uint n = PsiRegular.size() / 4;
+            for (uint i = 0; i < n * 3; i++) { // copy PsiRegular
+                Psi.push_back(PsiRegular[i]);
+            }
+
+            for (uint i = n * 3; i < n * 4; i++) {
+                Psi.push_back(mod((PsiRegular[i] - 2), n) + 1);
+            }
+        }
 
         void printSigma() {
             puts("Sigma:\n");
@@ -119,7 +154,7 @@ class CompactSuffixArray {
 
 
         void printBitvector() {
-            puts("Bitvevtor:\n");
+            puts("Bitvector:\n");
             bitvector.print();
             puts("");
         }
@@ -145,7 +180,7 @@ class CompactSuffixArray {
             puts("");
         }
 
-        void printiCSA() {
+        void printCSA() {
             puts("iCSA:\n");
             for(auto it : iCSA) {
                 printf("%2d", it);
@@ -153,6 +188,25 @@ class CompactSuffixArray {
             }
             puts("");
         }
+
+        void printPsiRegular() {
+            puts("Psi Regular:\n");
+            for(auto it : PsiRegular) {
+                printf("%2d", it);
+                printf(" ");
+            }
+            puts("");
+        }
+
+        void printPsi() {
+            puts("Psi:\n");
+            for(auto it : Psi) {
+                printf("%2d", it);
+                printf(" ");
+            }
+            puts("");
+        }
+
 
     public:
         CompactSuffixArray(vector<Contact> & contacts) {
@@ -163,6 +217,8 @@ class CompactSuffixArray {
             initializeBitvector(sigmaLine);
             initializesid();
             buildCSA();
+            buildPsiRegular();
+            buildPsi();
         }
 
         void print() {
@@ -171,7 +227,9 @@ class CompactSuffixArray {
             printBitvector();
             printSid();
             printSuffixes();
-            printiCSA();
+            printCSA();
+            printPsiRegular();
+            printPsi();
         }
 };
 
