@@ -4,3 +4,4 @@ program
 write_ints
 read_ints
 a.out
+*.o
