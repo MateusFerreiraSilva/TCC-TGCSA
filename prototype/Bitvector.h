@@ -5,10 +5,12 @@
 
 using namespace std;
 
-#define BITSET_MAX_SIZE 20
+#define BITSET_MAX_SIZE_TEST 20
+#define BITSET_MAX_SIZE 64
 
 class Bitvector {
     private:
+        // bitset<BITSET_MAX_SIZE_TEST> bs;
         bitset<BITSET_MAX_SIZE> bs;
 
         void validateIdx(uint idx) {
