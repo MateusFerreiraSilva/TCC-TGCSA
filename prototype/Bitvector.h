@@ -1,3 +1,6 @@
+#ifndef BITVECTOR
+#define BITVECTOR
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -85,3 +88,5 @@ class Bitvector {
             return select(idx, 0);
         }
 };
+
+#endif

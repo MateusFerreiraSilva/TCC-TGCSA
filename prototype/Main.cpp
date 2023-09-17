@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "Bitvector.h"
+#include "CompactSuffixArray.h"
 
 using namespace std;
 
@@ -22,9 +22,36 @@ void testBitvector() {
     printf("select %u: %u\n", 3, bitvector.select1(3));
 }
 
+void printContacts(vector<Contact> contacts) {
+    puts("Contacts:\n");
+    for(auto c : contacts) {
+        c.print();
+        printf(" ");
+    }
+    puts("");
+}
+
+void testCSA() {
+    vector<Contact> contacts {
+        Contact(1, 10, 15, 17),
+        Contact(1, 3, 13, 17),
+        Contact(5, 6, 8, 9),
+        Contact(1, 3, 13, 14)
+    };
+
+    printContacts(contacts);
+
+    CompactSuffixArray csa(contacts);
+
+
+    csa.print();
+}
+
 
 int main() {
-    testBitvector();
+    // testBitvector();
+
+    testCSA();
 
     return 0;
 }
