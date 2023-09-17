@@ -14,7 +14,9 @@ class CompactSuffixArray {
         vector<uint> gaps = vector<uint>(CONTACT_LENGTH);
         vector<Contact> sigma;
         vector<Contact> sigmaLine;
-        vector<uint> Sid;
+        vector<uint> sid;
+        vector<vector<uint>> suffixes;
+        vector<uint> iCSA;
         Bitvector bitvector;
 
 
@@ -66,12 +68,33 @@ class CompactSuffixArray {
             return 0;
         }
 
-        void initializeSid() {
+        void initializesid() {
             for (auto contact : sigmaLine) {
-                Sid.push_back(mapId(contact.u));
-                Sid.push_back(mapId(contact.v));
-                Sid.push_back(mapId(contact.ts));
-                Sid.push_back(mapId(contact.te));
+                sid.push_back(mapId(contact.u));
+                sid.push_back(mapId(contact.v));
+                sid.push_back(mapId(contact.ts));
+                sid.push_back(mapId(contact.te));
+            }
+        }
+
+        void buildCSA() {
+            for (uint i = 0; i < sid.size(); i++) {
+                suffixes.push_back(vector<uint>());
+                for (uint j = i; j < sid.size(); j++) {
+                    suffixes[i].push_back(sid[j]);
+                }
+            }
+
+            vector<pair<vector<uint>, uint>> suffixes_and_indexes;
+            for (uint i = 0; i < suffixes.size(); i++) {
+                suffixes_and_indexes.push_back(make_pair(suffixes[i], i + 1));
+                // iCSA need to be in base 1 because of the "$"
+            }
+
+            sort(suffixes_and_indexes.begin(), suffixes_and_indexes.end());
+
+            for (auto s : suffixes_and_indexes) {
+                iCSA.push_back(s.second);
             }
         }
 
@@ -102,8 +125,29 @@ class CompactSuffixArray {
         }
 
         void printSid() {
-            puts("Sid:\n");
-            for(auto it : Sid) {
+            puts("sid:\n");
+            for(auto it : sid) {
+                printf("%2d", it);
+                printf(" ");
+            }
+            puts("");
+        }
+
+        void printSuffixes() {
+            puts("Suffixes:\n");
+            for(auto suffix : suffixes) {
+                for (auto it : suffix) {
+                    printf("%2d", it);
+                    printf(" ");
+                }
+                puts("");
+            }
+            puts("");
+        }
+
+        void printiCSA() {
+            puts("iCSA:\n");
+            for(auto it : iCSA) {
                 printf("%2d", it);
                 printf(" ");
             }
@@ -117,7 +161,8 @@ class CompactSuffixArray {
             sort(sigma.begin(), sigma.end());
             sigmaLine = addOffsetToTheSequence(sigma);
             initializeBitvector(sigmaLine);
-            initializeSid();
+            initializesid();
+            buildCSA();
         }
 
         void print() {
@@ -125,6 +170,8 @@ class CompactSuffixArray {
             printSigmaLine();
             printBitvector();
             printSid();
+            printSuffixes();
+            printiCSA();
         }
 };
 
