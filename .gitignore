@@ -5,3 +5,4 @@ write_ints
 read_ints
 a.out
 *.o
+tests/build
