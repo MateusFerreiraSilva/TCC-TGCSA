@@ -1,8 +1,8 @@
 make:
-	g++ -g *.cpp
+	g++ -c -g *.cpp && g++ -o program *.o && rm *.o
 
 run: make
-	./a.out
+	./program
 
 clean:
-	rm a.out
+	rm program
