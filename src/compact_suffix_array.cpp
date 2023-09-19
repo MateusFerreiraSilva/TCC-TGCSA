@@ -1,4 +1,4 @@
-#include "libs/CompactSuffixArray.h"
+#include "compact_suffix_array.h"
 
 uint CompactSuffixArray::mod(int a, int b) { // using this function bc in c++ -1 % 5 = 1, and should be -1 % 5 = 4
     const int r = a % b;

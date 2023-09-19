@@ -1,4 +1,4 @@
-#include "libs/Bitvector.h"
+#include "bitvector.h"
 
 void Bitvector::validateIdx(uint idx) {
     if (idx >= bs.size()) {

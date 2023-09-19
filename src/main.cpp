@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "libs/CompactSuffixArray.h"
+#include "compact_suffix_array.h"
 
 using namespace std;
 

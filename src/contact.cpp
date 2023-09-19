@@ -1,4 +1,4 @@
-#include "libs/Contact.h"
+#include "contact.h"
 
 Contact::Contact(uint u, uint v, uint ts, uint te) {
     this->u = u;

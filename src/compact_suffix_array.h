@@ -2,8 +2,8 @@
 #define COMPACT_SUFFIX_ARRAY
 
 #include <bits/stdc++.h>
-#include "Contact.h"
-#include "Bitvector.h"
+#include "contact.h"
+#include "bitvector.h"
 
 using namespace std;
 

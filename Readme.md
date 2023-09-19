@@ -1,9 +1,9 @@
 # Running:
 
 ``` bash
-$ cd src
-$ make
-$ ./a.out
+$ cmake -S . -B build
+$ cmake --build build
+$ cd build/src && ./main
 ```
 
 # Testing
@@ -14,7 +14,6 @@ This projects use [gtest with cmake](https://google.github.io/googletest/quickst
 Build and execute test:
 
 ``` bash
-$ cd tests
 $ cmake -S . -B build
 $ cmake --build build
 $ cd build && ctest && cd .. 

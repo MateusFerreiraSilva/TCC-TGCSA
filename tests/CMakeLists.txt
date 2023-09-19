@@ -1,9 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
-project(tcc)
-
-# GoogleTest requires at least C++14
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+cmake_minimum_required(VERSION 3.27)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -14,16 +9,32 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-enable_testing()
+add_executable(hello_test hello_test.cpp)
 
-add_executable(
-  hello_test
-  hello_test.cpp
-)
-target_link_libraries(
-  hello_test
+add_executable(contact_tests contact_tests.cpp)
+
+add_executable(compact_suffix_array_tests compact_suffix_array_tests.cpp)
+
+target_link_libraries(hello_test PUBLIC
   GTest::gtest_main
 )
 
+target_link_libraries(contact_tests PUBLIC
+  GTest::gtest_main
+  contact
+)
+
+target_link_libraries(compact_suffix_array_tests PUBLIC
+  GTest::gtest_main
+  compact_suffix_array
+  contact
+  bitvector
+)
+
+# TO DO understand what means "PUBLIC" in the targtarget_link_libraries
+
 include(GoogleTest)
+
 gtest_discover_tests(hello_test)
+gtest_discover_tests(contact_tests)
+gtest_discover_tests(compact_suffix_array_tests)
