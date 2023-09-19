@@ -9,16 +9,6 @@ using namespace std;
 
 class CompactSuffixArray {
     private:
-        vector<uint> gaps = vector<uint>(CONTACT_LENGTH);
-        vector<Contact> sigma;
-        vector<Contact> sigmaLine;
-        vector<uint> sid;
-        vector<vector<uint>> suffixes;
-        vector<uint> iCSA;
-        vector<uint> PsiRegular;
-        vector<uint> Psi;
-        Bitvector bitvector;
-
         uint mod(int a, int b);
         void initialzeGapsArray(vector<Contact>& contacts);
         vector<Contact> addOffsetToTheSequence(vector<Contact> & contacts);
@@ -38,8 +28,18 @@ class CompactSuffixArray {
         void printPsiRegular();
         void printPsi();
 
-
     public:
+        vector<uint> gaps = vector<uint>(CONTACT_LENGTH);
+        vector<Contact> sigma;
+        vector<Contact> sigmaLine;
+        vector<uint> sid;
+        vector<vector<uint>> suffixes;
+        vector<uint> iCSA;
+        vector<uint> PsiRegular;
+        vector<uint> Psi;
+        Bitvector bitvector;
+
+
         CompactSuffixArray(vector<Contact> & contacts);
         void print();
 };
