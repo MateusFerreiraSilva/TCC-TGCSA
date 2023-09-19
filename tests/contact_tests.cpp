@@ -4,7 +4,7 @@
 const Contact contact(1, 2, 3, 4);
 
 // Demonstrate some basic assertions.
-TEST(HelloTest, BasicAssertions) {
+TEST(ContactTests, ContactAssertionTest) {
   // Expect two strings not to be equal.
   EXPECT_STRNE("hello", "world");
   // Expect equality.
