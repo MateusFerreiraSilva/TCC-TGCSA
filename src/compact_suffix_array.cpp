@@ -1,5 +1,7 @@
 #include "compact_suffix_array.h"
 
+// private
+
 uint CompactSuffixArray::mod(int a, int b) { // using this function bc in c++ -1 % 5 = 1, and should be -1 % 5 = 4
     const int r = a % b;
 
@@ -63,11 +65,13 @@ void CompactSuffixArray::initializesid() {
     }
 }
 
-void CompactSuffixArray::buildCSA() {
-    for (uint i = 0; i < sid.size(); i++) { // O^2, somatorio
+vector<pair<vector<uint>, uint>> CompactSuffixArray::get_suffixes_and_indexes(vector<uint> sequence) {
+    vector<vector<uint>> suffixes;
+    
+    for (uint i = 0; i < sequence.size(); i++) { // O^2, somatorio
         suffixes.push_back(vector<uint>());
-        for (uint j = i; j < sid.size(); j++) {
-            suffixes[i].push_back(sid[j]);
+        for (uint j = i; j < sequence.size(); j++) {
+            suffixes[i].push_back(sequence[j]);
         }
     }
 
@@ -79,9 +83,21 @@ void CompactSuffixArray::buildCSA() {
 
     sort(suffixes_and_indexes.begin(), suffixes_and_indexes.end());
 
-    for (auto s : suffixes_and_indexes) {
-        iCSA.push_back(s.second);
+    this->suffixes_and_indexes = suffixes_and_indexes; // TO DO remove
+
+    return suffixes_and_indexes;
+}
+
+vector<vector<uint>> CompactSuffixArray::get_suffixes(vector<pair<vector<uint>, uint>>  suffixes_and_indexes) {
+    vector<vector<uint>> suffixes;
+    
+    for (auto it : suffixes_and_indexes) {
+        suffixes.push_back(it.first);
     }
+
+    this->suffixes = suffixes; // TO DO remove
+
+    return suffixes;
 }
 
 void CompactSuffixArray::buildPsiRegular() { // O^2 to build PSI, can i be better?
@@ -186,6 +202,8 @@ void CompactSuffixArray::printPsi() {
     puts("");
 }
 
+// public:
+
 CompactSuffixArray::CompactSuffixArray(vector<Contact> & contacts) {
     sigma = contacts;
     initialzeGapsArray(contacts);
@@ -193,9 +211,20 @@ CompactSuffixArray::CompactSuffixArray(vector<Contact> & contacts) {
     sigmaLine = addOffsetToTheSequence(sigma);
     initializeBitvector(sigmaLine);
     initializesid();
-    buildCSA();
+    iCSA = get_iCSA(sid);
     buildPsiRegular();
     buildPsi();
+}
+
+vector<uint> CompactSuffixArray::get_iCSA(vector<uint> sequence) {
+    vector<pair<vector<uint>, uint>>suffixes_and_indexes = get_suffixes_and_indexes(sequence);
+    
+    vector<uint> iCSA;
+    for (auto it : suffixes_and_indexes) {
+        iCSA.push_back(it.second);
+    }
+
+    return iCSA;
 }
 
 void CompactSuffixArray::print() {

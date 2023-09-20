@@ -9,14 +9,19 @@ using namespace std;
 
 class CompactSuffixArray {
     private:
+        vector<pair<vector<uint>, uint>> suffixes_and_indexes; // TO DO remove
+        vector<vector<uint>> suffixes; // TO DO remove
+        vector<uint> iCSA;
+
         uint mod(int a, int b);
         void initialzeGapsArray(vector<Contact>& contacts);
         vector<Contact> addOffsetToTheSequence(vector<Contact> & contacts);
         void initializeBitvector(vector<Contact> & contacts);
         uint mapId(uint id);
         void initializesid();
-        void buildCSA();
         /* O^2 to build PSI, can i be better? */
+        vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(vector<uint> sequence);
+        vector<vector<uint>> get_suffixes(vector<pair<vector<uint>, uint>>  suffixes_and_indexes);
         void buildPsiRegular() ;
         void buildPsi();
         void printSigma();
@@ -33,14 +38,12 @@ class CompactSuffixArray {
         vector<Contact> sigma;
         vector<Contact> sigmaLine;
         vector<uint> sid;
-        vector<vector<uint>> suffixes;
-        vector<uint> iCSA;
         vector<uint> PsiRegular;
         vector<uint> Psi;
         Bitvector bitvector;
 
-
         CompactSuffixArray(vector<Contact> & contacts);
+        vector<uint> get_iCSA(vector<uint> sequence);
         void print();
 };
 

@@ -9,18 +9,22 @@ vector<Contact> contacts {
         Contact(4, 5, 5, 7)
 };
 
-const CompactSuffixArray csa(contacts);
-
-
+CompactSuffixArray csa(contacts);
 
 
 TEST(CompactSuffixArrayTests, AssertiCsaValues) {
+
+  vector<uint> sid {
+    1, 5, 8, 13, 1, 6, 9, 13, 2, 4, 8, 11, 3, 5, 10, 13, 3, 7, 9, 12
+  };
 
   vector<uint> expectediCSAValues {
     1, 5, 9, 13, 17, 10, 2, 14, 6, 18, 11, 3, 19, 7, 15, 12, 20, 4, 8, 16
   };
 
-  EXPECT_EQ(csa.iCSA, expectediCSAValues);
+  vector<uint> iCSA = csa.get_iCSA(sid);
+
+  EXPECT_EQ(iCSA, expectediCSAValues);
 }
 
 TEST(CompactSuffixArrayTests, AssertPsiRegularValues) {
