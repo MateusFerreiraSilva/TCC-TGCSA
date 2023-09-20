@@ -9,9 +9,16 @@ using namespace std;
 
 class CompactSuffixArray {
     private:
+        vector<uint> gaps;
+        vector<Contact> sigma;
+        vector<Contact> sigmaLine;
         vector<pair<vector<uint>, uint>> suffixes_and_indexes; // TO DO remove
         vector<vector<uint>> suffixes; // TO DO remove
+        vector<uint> sid;
         vector<uint> iCSA;
+        vector<uint> PsiRegular;
+        vector<uint> Psi;
+        Bitvector bitvector;
 
         uint mod(int a, int b);
         void initialzeGapsArray(vector<Contact>& contacts);
@@ -34,16 +41,12 @@ class CompactSuffixArray {
         void printPsi();
 
     public:
-        vector<uint> gaps = vector<uint>(CONTACT_LENGTH);
-        vector<Contact> sigma;
-        vector<Contact> sigmaLine;
-        vector<uint> sid;
-        vector<uint> PsiRegular;
-        vector<uint> Psi;
-        Bitvector bitvector;
-
         CompactSuffixArray(vector<Contact> & contacts);
+        vector<uint> get_gaps(vector<Contact>& contacts);
+        vector<uint> get_sid(vector<Contact> sigmaLine);
         vector<uint> get_iCSA(vector<uint> sequence);
+        vector<uint> get_psi_regular(vector<uint> iCSA);
+        vector<uint> get_psi(vector<uint> PsiRegular);
         void print();
 };
 

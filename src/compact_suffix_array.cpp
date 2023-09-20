@@ -8,21 +8,6 @@ uint CompactSuffixArray::mod(int a, int b) { // using this function bc in c++ -1
     return r < 0 ? r + b : r;
 }
 
-void CompactSuffixArray::initialzeGapsArray(vector<Contact>& contacts) {
-    
-    uint maxVertice = 0, maxTimestamp = 0;
-
-    for (auto c : contacts) {
-        maxVertice = max(max(maxVertice, c.u), max(maxVertice, c.v));
-        maxTimestamp = max(max(maxTimestamp, c.ts), max(maxTimestamp, c.te));
-    }
-
-    gaps[0] = 0;
-    gaps[1] = maxVertice;
-    gaps[2] = maxVertice * 2;
-    gaps[3] = maxVertice * 2 + maxTimestamp;
-}
-
 vector<Contact> CompactSuffixArray::addOffsetToTheSequence(vector<Contact> & contacts) {
     
     vector<Contact> contactsWithOffset;
@@ -54,15 +39,6 @@ uint CompactSuffixArray::mapId(uint id) {
     }
 
     return 0;
-}
-
-void CompactSuffixArray::initializesid() {
-    for (auto contact : sigmaLine) {
-        sid.push_back(mapId(contact.u));
-        sid.push_back(mapId(contact.v));
-        sid.push_back(mapId(contact.ts));
-        sid.push_back(mapId(contact.te));
-    }
 }
 
 vector<pair<vector<uint>, uint>> CompactSuffixArray::get_suffixes_and_indexes(vector<uint> sequence) {
@@ -100,7 +76,9 @@ vector<vector<uint>> CompactSuffixArray::get_suffixes(vector<pair<vector<uint>, 
     return suffixes;
 }
 
-void CompactSuffixArray::buildPsiRegular() { // O^2 to build PSI, can i be better?
+vector<uint> CompactSuffixArray::get_psi_regular(vector<uint> iCSA) { // O^2 to build PSI, can i be better?
+    vector<uint> PsiRegular;
+    
     for (uint i = 0; i < iCSA.size(); i++) {
 
         if (iCSA[i] == iCSA.size()) {
@@ -116,10 +94,15 @@ void CompactSuffixArray::buildPsiRegular() { // O^2 to build PSI, can i be bette
             }
         }
     }
+
+    return PsiRegular;
 }
 
-void CompactSuffixArray::buildPsi() {
+vector<uint> CompactSuffixArray::get_psi(vector<uint> PsiRegular) {
+    vector<uint> Psi;
+    
     const uint n = PsiRegular.size() / 4;
+
     for (uint i = 0; i < n * 3; i++) { // copy PsiRegular
         Psi.push_back(PsiRegular[i]);
     }
@@ -127,6 +110,8 @@ void CompactSuffixArray::buildPsi() {
     for (uint i = n * 3; i < n * 4; i++) {
         Psi.push_back(mod((PsiRegular[i] - 2), n) + 1);
     }
+
+    return Psi;
 }
 
 void CompactSuffixArray::printSigma() {
@@ -206,14 +191,49 @@ void CompactSuffixArray::printPsi() {
 
 CompactSuffixArray::CompactSuffixArray(vector<Contact> & contacts) {
     sigma = contacts;
-    initialzeGapsArray(contacts);
+    gaps = get_gaps(contacts);
     sort(sigma.begin(), sigma.end());
     sigmaLine = addOffsetToTheSequence(sigma);
     initializeBitvector(sigmaLine);
-    initializesid();
+    sid = get_sid(sigmaLine);
     iCSA = get_iCSA(sid);
-    buildPsiRegular();
-    buildPsi();
+    PsiRegular = get_psi_regular(iCSA);
+    Psi = get_psi(PsiRegular);
+}
+
+/*
+ * returns an array with the "offsets"
+*/
+vector<uint> CompactSuffixArray::get_gaps(vector<Contact>& contacts) {
+    
+    uint maxVertice = 0, maxTimestamp = 0;
+
+    for (auto c : contacts) {
+        maxVertice = max(max(maxVertice, c.u), max(maxVertice, c.v));
+        maxTimestamp = max(max(maxTimestamp, c.ts), max(maxTimestamp, c.te));
+    }
+
+    vector<uint> gaps = vector<uint>(CONTACT_LENGTH);
+
+    gaps[0] = 0;
+    gaps[1] = maxVertice;
+    gaps[2] = maxVertice * 2;
+    gaps[3] = maxVertice * 2 + maxTimestamp;
+
+    return gaps;
+}
+
+vector<uint> CompactSuffixArray::get_sid(vector<Contact> sigmaLine) {
+    vector<uint> sid;
+    
+    for (auto contact : sigmaLine) {
+        sid.push_back(mapId(contact.u));
+        sid.push_back(mapId(contact.v));
+        sid.push_back(mapId(contact.ts));
+        sid.push_back(mapId(contact.te));
+    }
+
+    return sid;
 }
 
 vector<uint> CompactSuffixArray::get_iCSA(vector<uint> sequence) {
