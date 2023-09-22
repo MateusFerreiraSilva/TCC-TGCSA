@@ -247,6 +247,22 @@ vector<uint> CompactSuffixArray::get_iCSA(vector<uint> sequence) {
     return iCSA;
 }
 
+uint CompactSuffixArray::get_map(uint symbol, unsigned char type) {
+    if (type >= gaps.size()) {
+        throw invalid_argument("invalid type");
+    }
+
+    return bitvector.rank1(symbol + gaps[type]);
+}
+
+uint CompactSuffixArray::get_unmap(uint symbol, unsigned char type) {
+    if (type >= gaps.size()) {
+        throw invalid_argument("invalid type");
+    }
+
+    return bitvector.select1(symbol) - gaps[type];
+}
+
 void CompactSuffixArray::print() {
     printSigma();
     printSigmaLine();

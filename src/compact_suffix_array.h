@@ -47,6 +47,11 @@ class CompactSuffixArray {
         vector<uint> get_iCSA(vector<uint> sequence);
         vector<uint> get_psi_regular(vector<uint> iCSA);
         vector<uint> get_psi(vector<uint> PsiRegular);
+        // map into final alphabet without holes
+        uint get_map(uint symbol, unsigned char type);
+        // unmaps to the original alphabet
+        uint get_unmap(uint symbol, unsigned char type);
+        
         void print();
 };
 

@@ -16,8 +16,8 @@ TEST(CompactSuffixArrayTests, AssertGapsValues) {
 
   vector<uint> gaps = csa.get_gaps(contacts);
 
-  EXPECT_EQ(gaps.size(), CONTACT_LENGTH);
-  EXPECT_EQ(gaps, expected_gaps_values);
+  ASSERT_EQ(gaps.size(), CONTACT_LENGTH);
+  ASSERT_EQ(gaps, expected_gaps_values);
 }
 
 
@@ -36,7 +36,7 @@ TEST(CompactSuffixArrayTests, AssertSidValues) {
   };
 
 
-  EXPECT_EQ(csa.get_sid(sigmaLine), expected_sid_values);
+  ASSERT_EQ(csa.get_sid(sigmaLine), expected_sid_values);
 }
 
 
@@ -49,7 +49,7 @@ TEST(CompactSuffixArrayTests, AssertiCsaValues) {
     1, 5, 9, 13, 17, 10, 2, 14, 6, 18, 11, 3, 19, 7, 15, 12, 20, 4, 8, 16
   };
 
-  EXPECT_EQ(csa.get_iCSA(sid), expectediCSAValues);
+  ASSERT_EQ(csa.get_iCSA(sid), expectediCSAValues);
 }
 
 TEST(CompactSuffixArrayTests, AssertPsiRegularValues) {
@@ -61,7 +61,7 @@ TEST(CompactSuffixArrayTests, AssertPsiRegularValues) {
     7, 9, 6, 8, 10, 11, 12, 15, 14, 13, 16, 18, 17, 19, 20, 4, 1, 2, 3, 5
   };
 
-  EXPECT_EQ(csa.get_psi_regular(iCSA), expectedPsiRegularValues);
+  ASSERT_EQ(csa.get_psi_regular(iCSA), expectedPsiRegularValues);
 }
 
 TEST(CompactSuffixArrayTests, AssertPsiValues) {
@@ -73,5 +73,39 @@ TEST(CompactSuffixArrayTests, AssertPsiValues) {
     7, 9, 6, 8, 10, 11, 12, 15, 14, 13, 16, 18, 17, 19, 20, 3, 5, 1, 2, 4
   };
 
-  EXPECT_EQ(csa.get_psi(PsiRegular), expectedPsiValues);
+  ASSERT_EQ(csa.get_psi(PsiRegular), expectedPsiValues);
+}
+
+TEST(CompactSuffixArrayTests, get_map_test) {
+  vector<uint> original_sequence {
+    1, 3, 1, 8, 1, 4, 5, 8, 2, 1, 1, 5, 4, 3, 7, 8, 4, 5, 5, 7 
+  };
+
+  vector<uint> sid_values {
+    1, 5, 8, 13, 1, 6, 9, 13, 2, 4, 8, 11, 3, 5, 10, 13, 3, 7, 9, 12
+  };
+
+  ASSERT_EQ(original_sequence.size(), sid_values.size());
+
+  for (uint i = 0; i < original_sequence.size(); i++) {
+    uint get_map_response = csa.get_map(original_sequence[i], i % CONTACT_LENGTH);
+    ASSERT_EQ(get_map_response, sid_values[i]);
+  }
+}
+
+TEST(CompactSuffixArrayTests, get_unmap_test) {
+  vector<uint> sid_values {
+    1, 5, 8, 13, 1, 6, 9, 13, 2, 4, 8, 11, 3, 5, 10, 13, 3, 7, 9, 12
+  };
+
+  vector<uint> original_sequence {
+    1, 3, 1, 8, 1, 4, 5, 8, 2, 1, 1, 5, 4, 3, 7, 8, 4, 5, 5, 7 
+  };
+
+  ASSERT_EQ(original_sequence.size(), sid_values.size());
+
+  for (uint i = 0; i < original_sequence.size(); i++) {
+    uint get_unmap_response = csa.get_unmap(sid_values[i], i % CONTACT_LENGTH);
+    ASSERT_EQ(get_unmap_response, original_sequence[i]);
+  }
 }
