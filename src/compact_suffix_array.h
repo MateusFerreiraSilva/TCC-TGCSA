@@ -29,16 +29,6 @@ class CompactSuffixArray {
         /* O^2 to build PSI, can i be better? */
         vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(vector<uint> sequence);
         vector<vector<uint>> get_suffixes(vector<pair<vector<uint>, uint>>  suffixes_and_indexes);
-        void buildPsiRegular() ;
-        void buildPsi();
-        void printSigma();
-        void printSigmaLine();
-        void printBitvector() ;
-        void printSid();
-        void printSuffixes();
-        void printCSA();
-        void printPsiRegular();
-        void printPsi();
 
     public:
         CompactSuffixArray(vector<Contact> & contacts);

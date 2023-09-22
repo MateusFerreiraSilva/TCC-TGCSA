@@ -1,7 +1,5 @@
 #include "compact_suffix_array.h"
 
-// private
-
 uint CompactSuffixArray::mod(int a, int b) { // using this function bc in c++ -1 % 5 = 1, and should be -1 % 5 = 4
     const int r = a % b;
 
@@ -114,81 +112,6 @@ vector<uint> CompactSuffixArray::get_psi(vector<uint> PsiRegular) {
     return Psi;
 }
 
-void CompactSuffixArray::printSigma() {
-    puts("Sigma:\n");
-    for(auto contact : sigma) {
-        contact.print();
-        printf(" ");
-    }
-    puts("");
-}
-
-void CompactSuffixArray::printSigmaLine() {
-    puts("SigmaLine:\n");
-    for(auto contact : sigmaLine) {
-        contact.print();
-        printf(" ");
-    }
-    puts("");
-}
-
-
-void CompactSuffixArray::printBitvector() {
-    puts("Bitvector:\n");
-    bitvector.print();
-    puts("");
-}
-
-void CompactSuffixArray::printSid() {
-    puts("sid:\n");
-    for(auto it : sid) {
-        printf("%2d", it);
-        printf(" ");
-    }
-    puts("");
-}
-
-void CompactSuffixArray::printSuffixes() {
-    puts("Suffixes:\n");
-    for(auto suffix : suffixes) {
-        for (auto it : suffix) {
-            printf("%2d", it);
-            printf(" ");
-        }
-        puts("");
-    }
-    puts("");
-}
-
-void CompactSuffixArray::printCSA() {
-    puts("iCSA:\n");
-    for(auto it : iCSA) {
-        printf("%2d", it);
-        printf(" ");
-    }
-    puts("");
-}
-
-void CompactSuffixArray::printPsiRegular() {
-    puts("Psi Regular:\n");
-    for(auto it : PsiRegular) {
-        printf("%2d", it);
-        printf(" ");
-    }
-    puts("");
-}
-
-void CompactSuffixArray::printPsi() {
-    puts("Psi:\n");
-    for(auto it : Psi) {
-        printf("%2d", it);
-        printf(" ");
-    }
-    puts("");
-}
-
-// public:
-
 CompactSuffixArray::CompactSuffixArray(vector<Contact> & contacts) {
     sigma = contacts;
     gaps = get_gaps(contacts);
@@ -264,12 +187,59 @@ uint CompactSuffixArray::get_unmap(uint symbol, unsigned char type) {
 }
 
 void CompactSuffixArray::print() {
-    printSigma();
-    printSigmaLine();
-    printBitvector();
-    printSid();
-    printSuffixes();
-    printCSA();
-    printPsiRegular();
-    printPsi();
+    puts("Sigma:\n");
+    for(auto contact : sigma) {
+        contact.print();
+        printf(" ");
+    }
+    puts("");
+    
+    puts("SigmaLine:\n");
+    for(auto contact : sigmaLine) {
+        contact.print();
+        printf(" ");
+    }
+    puts("");
+
+    puts("Bitvector:\n");
+    bitvector.print();
+    puts("");
+
+    puts("Sid:\n");
+    for(auto it : sid) {
+        printf("%2d", it);
+        printf(" ");
+    }
+    puts("");
+
+    puts("Suffixes:\n");
+    for(auto suffix : suffixes) {
+        for (auto it : suffix) {
+            printf("%2d", it);
+            printf(" ");
+        }
+        puts("");
+    }
+    puts("");
+
+    puts("iCSA:\n");
+    for(auto it : iCSA) {
+        printf("%2d", it);
+        printf(" ");
+    }
+    puts("");
+
+    puts("Psi Regular:\n");
+    for(auto it : PsiRegular) {
+        printf("%2d", it);
+        printf(" ");
+    }
+    puts("");
+
+    puts("Psi:\n");
+    for(auto it : Psi) {
+        printf("%2d", it);
+        printf(" ");
+    }
+    puts("");
 }
