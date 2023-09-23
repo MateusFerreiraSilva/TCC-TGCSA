@@ -14,8 +14,10 @@ class CompactSuffixArray {
         vector<Contact> sigmaLine;
         vector<pair<vector<uint>, uint>> suffixes_and_indexes; // TO DO remove
         vector<vector<uint>> suffixes; // TO DO remove
+        // sequence of id without gaps in the alphabet, ids to sigma array
         vector<uint> sid;
-        vector<uint> iCSA;
+        // iCSA of sid
+        vector<uint> A;
         vector<uint> PsiRegular;
         vector<uint> Psi;
         Bitvector bitvector;
@@ -24,11 +26,11 @@ class CompactSuffixArray {
         void initialzeGapsArray(vector<Contact>& contacts);
         vector<Contact> addOffsetToTheSequence(vector<Contact> & contacts);
         void initializeBitvector(vector<Contact> & contacts);
-        uint mapId(uint id);
-        void initializesid();
-        /* O^2 to build PSI, can i be better? */
+        uint map_id(uint symbol);
+        uint unmap_id(uint id);
         vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(vector<uint> sequence);
         vector<vector<uint>> get_suffixes(vector<pair<vector<uint>, uint>>  suffixes_and_indexes);
+        pair<uint, uint> get_suffix_range(uint idx);
 
     public:
         CompactSuffixArray(vector<Contact> & contacts);
@@ -40,7 +42,9 @@ class CompactSuffixArray {
         // map into final alphabet without holes
         uint get_map(uint symbol, unsigned char type);
         // unmaps to the original alphabet
-        uint get_unmap(uint symbol, unsigned char type);
+        uint get_unmap(uint id, unsigned char type);
+        // return the range (start, end) on the CSA where the symbol occurs
+        pair<uint, uint> CSA_binary_search(uint id);
         
         void print();
 };

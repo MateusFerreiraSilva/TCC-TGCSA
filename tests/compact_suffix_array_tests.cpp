@@ -109,3 +109,14 @@ TEST(CompactSuffixArrayTests, get_unmap_test) {
     ASSERT_EQ(get_unmap_response, original_sequence[i]);
   }
 }
+
+TEST(CompactSuffixArrayTests, CSA_binary_search_test) {
+
+  vector<pair<uint, uint>> test_cases {
+    {0, 1},
+    {17, 19}
+  };
+
+  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(1, 0)), test_cases[0]);
+  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(8, 3)), test_cases[1]);
+}

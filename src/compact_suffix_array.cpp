@@ -31,14 +31,31 @@ void CompactSuffixArray::initializeBitvector(vector<Contact> & contacts) {
     }
 }
 
-uint CompactSuffixArray::mapId(uint id) {
-    if (bitvector.access(id) == 1) {
-        return bitvector.rank1(id);
+/**
+ * Get the id of the where original symbol without offset is present
+ * 
+ * @param uint value of sigmaLine.
+ * @return `uint` the id of the corresponding element on the original sequece: array sigma
+ */
+uint CompactSuffixArray::map_id(uint symbol) {
+    if (bitvector.access(symbol) == 1) {
+        return bitvector.rank1(symbol);
     }
 
     return 0;
 }
 
+/**
+ * Get value int the sequence with offset sigmaLine
+ * 
+ * @param uint id in the original sequence: sigma.
+ * @return `uint` corresponding value in sigmaLine
+ */
+uint CompactSuffixArray::unmap_id(uint id) {
+    return bitvector.select1(id);
+}
+
+/* O^2 to build PSI, can i be better? */
 vector<pair<vector<uint>, uint>> CompactSuffixArray::get_suffixes_and_indexes(vector<uint> sequence) {
     vector<vector<uint>> suffixes;
     
@@ -119,8 +136,8 @@ CompactSuffixArray::CompactSuffixArray(vector<Contact> & contacts) {
     sigmaLine = addOffsetToTheSequence(sigma);
     initializeBitvector(sigmaLine);
     sid = get_sid(sigmaLine);
-    iCSA = get_iCSA(sid);
-    PsiRegular = get_psi_regular(iCSA);
+    A = get_iCSA(sid);
+    PsiRegular = get_psi_regular(A);
     Psi = get_psi(PsiRegular);
 }
 
@@ -150,10 +167,10 @@ vector<uint> CompactSuffixArray::get_sid(vector<Contact> sigmaLine) {
     vector<uint> sid;
     
     for (auto contact : sigmaLine) {
-        sid.push_back(mapId(contact.u));
-        sid.push_back(mapId(contact.v));
-        sid.push_back(mapId(contact.ts));
-        sid.push_back(mapId(contact.te));
+        sid.push_back(map_id(contact.u));
+        sid.push_back(map_id(contact.v));
+        sid.push_back(map_id(contact.ts));
+        sid.push_back(map_id(contact.te));
     }
 
     return sid;
@@ -170,6 +187,12 @@ vector<uint> CompactSuffixArray::get_iCSA(vector<uint> sequence) {
     return iCSA;
 }
 
+/**
+ * Maps a symbol of the original sequence into sid
+ * 
+ * @param uint symbol of the original sequence.
+ * @return `uint` value in sid
+ */
 uint CompactSuffixArray::get_map(uint symbol, unsigned char type) {
     if (type >= gaps.size()) {
         throw invalid_argument("invalid type");
@@ -178,12 +201,81 @@ uint CompactSuffixArray::get_map(uint symbol, unsigned char type) {
     return bitvector.rank1(symbol + gaps[type]);
 }
 
-uint CompactSuffixArray::get_unmap(uint symbol, unsigned char type) {
+
+/**
+ * Reverse Map a value of sid into the original symbol value
+ * 
+ * @param uint value of sid
+ * @return `uint` original symbol value
+ */
+uint CompactSuffixArray::get_unmap(uint id, unsigned char type) {
     if (type >= gaps.size()) {
         throw invalid_argument("invalid type");
     }
 
-    return bitvector.select1(symbol) - gaps[type];
+    return bitvector.select1(id) - gaps[type];
+}
+
+pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) {
+    uint idx;
+    uint l = 1, mid, r = A.size();
+
+    while (l <= r) {
+        mid = l + (r - l) / 2;
+
+        uint sid_idx = A[mid - 1];
+        uint sid_value = sid[sid_idx - 1];
+
+        if (id < sid_value) {
+            r = mid - 1;
+        } else if (id > sid_value) {
+            l = mid + 1;
+        } else {
+            idx = mid - 1;
+            break;
+        }
+    }
+
+    // idx is the index of the first result of a suffix that starts with symbol
+
+    return get_suffix_range(idx);
+}
+
+pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
+    uint range_start = idx;
+    uint range_end = idx;
+
+    uint sid_value = sid[A[idx]- 1];
+
+    if (idx > 0) { // avoid seg fault
+        for (uint i = idx - 1; i >= 0; i--) {
+            uint left_sid = sid[A[i]- 1];
+        
+            if (sid_value != left_sid) {
+                break;
+            }
+
+            range_start = i;
+
+            if (i == 0) {
+                break; // avoid seg fault because of uint
+            }
+        }
+    }
+
+    if (idx < sid.size()) {
+        for (uint i = idx + 1; i < sid.size(); i++) {
+            uint right_sid = sid[A[i] - 1];
+
+            if (sid_value != right_sid) {
+                break;
+            }
+
+            range_end = i;
+        }    
+    }
+
+    return make_pair(range_start, range_end);
 }
 
 void CompactSuffixArray::print() {
@@ -223,7 +315,7 @@ void CompactSuffixArray::print() {
     puts("");
 
     puts("iCSA:\n");
-    for(auto it : iCSA) {
+    for(auto it : A) {
         printf("%2d", it);
         printf(" ");
     }
