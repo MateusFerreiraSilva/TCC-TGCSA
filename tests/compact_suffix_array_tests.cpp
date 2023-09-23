@@ -88,7 +88,7 @@ TEST(CompactSuffixArrayTests, get_map_test) {
   ASSERT_EQ(original_sequence.size(), sid_values.size());
 
   for (uint i = 0; i < original_sequence.size(); i++) {
-    uint get_map_response = csa.get_map(original_sequence[i], i % CONTACT_LENGTH);
+    uint get_map_response = csa.get_map(original_sequence[i], (ContactElementType)(i % CONTACT_LENGTH));
     ASSERT_EQ(get_map_response, sid_values[i]);
   }
 }
@@ -105,7 +105,7 @@ TEST(CompactSuffixArrayTests, get_unmap_test) {
   ASSERT_EQ(original_sequence.size(), sid_values.size());
 
   for (uint i = 0; i < original_sequence.size(); i++) {
-    uint get_unmap_response = csa.get_unmap(sid_values[i], i % CONTACT_LENGTH);
+    uint get_unmap_response = csa.get_unmap(sid_values[i], (ContactElementType)(i % CONTACT_LENGTH));
     ASSERT_EQ(get_unmap_response, original_sequence[i]);
   }
 }
@@ -117,6 +117,6 @@ TEST(CompactSuffixArrayTests, CSA_binary_search_test) {
     {17, 19}
   };
 
-  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(1, 0)), test_cases[0]);
-  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(8, 3)), test_cases[1]);
+  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(1, ContactElementType::SrcVertex)), test_cases[0]);
+  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(8, ContactElementType::EndingTime)), test_cases[1]);
 }

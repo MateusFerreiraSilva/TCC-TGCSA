@@ -193,12 +193,12 @@ vector<uint> CompactSuffixArray::get_iCSA(vector<uint> sequence) {
  * @param uint symbol of the original sequence.
  * @return `uint` value in sid
  */
-uint CompactSuffixArray::get_map(uint symbol, unsigned char type) {
-    if (type >= gaps.size()) {
+uint CompactSuffixArray::get_map(uint symbol, ContactElementType type) {
+    if ((uint)type >= gaps.size()) {
         throw invalid_argument("invalid type");
     }
 
-    return bitvector.rank1(symbol + gaps[type]);
+    return bitvector.rank1(symbol + gaps[(uint)type]);
 }
 
 
@@ -208,12 +208,12 @@ uint CompactSuffixArray::get_map(uint symbol, unsigned char type) {
  * @param uint value of sid
  * @return `uint` original symbol value
  */
-uint CompactSuffixArray::get_unmap(uint id, unsigned char type) {
-    if (type >= gaps.size()) {
+uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
+    if ((uint)type >= gaps.size()) {
         throw invalid_argument("invalid type");
     }
 
-    return bitvector.select1(id) - gaps[type];
+    return bitvector.select1(id) - gaps[(uint)type];
 }
 
 pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) {

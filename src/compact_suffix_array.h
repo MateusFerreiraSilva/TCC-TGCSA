@@ -7,6 +7,13 @@
 
 using namespace std;
 
+enum class ContactElementType {
+    SrcVertex,
+    TargetVertex,
+    StartingTime,
+    EndingTime
+};
+
 class CompactSuffixArray {
     private:
         vector<uint> gaps;
@@ -40,9 +47,9 @@ class CompactSuffixArray {
         vector<uint> get_psi_regular(vector<uint> iCSA);
         vector<uint> get_psi(vector<uint> PsiRegular);
         // map into final alphabet without holes
-        uint get_map(uint symbol, unsigned char type);
+        uint get_map(uint symbol, ContactElementType type);
         // unmaps to the original alphabet
-        uint get_unmap(uint id, unsigned char type);
+        uint get_unmap(uint id, ContactElementType type);
         // return the range (start, end) on the CSA where the symbol occurs
         pair<uint, uint> CSA_binary_search(uint id);
         
