@@ -11,10 +11,10 @@ vector<Contact> CompactSuffixArray::addOffsetToTheSequence(vector<Contact> & con
     vector<Contact> contactsWithOffset;
 
     for (auto c : contacts) {
-        c.u += gaps[0];
-        c.v += gaps[1];
-        c.ts += gaps[2];
-        c.te += gaps[3];
+        c.u += gaps[(uint)ContactElementType::SrcVertex];
+        c.v += gaps[(uint)ContactElementType::TargetVertex];
+        c.ts += gaps[(uint)ContactElementType::StartingTime];
+        c.te += gaps[(uint)ContactElementType::EndingTime];
 
         contactsWithOffset.push_back(c);
     }
@@ -216,7 +216,7 @@ uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
     return bitvector.select1(id) - gaps[(uint)type];
 }
 
-pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) {
+pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what happens if we dont find the id?
     uint idx;
     uint l = 1, mid, r = A.size();
 
@@ -245,11 +245,11 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
     uint range_start = idx;
     uint range_end = idx;
 
-    uint sid_value = sid[A[idx]- 1];
+    uint sid_value = sid[A[idx] - 1];
 
     if (idx > 0) { // avoid seg fault
         for (uint i = idx - 1; i >= 0; i--) {
-            uint left_sid = sid[A[i]- 1];
+            uint left_sid = sid[A[i] - 1];
         
             if (sid_value != left_sid) {
                 break;
@@ -276,6 +276,49 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
     }
 
     return make_pair(range_start, range_end);
+}
+
+/**
+ * Gets the direct neighbors of a given vrtx in a given time, where t1 < time < t2
+ * 
+ * @param uint src vrtx
+ * @param uint time
+ * @return `vector<uint>` neighbors 
+ */
+vector<uint> CompactSuffixArray::direct_neighbors(uint vrtx, uint time) {
+    vector<uint> neighbors;
+
+    uint src_vrtx = get_map(vrtx, ContactElementType::SrcVertex);
+    
+    if (src_vrtx == 0) {
+        return neighbors; // vrtx does not appears as a source vertex
+    }
+
+    uint starting_time = get_map(time, ContactElementType::StartingTime);
+    uint ending_time = get_map(time, ContactElementType::EndingTime);
+
+    uint lu, ru; // range A[lu, ru] for vertex u
+    uint lts, rts; // range A[lts, rts] for starting time ts
+    uint lte, rte; // range A[lte, rte] for ending time te
+
+    tie(lu, ru) = CSA_binary_search(src_vrtx);
+    tie(lts, rts) = CSA_binary_search(starting_time);
+    tie(lte, rte) = CSA_binary_search(ending_time);
+
+    for (uint i = lu; i <= ru; i++) {
+        uint x = Psi[i]; // x = position of target vertex
+        uint y = Psi[x - 1]; // y = position of starting time
+        if (y <= rts) {
+            uint z = Psi[y - 1]; // z = position of ending time
+            // if (z > rte) {
+            if (z > rte) {
+                // neighbors.push_back(get_unmap(x, ContactElementType::TargetVertex));
+                neighbors.push_back(get_unmap(sid[A[x - 1] - 1], ContactElementType::TargetVertex));
+            }
+        }
+    }
+
+    return neighbors;
 }
 
 void CompactSuffixArray::print() {

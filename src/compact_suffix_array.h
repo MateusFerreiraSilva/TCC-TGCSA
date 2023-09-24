@@ -52,6 +52,7 @@ class CompactSuffixArray {
         uint get_unmap(uint id, ContactElementType type);
         // return the range (start, end) on the CSA where the symbol occurs
         pair<uint, uint> CSA_binary_search(uint id);
+        vector<uint> direct_neighbors(uint vrtx, uint time);
         
         void print();
 };
