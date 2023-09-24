@@ -134,13 +134,18 @@ TEST(CompactSuffixArrayTests, direct_neighbors_test) {
   vector<pair<uint, uint>> test_case_inputs {
     { 1, 5 },
     { 1, 6 },
-    { 1, 7 }
+    { 1, 7 },
+    { 1, 8 },
+    { 2, 3 },
+    { 4, 6 }
   };
   vector<vector<uint>> test_cases_output {
-    { 3, 4 }
+    { 3, 4 },
+    { 1 },
+    { 5 }
   };
 
-  for (uint i = 0; i < 3; i++) {
+  for (uint i = 0; i < test_case_inputs.size(); i++) {
     vector<uint> neighbors = csa.direct_neighbors(
       test_case_inputs[i].first,
       test_case_inputs[i].second
@@ -152,10 +157,23 @@ TEST(CompactSuffixArrayTests, direct_neighbors_test) {
     }
     cout << endl << endl;
 
-
-    ASSERT_EQ(neighbors.size(), test_cases_output[0].size());
-    for (uint i = 0; i < neighbors.size(); i++) {
-      ASSERT_EQ(neighbors[i], test_cases_output[0][i]);
+    if (i < 3) {
+      ASSERT_EQ(neighbors.size(), test_cases_output[0].size());
+      for (uint j = 0; j < neighbors.size(); j++) {
+        ASSERT_EQ(neighbors[j], test_cases_output[0][j]);
+      }
+    } else if (i == 3) {
+      ASSERT_TRUE(neighbors.empty());
+    } else if (i == 4) {
+      ASSERT_EQ(neighbors.size(), test_cases_output[1].size());
+      for (uint j = 0; j < neighbors.size(); j++) {
+        ASSERT_EQ(neighbors[j], test_cases_output[1][j]);
+      }
+    } else if (i == 5) {
+      ASSERT_EQ(neighbors.size(), test_cases_output[2].size());
+      for (uint j = 0; j < neighbors.size(); j++) {
+        ASSERT_EQ(neighbors[j], test_cases_output[2][j]);
+      }
     }
   }
 }
