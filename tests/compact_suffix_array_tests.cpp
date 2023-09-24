@@ -115,7 +115,9 @@ TEST(CompactSuffixArrayTests, CSA_binary_search_test) {
   vector<pair<uint, uint>> test_cases {
     { 0, 1 },
     { 17, 19 },
-    { 5, 5 }
+    { 5, 5 },
+    { 12, 13 },
+    { 15, 15 }
   };
 
   // CSA_binary_search returns indexes in sid where it was found 
@@ -123,26 +125,37 @@ TEST(CompactSuffixArrayTests, CSA_binary_search_test) {
   ASSERT_EQ(csa.CSA_binary_search(csa.get_map(1, ContactElementType::SrcVertex)), test_cases[0]);
   ASSERT_EQ(csa.CSA_binary_search(csa.get_map(8, ContactElementType::EndingTime)), test_cases[1]);
   ASSERT_EQ(csa.CSA_binary_search(csa.get_map(1, ContactElementType::TargetVertex)), test_cases[2]);
+  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(5, ContactElementType::StartingTime)), test_cases[3]);
+  ASSERT_EQ(csa.CSA_binary_search(csa.get_map(5, ContactElementType::EndingTime)), test_cases[4]);
 }
 
 TEST(CompactSuffixArrayTests, direct_neighbors_test) {
-  vector<uint> test_cases { 3, 4 };
+  
+  vector<pair<uint, uint>> test_case_inputs {
+    { 1, 5 },
+    { 1, 6 },
+    { 1, 7 }
+  };
+  vector<vector<uint>> test_cases_output {
+    { 3, 4 }
+  };
 
-  // vector<uint> neighbors = csa.direct_neighbors(1, 6);
-  vector<uint> neighbors = csa.direct_neighbors(1, 7); // works
+  for (uint i = 0; i < 3; i++) {
+    vector<uint> neighbors = csa.direct_neighbors(
+      test_case_inputs[i].first,
+      test_case_inputs[i].second
+    );
 
-  cout <<  "neighbors:" << endl;
-  for (auto n : neighbors) {
-    cout << n << endl;
-  }
-  cout << endl;
+    cout <<  "neighbors:" << endl;
+    for (auto n : neighbors) {
+      cout << n << " ";
+    }
+    cout << endl << endl;
 
-  // for (uint i = 0; i < neighbors.size(); i++) {
-  //   neighbors[i] = csa.unmap_id();
-  // }
 
-  ASSERT_EQ(neighbors.size(), test_cases.size());
-  for (uint i = 0; i < neighbors.size(); i++) {
-    ASSERT_EQ(neighbors[i], test_cases[i]);
+    ASSERT_EQ(neighbors.size(), test_cases_output[0].size());
+    for (uint i = 0; i < neighbors.size(); i++) {
+      ASSERT_EQ(neighbors[i], test_cases_output[0][i]);
+    }
   }
 }

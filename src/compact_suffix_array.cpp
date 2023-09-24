@@ -216,9 +216,15 @@ uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
     return bitvector.select1(id) - gaps[(uint)type];
 }
 
+/**
+ * Gets the indexes in A where the pattern occurs
+ * 
+ * @param uint id
+ * @return `pair<uint, pair>` range it the index [start, end]
+ */
 pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what happens if we dont find the id?
     uint idx;
-    uint l = 1, mid, r = A.size();
+    uint l = 0, mid, r = A.size() - 1;
 
     while (l <= r) {
         mid = l + (r - l) / 2;
@@ -308,10 +314,9 @@ vector<uint> CompactSuffixArray::direct_neighbors(uint vrtx, uint time) {
     for (uint i = lu; i <= ru; i++) {
         uint x = Psi[i]; // x = position of target vertex
         uint y = Psi[x - 1]; // y = position of starting time
-        if (y <= rts) {
+        if (y - 1 <= rts) {
             uint z = Psi[y - 1]; // z = position of ending time
-            // if (z > rte) {
-            if (z > rte) {
+            if (z - 1 > rte) {
                 // neighbors.push_back(get_unmap(x, ContactElementType::TargetVertex));
                 neighbors.push_back(get_unmap(sid[A[x - 1] - 1], ContactElementType::TargetVertex));
             }
