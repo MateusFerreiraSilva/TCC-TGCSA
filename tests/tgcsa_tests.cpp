@@ -60,3 +60,32 @@ TEST(TGCSATest, direct_neighbors_test) {
     }
   }
 }
+
+TEST(TGCSATest, reverse_neighbors_test) {
+      vector<pair<uint, uint>> test_case_inputs {
+    { 3, 7 },
+    { 4, 6 },
+  };
+  vector<vector<uint>> test_cases_output {
+    { 1, 4 },
+    { 1 },
+  };
+
+  for (uint i = 0; i < test_case_inputs.size(); i++) {
+    vector<uint> neighbors = tgcsa.reverse_neighbors(
+      test_case_inputs[i].first,
+      test_case_inputs[i].second
+    );
+
+    cout <<  "neighbors:" << endl;
+    for (auto n : neighbors) {
+      cout << n << " ";
+    }
+    cout << endl << endl;
+
+    ASSERT_EQ(neighbors.size(), test_cases_output[i].size());
+    for (uint j = 0; j < neighbors.size(); j++) {
+        ASSERT_EQ(neighbors[j], test_cases_output[i][j]);
+    }
+  }
+}

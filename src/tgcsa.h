@@ -12,6 +12,7 @@ class TGCSA {
     public:
         TGCSA(vector<Contact> & contacts);
         vector<uint> direct_neighbors(uint vrtx, uint time);
+        vector<uint> reverse_neighbors(uint vrtx, uint time);
 };
 
 #endif
