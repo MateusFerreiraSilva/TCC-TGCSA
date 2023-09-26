@@ -21,12 +21,7 @@ class CompactSuffixArray {
         vector<Contact> sigmaLine;
         vector<pair<vector<uint>, uint>> suffixes_and_indexes; // TO DO remove
         vector<vector<uint>> suffixes; // TO DO remove
-        // sequence of id without gaps in the alphabet, ids to sigma array
-        vector<uint> sid;
-        // iCSA of sid
-        vector<uint> A;
         vector<uint> PsiRegular;
-        vector<uint> Psi;
         Bitvector bitvector;
 
         uint mod(int a, int b);
@@ -40,6 +35,12 @@ class CompactSuffixArray {
         pair<uint, uint> get_suffix_range(uint idx);
 
     public:
+        // sequence of id without gaps in the alphabet, ids to sigma array
+        vector<uint> sid;
+        // iCSA of sid
+        vector<uint> A;
+        vector<uint> Psi;
+
         CompactSuffixArray(vector<Contact> & contacts);
         vector<uint> get_gaps(vector<Contact>& contacts);
         vector<uint> get_sid(vector<Contact> sigmaLine);
@@ -52,7 +53,6 @@ class CompactSuffixArray {
         uint get_unmap(uint id, ContactElementType type);
         // return the range (start, end) on the CSA where the symbol occurs
         pair<uint, uint> CSA_binary_search(uint id);
-        vector<uint> direct_neighbors(uint vrtx, uint time);
         
         void print();
 };

@@ -9,15 +9,11 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(hello_test hello_test.cpp)
-
 add_executable(contact_tests contact_tests.cpp)
 
 add_executable(compact_suffix_array_tests compact_suffix_array_tests.cpp)
 
-target_link_libraries(hello_test PUBLIC
-  GTest::gtest_main
-)
+add_executable(tgcsa_tests tgcsa_tests.cpp)
 
 target_link_libraries(contact_tests PUBLIC
   GTest::gtest_main
@@ -31,10 +27,18 @@ target_link_libraries(compact_suffix_array_tests PUBLIC
   bitvector
 )
 
+target_link_libraries(tgcsa_tests PUBLIC
+  GTest::gtest_main
+  tgcsa
+  compact_suffix_array
+  contact
+  bitvector
+)
+
 # TO DO understand what means "PUBLIC" in the targtarget_link_libraries
 
 include(GoogleTest)
 
-gtest_discover_tests(hello_test)
 gtest_discover_tests(contact_tests)
 gtest_discover_tests(compact_suffix_array_tests)
+gtest_discover_tests(tgcsa_tests)
