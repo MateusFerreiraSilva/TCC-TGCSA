@@ -62,7 +62,7 @@ TEST(TGCSATest, direct_neighbors_test) {
 }
 
 TEST(TGCSATest, reverse_neighbors_test) {
-      vector<pair<uint, uint>> test_case_inputs {
+    vector<pair<uint, uint>> test_case_inputs {
     { 3, 7 },
     { 4, 6 },
   };
@@ -88,4 +88,24 @@ TEST(TGCSATest, reverse_neighbors_test) {
         ASSERT_EQ(neighbors[j], test_cases_output[i][j]);
     }
   }
+}
+
+TEST(TGCSATest, snapshot_test) {
+    vector<uint> test_case_inputs { 1, 5, 7 };
+    vector<vector<pair<uint, uint>>> test_cases_output {
+        { { 2, 1 }, { 1, 3 } },
+        { { 1, 3 }, { 4, 5 }, { 1, 4 } },
+        { { 1, 3 }, { 1, 4 }, { 4, 3 } },
+    };
+
+    for (uint i = 0; i < test_case_inputs.size(); i++) {
+        uint time = test_case_inputs[i];
+        vector<pair<uint, uint>> snaps = tgcsa.snapshot(time);
+
+        ASSERT_EQ(snaps.size(), test_cases_output[i].size());
+        for (uint j = 0; j < test_cases_output[i].size(); j++) {
+            ASSERT_EQ(snaps[j], test_cases_output[i][j]);
+        }
+    }
+
 }
