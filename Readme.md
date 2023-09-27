@@ -1,6 +1,6 @@
 # Dependencies
 - g++ >= version 11.4.0
-- cmake >= version 3.27.1
+- cmake >= version 3.25
 - googletest commit 8be20cce6931433c8bc3124beea91922cd621423 or later
 
 # Enviroment

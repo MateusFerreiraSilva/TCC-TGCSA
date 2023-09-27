@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.25)
 
 add_library(contact contact.cpp contact.h)
 add_library(bitvector bitvector.cpp bitvector.h)
