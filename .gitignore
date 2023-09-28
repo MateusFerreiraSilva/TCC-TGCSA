@@ -6,3 +6,4 @@ read_ints
 a.out
 *.o
 build
+benchmark_results.json

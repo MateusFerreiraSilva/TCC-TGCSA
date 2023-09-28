@@ -37,5 +37,5 @@ The benchmarks of this project were made with [google benchmark](https://github.
 ``` zsh
 cmake -S . -B build
 cmake --build build
-./build/benchmark/main_benchmark
+./build/benchmark/main_benchmark --benchmark_format=json > benchmark_results.json
 ```

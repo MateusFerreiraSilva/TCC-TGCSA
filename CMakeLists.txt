@@ -10,8 +10,8 @@ project(
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# adding flag -g to the compilation
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+# adding flag -g and -DMEMORY_PROFILER to the compilation
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -DMEMORY_PROFILER")
 
 enable_testing()
 
