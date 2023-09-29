@@ -1,6 +1,5 @@
 #include <benchmark/benchmark.h>
-#include "custom_memory_manager.h"
-#include "../src/tgcsa.h"
+#include "../../src/tgcsa.h"
 
 static void direct_neighbors_benchmark() {
     uint src_vrtx = 1;
@@ -20,8 +19,6 @@ static void direct_neighbors_benchmark() {
 
     auto neighbors = tgcsa.direct_neighbors(1, 5);
 
-    auto x = (int *) malloc(1000 * sizeof(int));
-
     // cout << "neighbors:";
     // for (auto n : neighbors) {
     //   cout << " " << n;
@@ -35,13 +32,6 @@ static void TGCSA_BENCHMARK(benchmark::State& state) {
   }
 }
 // Register the function as a benchmark
-BENCHMARK(TGCSA_BENCHMARK)->Iterations(3);
+BENCHMARK(TGCSA_BENCHMARK);
 
-//BENCHMARK_MAIN();
-int main(int argc, char** argv)
-{
-    ::benchmark::RegisterMemoryManager(memory_manager.get());
-    ::benchmark::Initialize(&argc, argv);
-    ::benchmark::RunSpecifiedBenchmarks();
-    ::benchmark::RegisterMemoryManager(nullptr);
-}
+BENCHMARK_MAIN();

@@ -63,13 +63,33 @@ void bookExample() {
     csa.print();
 }
 
+vector<string> get_args(int argc, char* argv[]) {
+    vector<string> args;
+    
+    for (uint i = 0; i < argc; i++) {
+        args.push_back(argv[i]);
+    }
 
-int main() {
-    // testBitvector();
+    return args;
+}
 
-    // testCSA();
+map<string, bool> get_execution_parameters(int argc, char* argv[]) {
+    vector<string> args = get_args(argc, argv);
 
-    bookExample();
+    map<string, bool> execution_parameters = {
+        { "debug", (find(args.begin(), args.end(), "--debug") != args.end()) }
+    };
+
+    return execution_parameters;
+}
+
+
+int main(int argc, char* argv[]) {
+    auto parameters = get_execution_parameters(argc, argv);
+
+    if (parameters["debug"]) {
+        bookExample();
+    }
 
     return 0;
 }
