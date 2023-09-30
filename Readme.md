@@ -10,7 +10,9 @@
 - [CMake Tools](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cmake-tools)
 - [CMake Test Explorer](https://marketplace.visualstudio.com/items?itemName=fredericbonnet.cmake-test-adapter)
 
-# Building:
+# Usage:
+
+## Building:
 
 This project can be build with the following commands:
 
@@ -39,10 +41,11 @@ cd build && ctest && cd ..
 
 ### Space Benchmark
 
-The space benchmarks of this project were made with [valgrind](https://valgrind.org/)
+The space benchmarks of this project were made with [valgrind](https://valgrind.org/) tool [massif](https://valgrind.org/docs/manual/ms-manual.html)
 
 ``` zsh
-valgrind --tool=massif ./build/src/main
+valgrind --tool=massif --time-unit=B --massif-out-file=massif.output ./build/src/main
+ms_print massif.output 
 ```
 
 ### Time Benchmark

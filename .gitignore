@@ -8,3 +8,6 @@ a.out
 build
 benchmark_results.json
 massif.out.*
+massif.output
+ms_print_output
+*.csv
