@@ -7,11 +7,19 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
+add_executable(file_utils_tests file_utils_tests.cpp)
+
 add_executable(contact_tests contact_tests.cpp)
 
 add_executable(compact_suffix_array_tests compact_suffix_array_tests.cpp)
 
 add_executable(tgcsa_tests tgcsa_tests.cpp)
+
+target_link_libraries(file_utils_tests PUBLIC
+  GTest::gtest_main
+  file_utils
+  data_generator
+)
 
 target_link_libraries(contact_tests PUBLIC
   GTest::gtest_main
@@ -37,6 +45,7 @@ target_link_libraries(tgcsa_tests PUBLIC
 
 include(GoogleTest)
 
+gtest_discover_tests(file_utils_tests)
 gtest_discover_tests(contact_tests)
 gtest_discover_tests(compact_suffix_array_tests)
 gtest_discover_tests(tgcsa_tests)

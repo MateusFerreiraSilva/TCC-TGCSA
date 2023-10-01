@@ -6,6 +6,7 @@ int main() {
     string file_name = "random_contacts.csv";
 
     write_csv_file(contacts, file_name);
+    read_csv_file(file_name);
 
     return 0;
 }

@@ -21,7 +21,9 @@ int get_random_int(int max_value) {
 vector<int> generate_random_contacts(int vrtx_max, int time_max, int edges_number) {
     srand(time(NULL)); // initialize random seed
 
-    vector<int> contacts(edges_number * CONTACT_LENGHT);
+    const int number_of_conctacts = edges_number * CONTACT_LENGHT;
+
+    vector<int> contacts(number_of_conctacts);
     for (int i = 0; i + 3 < contacts.size(); i += 4) {
         contacts[i] = get_random_int(vrtx_max);
         contacts[i + 1] = get_random_int(vrtx_max);
