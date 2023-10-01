@@ -5,8 +5,6 @@ FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/8be20cce6931433c8bc3124beea91922cd621423.zip
 )
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(contact_tests contact_tests.cpp)
