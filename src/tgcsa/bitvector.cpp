@@ -24,6 +24,10 @@ void Bitvector::print() {
     cout << bs << endl;
 }
 
+string Bitvector::to_string() {
+    return bs.to_string();
+}
+
 uint Bitvector::access(uint idx) {
     validateIdx(idx);
 
@@ -65,7 +69,7 @@ uint Bitvector::rank1(uint idx) {
 uint Bitvector::rank0(uint idx) {
     validateIdx(idx);
 
-    return bs.size() - rank1(idx);
+    return idx - rank1(idx);
 }
 
 uint Bitvector::select1(uint idx) {

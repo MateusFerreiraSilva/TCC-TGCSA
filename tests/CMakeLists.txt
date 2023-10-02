@@ -13,6 +13,8 @@ add_executable(contact_tests contact_tests.cpp)
 
 add_executable(compact_suffix_array_tests compact_suffix_array_tests.cpp)
 
+add_executable(bitvector_tests bitvector_tests.cpp)
+
 add_executable(tgcsa_tests tgcsa_tests.cpp)
 
 target_link_libraries(file_utils_tests PUBLIC
@@ -33,6 +35,13 @@ target_link_libraries(compact_suffix_array_tests PUBLIC
   bitvector
 )
 
+target_link_libraries(bitvector_tests PUBLIC
+  GTest::gtest_main
+  compact_suffix_array
+  contact
+  bitvector
+)
+
 target_link_libraries(tgcsa_tests PUBLIC
   GTest::gtest_main
   tgcsa
@@ -47,5 +56,6 @@ include(GoogleTest)
 
 gtest_discover_tests(file_utils_tests)
 gtest_discover_tests(contact_tests)
+gtest_discover_tests(bitvector_tests)
 gtest_discover_tests(compact_suffix_array_tests)
 gtest_discover_tests(tgcsa_tests)

@@ -22,7 +22,6 @@ class CompactSuffixArray {
         vector<pair<vector<uint>, uint>> suffixes_and_indexes; // TO DO remove
         vector<vector<uint>> suffixes; // TO DO remove
         vector<uint> PsiRegular;
-        Bitvector bitvector;
 
         uint mod(int a, int b);
         void initialzeGapsArray(vector<Contact>& contacts);
@@ -35,6 +34,7 @@ class CompactSuffixArray {
         pair<uint, uint> get_suffix_range(uint idx);
 
     public:
+        Bitvector bitvector;
         // sequence of id without gaps in the alphabet, ids to sigma array
         vector<uint> sid;
         // iCSA of sid

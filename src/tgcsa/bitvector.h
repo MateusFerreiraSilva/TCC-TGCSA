@@ -18,6 +18,7 @@ class Bitvector {
 
     public:
         void print();
+        string to_string();
         uint access(uint idx);
         void set(uint idx);
         void unset(uint idx);
