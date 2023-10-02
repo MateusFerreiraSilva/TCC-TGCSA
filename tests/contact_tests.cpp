@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/contact.h"
+#include "../src/tgcsa/contact.h"
 
 const Contact contact(1, 2, 3, 4);
 

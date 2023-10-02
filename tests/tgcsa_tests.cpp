@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/tgcsa.h"
+#include "../src/tgcsa/tgcsa.h"
 
 vector<Contact> contacts {
         Contact(1, 3, 1, 8),

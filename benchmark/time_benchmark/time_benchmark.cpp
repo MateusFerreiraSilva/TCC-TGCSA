@@ -1,5 +1,5 @@
 #include <benchmark/benchmark.h>
-#include "../../src/tgcsa.h"
+#include "../../src/tgcsa/tgcsa.h"
 
 static void direct_neighbors_benchmark() {
     uint src_vrtx = 1;

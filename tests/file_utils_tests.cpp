@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "../benchmark/data_generator/file_utils.h"
-#include "../benchmark/data_generator/data_generator.h"
+#include "../src/utils/file_utils.h"
+#include "../src/data_generator/data_generator.h"
 
 TEST(FileUtilsTests, WriteAndReadTest) {
     vector<int> contacts = generate_random_contacts(1000, 100, 500);

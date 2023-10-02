@@ -1,5 +1,5 @@
 #include "data_generator.h"
-#include "file_utils.h"
+#include "../utils/file_utils.h"
 
 int main() {
     vector<int> contacts = generate_random_contacts(1000, 100, 500);

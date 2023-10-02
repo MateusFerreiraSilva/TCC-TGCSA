@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/compact_suffix_array.h"
+#include "../src/tgcsa/compact_suffix_array.h"
 
 vector<Contact> contacts {
         Contact(1, 3, 1, 8),
