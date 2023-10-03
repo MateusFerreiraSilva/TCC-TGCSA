@@ -2,11 +2,11 @@
 #include "../utils/contact.h"
 using namespace std;
 
-class UncompactTemporalGraphAdjList { // TO DO user generics
+class UncompactTemporalGraphEdgeList {
     public:
-        vector<vector<vector<uint>>> temporal_adj_list;
+        vector<vector<pair<uint, uint>>> temporal_edge_list;
 
-        UncompactTemporalGraphAdjList(vector<Contact> contacts);
+        UncompactTemporalGraphEdgeList(vector<Contact> contacts);
         vector<uint> direct_neighbors(uint vrtx, uint time);
         vector<uint> reverse_neighbors(uint vrtx, uint time);
 };

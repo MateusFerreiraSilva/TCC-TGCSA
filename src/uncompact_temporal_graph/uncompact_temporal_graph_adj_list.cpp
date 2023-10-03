@@ -10,7 +10,7 @@ pair<uint, uint> get_max_vrtx_and_time(vector<Contact> contacts) {
     return make_pair(max_vrtx, max_time);
 }
 
-UncompactTemporalGraph::UncompactTemporalGraph(vector<Contact> contacts) {
+UncompactTemporalGraphAdjList::UncompactTemporalGraphAdjList(vector<Contact> contacts) {
     uint max_vrtx, max_time;
     tie(max_vrtx, max_time) = get_max_vrtx_and_time(contacts);
 
@@ -26,9 +26,13 @@ UncompactTemporalGraph::UncompactTemporalGraph(vector<Contact> contacts) {
     }
 }
 
-vector<uint> UncompactTemporalGraph::direct_neighbors(uint vrtx, uint time) {
+vector<uint> UncompactTemporalGraphAdjList::direct_neighbors(uint vrtx, uint time) {
     vector<uint> neighbors;
     for (uint i = 0; i < temporal_adj_list[time][vrtx].size(); i++) {
         neighbors.push_back(temporal_adj_list[time][vrtx][i]);
     }
+}
+
+vector<uint> UncompactTemporalGraphAdjList::reverse_neighbors(uint vrtx, uint time) {
+    return direct_neighbors(vrtx, time);
 }
