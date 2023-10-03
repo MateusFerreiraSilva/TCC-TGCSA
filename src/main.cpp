@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "compact_suffix_array.h"
+#include "tgcsa/compact_suffix_array.h"
 
 using namespace std;
 
