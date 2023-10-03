@@ -1,5 +1,10 @@
 #include "bitvector.h"
 
+Bitvector::Bitvector(unsigned long size) {
+    bs.resize(size + 1);
+    fill(bs.begin(), bs.end(), false); // TODO check if already iniatialized with false
+}
+
 void Bitvector::validateIdx(uint idx) {
     if (idx >= bs.size()) {
         throw invalid_argument("Element out of range");
@@ -21,11 +26,16 @@ uint Bitvector::select(uint idx, uint type) {
 }
 
 void Bitvector::print() {
-    cout << bs << endl;
+    cout << to_string() << endl;
 }
 
 string Bitvector::to_string() {
-    return bs.to_string();
+    string str;
+    for (unsigned long i = bs.size(); i > 0; i--) {
+        str.push_back(bs[i - 1] ? '1' : '0');
+    }
+
+    return str;
 }
 
 uint Bitvector::access(uint idx) {

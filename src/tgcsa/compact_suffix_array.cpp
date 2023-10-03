@@ -23,11 +23,19 @@ vector<Contact> CompactSuffixArray::addOffsetToTheSequence(vector<Contact> & con
 }
 
 void CompactSuffixArray::initializeBitvector(vector<Contact> & contacts) {
+    // get max value
+    uint maxValue = 0;
     for (auto c : contacts) {
-        bitvector.set(c.u);
-        bitvector.set(c.v);
-        bitvector.set(c.ts);
-        bitvector.set(c.te);
+        maxValue = max(maxValue, c.te); // the max value will be te, because te are the greater values
+    }
+
+    bitvector = new Bitvector(maxValue);
+
+    for (auto c : contacts) {
+        bitvector->set(c.u);
+        bitvector->set(c.v);
+        bitvector->set(c.ts);
+        bitvector->set(c.te);
     }
 }
 
@@ -38,8 +46,8 @@ void CompactSuffixArray::initializeBitvector(vector<Contact> & contacts) {
  * @return `uint` the id of the corresponding element on the original sequece: array sigma
  */
 uint CompactSuffixArray::map_id(uint symbol) {
-    if (bitvector.access(symbol) == 1) {
-        return bitvector.rank1(symbol);
+    if (bitvector->access(symbol) == 1) {
+        return bitvector->rank1(symbol);
     }
 
     return 0;
@@ -52,7 +60,7 @@ uint CompactSuffixArray::map_id(uint symbol) {
  * @return `uint` corresponding value in sigmaLine
  */
 uint CompactSuffixArray::unmap_id(uint id) {
-    return bitvector.select1(id);
+    return bitvector->select1(id);
 }
 
 /* O^2 to build PSI, can i be better? */
@@ -198,7 +206,7 @@ uint CompactSuffixArray::get_map(uint symbol, ContactElementType type) {
         throw invalid_argument("invalid type");
     }
 
-    return bitvector.rank1(symbol + gaps[(uint)type]);
+    return bitvector->rank1(symbol + gaps[(uint)type]);
 }
 
 
@@ -213,7 +221,7 @@ uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
         throw invalid_argument("invalid type");
     }
 
-    return bitvector.select1(id) - gaps[(uint)type];
+    return bitvector->select1(id) - gaps[(uint)type];
 }
 
 /**
@@ -300,7 +308,7 @@ void CompactSuffixArray::print() {
     puts("");
 
     puts("Bitvector:\n");
-    bitvector.print();
+    bitvector->print();
     puts("");
 
     puts("Sid:\n");

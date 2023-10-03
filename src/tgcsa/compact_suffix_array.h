@@ -34,7 +34,7 @@ class CompactSuffixArray {
         pair<uint, uint> get_suffix_range(uint idx);
 
     public:
-        Bitvector bitvector;
+        Bitvector* bitvector;
         // sequence of id without gaps in the alphabet, ids to sigma array
         vector<uint> sid;
         // iCSA of sid

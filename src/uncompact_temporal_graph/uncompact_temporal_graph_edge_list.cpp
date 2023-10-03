@@ -30,6 +30,8 @@ vector<uint> UncompactTemporalGraphEdgeList::direct_neighbors(uint vrtx, uint ti
             neighbors.push_back(edge.second);
         }
     }
+
+    return neighbors;
 }
 
 vector<uint> UncompactTemporalGraphEdgeList::reverse_neighbors(uint vrtx, uint time) {
@@ -39,4 +41,6 @@ vector<uint> UncompactTemporalGraphEdgeList::reverse_neighbors(uint vrtx, uint t
             neighbors.push_back(edge.first);
         }
     }
+
+    return neighbors;
 }

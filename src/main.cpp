@@ -4,7 +4,7 @@
 using namespace std;
 
 void testBitvector() {
-    Bitvector bitvector;
+    Bitvector bitvector(64);
 
     bitvector.set(0);
     bitvector.set(4);
