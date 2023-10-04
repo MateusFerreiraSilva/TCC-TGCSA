@@ -11,3 +11,4 @@ massif.out.*
 massif.output
 ms_print_output
 *.csv
+!tests/test_data/*

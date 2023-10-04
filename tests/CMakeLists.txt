@@ -17,6 +17,8 @@ add_executable(bitvector_tests bitvector_tests.cpp)
 
 add_executable(tgcsa_tests tgcsa_tests.cpp)
 
+add_executable(temporal_graphs_tests temporal_graphs_tests.cpp)
+
 target_link_libraries(file_utils_tests PUBLIC
   GTest::gtest_main
   file_utils
@@ -50,6 +52,17 @@ target_link_libraries(tgcsa_tests PUBLIC
   bitvector
 )
 
+target_link_libraries(temporal_graphs_tests PUBLIC
+  GTest::gtest_main
+  tgcsa
+  compact_suffix_array
+  bitvector
+  contact
+  uncompact_temporal_graph_adj_list
+  uncompact_temporal_graph_edge_list
+  file_utils
+)
+
 # TO DO understand what means "PUBLIC" in the targtarget_link_libraries
 
 include(GoogleTest)
@@ -59,3 +72,4 @@ gtest_discover_tests(contact_tests)
 gtest_discover_tests(bitvector_tests)
 gtest_discover_tests(compact_suffix_array_tests)
 gtest_discover_tests(tgcsa_tests)
+gtest_discover_tests(temporal_graphs_tests)

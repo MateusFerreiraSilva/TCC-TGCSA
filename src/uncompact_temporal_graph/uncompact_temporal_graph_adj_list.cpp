@@ -26,5 +26,14 @@ vector<uint> UncompactTemporalGraphAdjList::direct_neighbors(uint vrtx, uint tim
 }
 
 vector<uint> UncompactTemporalGraphAdjList::reverse_neighbors(uint vrtx, uint time) {
-    return direct_neighbors(vrtx, time);
+    vector<uint> neighbors;
+    for (uint i = 0; i < temporal_adj_list[time].size(); i++) {
+        for (uint j = 0; j < temporal_adj_list[time][i].size(); j++) {
+            if (temporal_adj_list[time][i][j] == vrtx) {
+                neighbors.push_back(i);
+            }
+        }
+    }
+    
+    return neighbors;
 }

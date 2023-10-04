@@ -86,5 +86,12 @@
         "syncstream": "cpp",
         "typeindex": "cpp",
         "valarray": "cpp"
+    },
+    "cmake.debugConfig": {
+        "args": [
+            "--file",
+            "${workspaceFolder}/random_contacts.csv",
+            "--edge_list",
+        ]
     }
 }
