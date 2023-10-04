@@ -89,9 +89,9 @@
     },
     "cmake.debugConfig": {
         "args": [
-            "--file",
-            "${workspaceFolder}/random_contacts.csv",
-            "--edge_list",
+            "--file=${workspaceFolder}/random_contacts.csv",
+            "--queries=${workspaceFolder}/queries.txt",
+            "--temporal_graph=adj_list",
         ]
     }
 }

@@ -162,3 +162,7 @@ vector<pair<uint, uint>> TGCSA::snapshot(uint time) {
 
     return snaps;
 }
+
+void TGCSA::print() {
+    csa->print();
+}

@@ -15,4 +15,5 @@ target_link_libraries(main PUBLIC
     file_utils
     uncompact_temporal_graph_adj_list
     uncompact_temporal_graph_edge_list
+    command_line_interface
 )
