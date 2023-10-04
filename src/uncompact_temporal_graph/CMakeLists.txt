@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.25)
 
+add_library(uncompact_temporal_graph_utils uncompact_temporal_graph_utils.cpp uncompact_temporal_graph_utils.h)
 add_library(uncompact_temporal_graph_adj_list uncompact_temporal_graph_adj_list.cpp uncompact_temporal_graph_adj_list.h)
 add_library(uncompact_temporal_graph_edge_list uncompact_temporal_graph_edge_list.cpp uncompact_temporal_graph_edge_list.h)
 
 
 target_link_libraries(uncompact_temporal_graph_adj_list PUBLIC
     contact
+    uncompact_temporal_graph_utils
 )
 
 target_link_libraries(uncompact_temporal_graph_edge_list PUBLIC
     contact
+    uncompact_temporal_graph_utils
 )

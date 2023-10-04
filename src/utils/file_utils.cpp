@@ -46,7 +46,7 @@ vector<string> string_split(string str, char delimiter) {
     return slices;
 }
 
-vector<int> read_csv_file(string file_name) {
+vector<int> read_csv_file_int(string file_name) {
     vector<int> contacts;
 
     ifstream file;
@@ -62,6 +62,22 @@ vector<int> read_csv_file(string file_name) {
             uint value = stoi(c, nullptr, 0);
             contacts.push_back(value);
         }
+    }
+
+    return contacts;
+}
+
+vector<Contact> read_csv_file(string file_name) {
+    vector<Contact> contacts;
+    vector<int> contacts_int = read_csv_file_int(file_name);
+
+    for (uint i = 0; i + 3 < contacts_int.size(); i += 4) {
+        Contact c(
+            (uint)contacts_int[i], (uint)contacts_int[i + 1],
+            (uint)contacts_int[i + 2], (uint)contacts_int[i + 3]
+        );
+
+        contacts.push_back(c);
     }
 
     return contacts;

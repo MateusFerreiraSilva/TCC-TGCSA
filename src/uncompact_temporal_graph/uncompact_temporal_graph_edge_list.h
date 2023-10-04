@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
-#include "../utils/contact.h"
+#include "uncompact_temporal_graph_utils.h"
+
 using namespace std;
 
 class UncompactTemporalGraphEdgeList {

@@ -2,7 +2,7 @@
 #include "../utils/file_utils.h"
 
 int main() {
-    vector<int> contacts = generate_random_contacts(1000, 100, 500);
+    vector<int> contacts = generate_random_contacts(10, 100, 500);
     string file_name = "random_contacts.csv";
 
     write_csv_file(contacts, file_name);

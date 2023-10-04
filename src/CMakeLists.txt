@@ -12,4 +12,7 @@ target_link_libraries(main PUBLIC
     compact_suffix_array
     contact
     bitvector
+    file_utils
+    uncompact_temporal_graph_adj_list
+    uncompact_temporal_graph_edge_list
 )

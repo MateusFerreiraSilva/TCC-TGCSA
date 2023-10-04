@@ -1,51 +1,11 @@
 #include <bits/stdc++.h>
+#include "tgcsa/tgcsa.h"
 #include "tgcsa/compact_suffix_array.h"
+#include "uncompact_temporal_graph/uncompact_temporal_graph_adj_list.h"
+#include "uncompact_temporal_graph/uncompact_temporal_graph_edge_list.h"
+#include "utils/file_utils.h"
 
 using namespace std;
-
-void testBitvector() {
-    Bitvector bitvector(64);
-
-    bitvector.set(0);
-    bitvector.set(4);
-    bitvector.flip(12);
-
-    bitvector.print();
-
-    printf("rank %u: %u\n", 4, bitvector.rank1(4));
-    printf("rank %u: %u\n", 5, bitvector.rank1(5));
-    printf("rank %u: %u\n", 12, bitvector.rank1(12));
-    printf("rank %u: %u\n", 19, bitvector.rank1(19));
-
-    printf("select %u: %u\n", 1, bitvector.select1(1));
-    printf("select %u: %u\n", 2, bitvector.select1(2));
-    printf("select %u: %u\n", 3, bitvector.select1(3));
-}
-
-void printContacts(vector<Contact> contacts) {
-    puts("Contacts:\n");
-    for(auto c : contacts) {
-        c.print();
-        printf(" ");
-    }
-    puts("");
-}
-
-void testCSA() {
-    vector<Contact> contacts {
-        Contact(1, 10, 15, 17),
-        Contact(1, 3, 13, 17),
-        Contact(5, 6, 8, 9),
-        Contact(1, 3, 13, 14)
-    };
-
-    printContacts(contacts);
-
-    CompactSuffixArray csa(contacts);
-
-
-    csa.print();
-}
 
 void bookExample() {
     vector<Contact> contacts {
@@ -56,7 +16,12 @@ void bookExample() {
         Contact(4, 5, 5, 7)
     };
 
-    printContacts(contacts);
+    puts("Contacts:\n");
+    for(auto c : contacts) {
+        c.print();
+        printf(" ");
+    }
+    puts("");
 
     CompactSuffixArray csa(contacts);
 
@@ -77,10 +42,23 @@ map<string, bool> get_execution_parameters(int argc, char* argv[]) {
     vector<string> args = get_args(argc, argv);
 
     map<string, bool> execution_parameters = {
-        { "debug", (find(args.begin(), args.end(), "--debug") != args.end()) }
+        { "debug", (find(args.begin(), args.end(), "--debug") != args.end()) },
+        { "file", (find(args.begin(), args.end(), "--file") != args.end()) },
+        { "tgcsa", (find(args.begin(), args.end(), "--tgcsa") != args.end()) },
+        { "adj_list", (find(args.begin(), args.end(), "--adj_list") != args.end()) },
+        { "edge_list", (find(args.begin(), args.end(), "--edge_list") != args.end()) }
     };
 
     return execution_parameters;
+}
+
+string get_file_name(int argc, char* argv[]) {
+    vector<string> args = get_args(argc, argv);
+
+    auto it = next(find(args.begin(), args.end(), "--file"), 1);
+    string file_name = *it;
+
+    return file_name;
 }
 
 
@@ -89,6 +67,32 @@ int main(int argc, char* argv[]) {
 
     if (parameters["debug"]) {
         bookExample();
+    }
+
+    if (parameters["file"]) {
+        string file_name = get_file_name(argc, argv);
+        vector<Contact> contacts = read_csv_file(file_name);
+
+        cout << contacts.size() << endl;
+    
+        vector<uint> neighbors;
+
+        if (parameters["tgcsa"]) {
+            auto tgcsa = new TGCSA(contacts);
+            neighbors = tgcsa->direct_neighbors(4, 5);
+        }
+        else if (parameters["adj_list"]) {
+            auto adj_list = new UncompactTemporalGraphAdjList(contacts);
+            neighbors = adj_list->direct_neighbors(4, 5);
+        } else if (parameters["edge_list"]) {
+            auto edge_list = new UncompactTemporalGraphEdgeList(contacts);
+            neighbors = edge_list->direct_neighbors(4, 5);
+        }
+
+        cout << "neighbors:" << endl;
+        for (auto n : neighbors) {
+            cout << n << endl;
+        }
     }
 
     return 0;

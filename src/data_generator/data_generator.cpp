@@ -29,6 +29,14 @@ vector<int> generate_random_contacts(int vrtx_max, int time_max, int edges_numbe
         contacts[i + 1] = get_random_int(vrtx_max);
         contacts[i + 2] = get_random_int(time_max);
         contacts[i + 3] = get_random_int(time_max);
+
+        while (contacts[i] == contacts[i + 1]) { // u and v cant be the same
+            contacts[i + 1] = get_random_int(vrtx_max); 
+        }
+
+        if (contacts[i + 2] > contacts[i + 3]) { // end time must be greather than initial time
+            swap(contacts[i + 2], contacts[i + 3]);
+        }
     }
 
     return contacts;

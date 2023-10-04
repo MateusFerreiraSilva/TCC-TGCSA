@@ -7,7 +7,7 @@ TEST(FileUtilsTests, WriteAndReadTest) {
     string file_name = "test_contacts.csv";
 
     write_csv_file(contacts, file_name);
-    vector<int> contacts_from_file = read_csv_file(file_name);
+    vector<int> contacts_from_file = read_csv_file_int(file_name);
 
     ASSERT_EQ(contacts, contacts_from_file);
 }
