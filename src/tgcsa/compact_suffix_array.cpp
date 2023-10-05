@@ -137,9 +137,10 @@ vector<uint> CompactSuffixArray::get_psi(vector<uint> PsiRegular) {
     return Psi;
 }
 
-CompactSuffixArray::CompactSuffixArray(vector<Contact> & contacts) {
-    sigma = contacts;
-    gaps = get_gaps(contacts);
+CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts) {
+    // copy contacts
+    for (auto c : contacts) sigma.push_back(c); // this will not be necessary when we descart sigma
+    gaps = get_gaps(sigma);
     sort(sigma.begin(), sigma.end());
     sigmaLine = addOffsetToTheSequence(sigma);
     initializeBitvector(sigmaLine);

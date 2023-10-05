@@ -47,6 +47,11 @@ The space benchmarks of this project were made with [valgrind](https://valgrind.
 valgrind --tool=massif --time-unit=B --massif-out-file=massif.output ./build/src/main
 ms_print massif.output 
 ```
+Run all benchmarks
+``` zsh
+zsh ./benchmark/space_benchmark/space_benchmark.sh
+```
+
 
 ### Time Benchmark
 

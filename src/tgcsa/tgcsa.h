@@ -10,7 +10,7 @@ class TGCSA {
     private:
         CompactSuffixArray *csa;
     public:
-        TGCSA(vector<Contact> & contacts);
+        TGCSA(const vector<Contact>& contacts);
         vector<uint> direct_neighbors(uint vrtx, uint time);
         vector<uint> reverse_neighbors(uint vrtx, uint time);
         bool active_edge(uint src_vrtx, uint target_vrtx, uint time); // TO DO implementation

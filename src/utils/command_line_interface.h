@@ -1,4 +1,9 @@
 #include <bits/stdc++.h>
+#include "file_utils.h"
+#include "temporal_graph_query.h"
+#include "../tgcsa/tgcsa.h"
+#include "../uncompact_temporal_graph/uncompact_temporal_graph_adj_list.h"
+#include "../uncompact_temporal_graph/uncompact_temporal_graph_edge_list.h"
 
 using namespace std;
 
@@ -12,6 +17,7 @@ class CommandLineInterface {
         static string get_contacts_csv_file_name(vector<string> args);
         static string get_queries_file_name(vector<string> args);
         static string get_temporal_graph_type(vector<string> args);
+        vector<Contact> get_contacts();
 
     public:
         vector<string> args;
@@ -21,4 +27,5 @@ class CommandLineInterface {
         string temporal_graph_type = default_graph_type;
 
         CommandLineInterface(int argc, char* argv[]);
+        void run_queries();
 };

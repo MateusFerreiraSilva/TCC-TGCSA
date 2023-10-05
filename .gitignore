@@ -10,5 +10,7 @@ benchmark_results.json
 massif.out.*
 massif.output
 ms_print_output
+*_massif.output
 *.csv
+queries.txt
 !tests/test_data/*

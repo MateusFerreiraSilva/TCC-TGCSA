@@ -3,11 +3,11 @@
 
 using namespace std;
 
-class UncompactTemporalGraphAdjList { // TO DO user generics
+class UncompactTemporalGraphAdjList  { // TO DO use generics
     public:
         vector<vector<vector<uint>>> temporal_adj_list;
 
-        UncompactTemporalGraphAdjList(vector<Contact> contacts);
+        UncompactTemporalGraphAdjList(const vector<Contact>& contacts);
         vector<uint> direct_neighbors(uint vrtx, uint time);
         vector<uint> reverse_neighbors(uint vrtx, uint time);
 };

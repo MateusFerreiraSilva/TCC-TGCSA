@@ -1,8 +1,4 @@
 #include "command_line_interface.h"
-#include "file_utils.h"
-#include "../tgcsa/tgcsa.h"
-#include "../uncompact_temporal_graph/uncompact_temporal_graph_adj_list.h"
-#include "../uncompact_temporal_graph/uncompact_temporal_graph_edge_list.h"
 
 void CommandLineInterface::print_article_example() {
     vector<Contact> contacts {
@@ -102,6 +98,15 @@ string CommandLineInterface::get_temporal_graph_type(vector<string> args) {
     return "";
 }
 
+vector<Contact> CommandLineInterface::get_contacts() {
+    vector<Contact> contacts;
+    if (!contacts_csv_file_name.empty()) {
+        contacts = read_csv_file(contacts_csv_file_name); 
+    }
+
+    return contacts;
+}
+
 CommandLineInterface::CommandLineInterface(int argc, char* argv[]) {
     args = get_args(argc, argv);
 
@@ -114,4 +119,42 @@ CommandLineInterface::CommandLineInterface(int argc, char* argv[]) {
     contacts_csv_file_name = get_contacts_csv_file_name(args);
     queries_file_name = get_queries_file_name(args);
     temporal_graph_type = get_temporal_graph_type(args);
+
+    run_queries();
+}
+
+void CommandLineInterface::run_queries() {
+    vector<TemporalGraphQuery> queries = read_queries_file(queries_file_name);
+
+    if (temporal_graph_type == "adj_list") {
+        UncompactTemporalGraphAdjList temporal_graph(get_contacts());
+
+        for (auto query : queries) {
+            if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
+                temporal_graph.direct_neighbors(query.vrtx, query.time);
+            } else {
+                temporal_graph.reverse_neighbors(query.vrtx, query.time);
+            }
+        }
+    } else if (temporal_graph_type == "edge_list") {
+        UncompactTemporalGraphEdgeList temporal_graph(get_contacts());
+
+        for (auto query : queries) {
+            if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
+                temporal_graph.direct_neighbors(query.vrtx, query.time);
+            } else {
+                temporal_graph.reverse_neighbors(query.vrtx, query.time);
+            }
+        }
+    } else {
+        TGCSA temporal_graph(get_contacts());
+
+        for (auto query : queries) {
+            if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
+                temporal_graph.direct_neighbors(query.vrtx, query.time);
+            } else {
+                temporal_graph.reverse_neighbors(query.vrtx, query.time);
+            }
+        }
+    }
 }

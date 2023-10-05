@@ -82,3 +82,27 @@ vector<Contact> read_csv_file(string file_name) {
 
     return contacts;
 }
+
+vector<TemporalGraphQuery> read_queries_file(string file_name) {
+    vector<TemporalGraphQuery> queries;
+    
+    ifstream file;
+    file.open(file_name.c_str(), ifstream::in);
+
+    string query;
+    while (file >> query) {
+        vector<string> query_params = string_split(query, ',');
+
+        if (query_params.size() == 3) {
+            queries.push_back(
+                TemporalGraphQuery(
+                    query_params[0],
+                    (uint) stoi(query_params[1], nullptr, 0),
+                    (uint) stoi(query_params[2], nullptr, 0)
+                )
+            );
+        }
+    }
+
+    return queries;
+}

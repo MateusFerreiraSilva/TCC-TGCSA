@@ -41,7 +41,7 @@ class CompactSuffixArray {
         vector<uint> A;
         vector<uint> Psi;
 
-        CompactSuffixArray(vector<Contact> & contacts);
+        CompactSuffixArray(const vector<Contact>& contacts);
         vector<uint> get_gaps(vector<Contact>& contacts);
         vector<uint> get_sid(vector<Contact> sigmaLine);
         vector<uint> get_iCSA(vector<uint> sequence);

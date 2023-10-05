@@ -1,6 +1,6 @@
 #include "uncompact_temporal_graph_adj_list.h"
 
-UncompactTemporalGraphAdjList::UncompactTemporalGraphAdjList(vector<Contact> contacts) {
+UncompactTemporalGraphAdjList::UncompactTemporalGraphAdjList(const vector<Contact>& contacts) {
     uint max_vrtx, max_time;
     tie(max_vrtx, max_time) = get_max_vrtx_and_time(contacts);
 
