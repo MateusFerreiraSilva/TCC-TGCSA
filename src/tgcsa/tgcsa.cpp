@@ -1,7 +1,7 @@
 #include "tgcsa.h"
 
-TGCSA::TGCSA(const vector<Contact>& contacts) {
-    csa = new CompactSuffixArray(contacts);
+TGCSA::TGCSA(const vector<Contact>& contacts, const bool debug_mode) {
+    csa = new CompactSuffixArray(contacts, debug_mode);
 }
 
 /**
@@ -32,10 +32,10 @@ vector<uint> TGCSA::direct_neighbors(uint vrtx, uint time) {
     tie(lte, rte) = csa->CSA_binary_search(ending_time);
 
     for (uint i = lu; i <= ru; i++) {
-        uint x = csa->Psi[i]; // x = position of target vertex
-        uint y = csa->Psi[x - 1]; // y = position of starting time
+        uint x = csa->psi[i]; // x = position of target vertex
+        uint y = csa->psi[x - 1]; // y = position of starting time
         if (y - 1 <= rts) {
-            uint z = csa->Psi[y - 1]; // z = position of ending time
+            uint z = csa->psi[y - 1]; // z = position of ending time
             if (z - 1 > rte) {
                 // neighbors.push_back(get_unmap(x, ContactElementType::TargetVertex));
                 neighbors.push_back(csa->get_unmap(csa->sid[csa->A[x - 1] - 1], ContactElementType::TargetVertex));
@@ -74,58 +74,17 @@ vector<uint> TGCSA::reverse_neighbors(uint vrtx, uint time) {
     tie(lte, rte) = csa->CSA_binary_search(ending_time);
 
     for (uint i = lv; i <= rv; i++) {
-        uint y = csa->Psi[i]; // x = position of target vertex
+        uint y = csa->psi[i]; // x = position of target vertex
         if (y - 1 <= rts) {
-            uint z = csa->Psi[y - 1]; // z = position of ending time
+            uint z = csa->psi[y - 1]; // z = position of ending time
             if (z - 1 > rte) {
-                uint u = csa->Psi[z - 1];
+                uint u = csa->psi[z - 1];
                 neighbors.push_back(csa->get_unmap(csa->sid[csa->A[u - 1] - 1], ContactElementType::SrcVertex));
             }
         }
     }
 
     return neighbors;
-}
-
-/**
- * Checks if a edge is active during a given time
- * 
- * @param uint src vrtx
- * @param uint target vrtx
- * @param uint time
- * @return `bool` true if is active and false otherwise
- */
-bool TGCSA::active_edge(uint src_vrtx, uint target_vrtx, uint time) {
-    uint u = csa->get_map(src_vrtx, ContactElementType::SrcVertex);
-    uint v = csa->get_map(target_vrtx, ContactElementType::TargetVertex);
-
-    if (u == 0 || v == 0) {
-        return false;
-    }
-
-    uint starting_time = csa->get_map(time, ContactElementType::StartingTime);
-    uint ending_time = csa->get_map(time, ContactElementType::EndingTime);
-
-    uint luv, ruv; // range A[lu, ru] for vertex u
-    uint lts, rts; // range A[lts, rts] for starting time ts
-    uint lte, rte; // range A[lte, rte] for ending time te
-
-    // tie(luv, ruv) = csa->CSA_binary_search(u, v); // TO DO implement this
-    tie(lts, rts) = csa->CSA_binary_search(starting_time);
-    tie(lte, rte) = csa->CSA_binary_search(ending_time);
-
-    for (uint i = luv; i <= ruv; i++) {
-        uint x = csa->Psi[i];
-        uint y = csa->Psi[x - 1];
-        if (y - 1 <= rts) {
-            uint z = csa->Psi[y - 1];
-            if (z - 1 > rte) {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }
 
 /**
@@ -148,10 +107,10 @@ vector<pair<uint, uint>> TGCSA::snapshot(uint time) {
 
     uint n = csa->sid.size() / 4;
     for (uint i = 2 * n;  i <= rts; i++) {
-        uint z = csa->Psi[i];
+        uint z = csa->psi[i];
         if (z - 1 > rte) {
-            uint x = csa->Psi[z - 1];
-            uint y = csa->Psi[x - 1];
+            uint x = csa->psi[z - 1];
+            uint y = csa->psi[x - 1];
 
             uint u = csa->get_unmap(csa->sid[csa->A[x - 1] - 1], ContactElementType::SrcVertex);
             uint v = csa->get_unmap(csa->sid[csa->A[y - 1] - 1], ContactElementType::TargetVertex);

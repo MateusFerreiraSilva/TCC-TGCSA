@@ -13,9 +13,9 @@ class Contact {
 
         Contact(uint u, uint v, uint ts, uint te);
         Contact(vector<uint> vec);
-        bool operator <(const Contact & other);
-        bool operator>(const Contact & other);
-        bool operator==(const Contact & other);
+        bool operator <(const Contact& other);
+        bool operator>(const Contact& other);
+        bool operator==(const Contact& other);
         void print();
 };
 

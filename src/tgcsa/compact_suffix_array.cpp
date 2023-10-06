@@ -6,8 +6,7 @@ uint CompactSuffixArray::mod(int a, int b) { // using this function bc in c++ -1
     return r < 0 ? r + b : r;
 }
 
-vector<Contact> CompactSuffixArray::addOffsetToTheSequence(vector<Contact> & contacts) {
-    
+vector<Contact> CompactSuffixArray::get_sequence_with_offset(const vector<Contact>& contacts) {
     vector<Contact> contactsWithOffset;
 
     for (auto c : contacts) {
@@ -22,14 +21,14 @@ vector<Contact> CompactSuffixArray::addOffsetToTheSequence(vector<Contact> & con
     return contactsWithOffset;
 }
 
-void CompactSuffixArray::initializeBitvector(vector<Contact> & contacts) {
+Bitvector* CompactSuffixArray::get_bitvector(const vector<Contact>& contacts) {
     // get max value
     uint maxValue = 0;
     for (auto c : contacts) {
         maxValue = max(maxValue, c.te); // the max value will be te, because te are the greater values
     }
 
-    bitvector = new Bitvector(maxValue);
+    Bitvector *bitvector = new Bitvector(maxValue);
 
     for (auto c : contacts) {
         bitvector->set(c.u);
@@ -37,12 +36,14 @@ void CompactSuffixArray::initializeBitvector(vector<Contact> & contacts) {
         bitvector->set(c.ts);
         bitvector->set(c.te);
     }
+
+    return bitvector;
 }
 
 /**
  * Get the id of the where original symbol without offset is present
  * 
- * @param uint value of sigmaLine.
+ * @param uint value of contacts_with_offset.
  * @return `uint` the id of the corresponding element on the original sequece: array sigma
  */
 uint CompactSuffixArray::map_id(uint symbol) {
@@ -54,17 +55,17 @@ uint CompactSuffixArray::map_id(uint symbol) {
 }
 
 /**
- * Get value int the sequence with offset sigmaLine
+ * Get value int the sequence with offset contacts_with_offset
  * 
  * @param uint id in the original sequence: sigma.
- * @return `uint` corresponding value in sigmaLine
+ * @return `uint` corresponding value in contacts_with_offset
  */
 uint CompactSuffixArray::unmap_id(uint id) {
     return bitvector->select1(id);
 }
 
 /* O^2 to build PSI, can i be better? */
-vector<pair<vector<uint>, uint>> CompactSuffixArray::get_suffixes_and_indexes(vector<uint> sequence) {
+vector<pair<vector<uint>, uint>> CompactSuffixArray::get_suffixes_and_indexes(const vector<uint>& sequence) {
     vector<vector<uint>> suffixes;
     
     for (uint i = 0; i < sequence.size(); i++) { // O^2, somatorio
@@ -82,78 +83,61 @@ vector<pair<vector<uint>, uint>> CompactSuffixArray::get_suffixes_and_indexes(ve
 
     sort(suffixes_and_indexes.begin(), suffixes_and_indexes.end());
 
-    this->suffixes_and_indexes = suffixes_and_indexes; // TO DO remove
-
     return suffixes_and_indexes;
 }
 
-vector<vector<uint>> CompactSuffixArray::get_suffixes(vector<pair<vector<uint>, uint>>  suffixes_and_indexes) {
+vector<vector<uint>> CompactSuffixArray::get_suffixes(const vector<pair<vector<uint>, uint>>&  suffixes_and_indexes) {
     vector<vector<uint>> suffixes;
     
     for (auto it : suffixes_and_indexes) {
         suffixes.push_back(it.first);
     }
 
-    this->suffixes = suffixes; // TO DO remove
-
     return suffixes;
 }
 
-vector<uint> CompactSuffixArray::get_psi_regular(vector<uint> iCSA) { // O^2 to build PSI, can i be better?
-    vector<uint> PsiRegular;
+vector<uint> CompactSuffixArray::get_psi_regular(const vector<uint>& A) { // O^2 to build PSI, can i be better?
+    vector<uint> psi_reg;
     
-    for (uint i = 0; i < iCSA.size(); i++) {
+    for (uint i = 0; i < A.size(); i++) {
 
-        if (iCSA[i] == iCSA.size()) {
-                PsiRegular.push_back(1);
+        if (A[i] == A.size()) {
+                psi_reg.push_back(1);
                 continue;
         }
 
-        for (uint j = 0; j < iCSA.size(); j++) {
-            if (iCSA[j] == iCSA[i] + 1) {
+        for (uint j = 0; j < A.size(); j++) {
+            if (A[j] == A[i] + 1) {
                 const uint successorIdx = j + 1;
-                PsiRegular.push_back(successorIdx);
+                psi_reg.push_back(successorIdx);
                 break;
             }
         }
     }
 
-    return PsiRegular;
+    return psi_reg;
 }
 
-vector<uint> CompactSuffixArray::get_psi(vector<uint> PsiRegular) {
-    vector<uint> Psi;
+vector<uint> CompactSuffixArray::get_psi(const vector<uint>& psi_reg) {
+    vector<uint> psi;
     
-    const uint n = PsiRegular.size() / 4;
+    const uint n = psi_reg.size() / 4;
 
     for (uint i = 0; i < n * 3; i++) { // copy PsiRegular
-        Psi.push_back(PsiRegular[i]);
+        psi.push_back(psi_reg[i]);
     }
 
     for (uint i = n * 3; i < n * 4; i++) {
-        Psi.push_back(mod((PsiRegular[i] - 2), n) + 1);
+        psi.push_back(mod((psi_reg[i] - 2), n) + 1);
     }
 
-    return Psi;
-}
-
-CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts) {
-    // copy contacts
-    for (auto c : contacts) sigma.push_back(c); // this will not be necessary when we descart sigma
-    gaps = get_gaps(sigma);
-    sort(sigma.begin(), sigma.end());
-    sigmaLine = addOffsetToTheSequence(sigma);
-    initializeBitvector(sigmaLine);
-    sid = get_sid(sigmaLine);
-    A = get_iCSA(sid);
-    PsiRegular = get_psi_regular(A);
-    Psi = get_psi(PsiRegular);
+    return psi;
 }
 
 /*
  * returns an array with the "offsets"
 */
-vector<uint> CompactSuffixArray::get_gaps(vector<Contact>& contacts) {
+vector<uint> CompactSuffixArray::get_gaps(const vector<Contact>& contacts) {
     
     uint maxVertice = 0, maxTimestamp = 0;
 
@@ -172,10 +156,10 @@ vector<uint> CompactSuffixArray::get_gaps(vector<Contact>& contacts) {
     return gaps;
 }
 
-vector<uint> CompactSuffixArray::get_sid(vector<Contact> sigmaLine) {
+vector<uint> CompactSuffixArray::get_sid(const vector<Contact>& contacts_with_offset) {
     vector<uint> sid;
     
-    for (auto contact : sigmaLine) {
+    for (auto contact : contacts_with_offset) {
         sid.push_back(map_id(contact.u));
         sid.push_back(map_id(contact.v));
         sid.push_back(map_id(contact.ts));
@@ -185,7 +169,7 @@ vector<uint> CompactSuffixArray::get_sid(vector<Contact> sigmaLine) {
     return sid;
 }
 
-vector<uint> CompactSuffixArray::get_iCSA(vector<uint> sequence) {
+vector<uint> CompactSuffixArray::get_iCSA(const vector<uint>& sequence) {
     vector<pair<vector<uint>, uint>>suffixes_and_indexes = get_suffixes_and_indexes(sequence);
     
     vector<uint> iCSA;
@@ -295,58 +279,72 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
 
 void CompactSuffixArray::print() {
     puts("Sigma:\n");
-    for(auto contact : sigma) {
-        contact.print();
+    for(auto c : contacts) {
+        c.print();
         printf(" ");
     }
-    puts("");
+    puts("\n");
     
-    puts("SigmaLine:\n");
-    for(auto contact : sigmaLine) {
+    puts("Sigma Line:\n");
+    for(auto contact : contacts_with_offset) {
         contact.print();
         printf(" ");
     }
-    puts("");
+    puts("\n");
 
     puts("Bitvector:\n");
     bitvector->print();
-    puts("");
+    puts("\n");
 
     puts("Sid:\n");
     for(auto it : sid) {
         printf("%2d", it);
         printf(" ");
     }
-    puts("");
+    puts("\n");
 
-    puts("Suffixes:\n");
-    for(auto suffix : suffixes) {
-        for (auto it : suffix) {
-            printf("%2d", it);
-            printf(" ");
-        }
-        puts("");
-    }
-    puts("");
-
-    puts("iCSA:\n");
+    puts("A:\n");
     for(auto it : A) {
         printf("%2d", it);
         printf(" ");
     }
-    puts("");
+    puts("\n");
 
-    puts("Psi Regular:\n");
-    for(auto it : PsiRegular) {
+    puts("Psi Reg:\n");
+    for(auto it : psi_reg) {
         printf("%2d", it);
         printf(" ");
     }
-    puts("");
+    puts("\n");
 
     puts("Psi:\n");
-    for(auto it : Psi) {
+    for(auto it : psi) {
         printf("%2d", it);
         printf(" ");
     }
     puts("");
+}
+
+CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bool debug_mode) {
+    copy(contacts.begin(), contacts.end(), back_inserter(this->contacts));
+    gaps = get_gaps(this->contacts);
+    sort(this->contacts.begin(), this->contacts.end());
+    contacts_with_offset = get_sequence_with_offset(this->contacts);
+    bitvector = get_bitvector(contacts_with_offset);
+
+    // if (!debug_mode) {
+    //     delete &contacts;
+    //     delete &contacts_with_offset;
+    // } else {
+    //     this->contacts = contacts;
+    // }
+
+    sid = get_sid(contacts_with_offset);
+    A = get_iCSA(sid);
+    psi_reg = get_psi_regular(A);
+    psi = get_psi(psi_reg);
+
+    // if (!debug_mode) {
+    //     delete &psi_reg;
+    // }
 }

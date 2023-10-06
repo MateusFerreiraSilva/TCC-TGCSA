@@ -17,36 +17,31 @@ enum class ContactElementType {
 class CompactSuffixArray {
     private:
         vector<uint> gaps;
-        vector<Contact> sigma;
-        vector<Contact> sigmaLine;
-        vector<pair<vector<uint>, uint>> suffixes_and_indexes; // TO DO remove
-        vector<vector<uint>> suffixes; // TO DO remove
-        vector<uint> PsiRegular;
+        vector<Contact> contacts;
+        vector<Contact> contacts_with_offset;
+        vector<uint> psi_reg; // psi regular
 
-        uint mod(int a, int b);
-        void initialzeGapsArray(vector<Contact>& contacts);
-        vector<Contact> addOffsetToTheSequence(vector<Contact> & contacts);
-        void initializeBitvector(vector<Contact> & contacts);
+        static uint mod(int a, int b);
+        vector<Contact> get_sequence_with_offset(const vector<Contact> & contacts);
+        static Bitvector* get_bitvector(const vector<Contact>& contacts);
         uint map_id(uint symbol);
         uint unmap_id(uint id);
-        vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(vector<uint> sequence);
-        vector<vector<uint>> get_suffixes(vector<pair<vector<uint>, uint>>  suffixes_and_indexes);
+        static vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(const vector<uint>& sequence);
+        static vector<vector<uint>> get_suffixes(const vector<pair<vector<uint>, uint>>&  suffixes_and_indexes);
         pair<uint, uint> get_suffix_range(uint idx);
 
     public:
         Bitvector* bitvector;
-        // sequence of id without gaps in the alphabet, ids to sigma array
-        vector<uint> sid;
-        // iCSA of sid
-        vector<uint> A;
-        vector<uint> Psi;
+        vector<uint> sid; // sequence of id without gaps in the alphabet, ids to sigma array
+        vector<uint> A; // iCSA of sid
+        vector<uint> psi;
 
-        CompactSuffixArray(const vector<Contact>& contacts);
-        vector<uint> get_gaps(vector<Contact>& contacts);
-        vector<uint> get_sid(vector<Contact> sigmaLine);
-        vector<uint> get_iCSA(vector<uint> sequence);
-        vector<uint> get_psi_regular(vector<uint> iCSA);
-        vector<uint> get_psi(vector<uint> PsiRegular);
+        CompactSuffixArray(const vector<Contact>& contacts, const bool debug_mode=false);
+        static vector<uint> get_gaps(const vector<Contact>& contacts);
+        vector<uint> get_sid(const vector<Contact>& contacts_with_offset);
+        static vector<uint> get_iCSA(const vector<uint>& sequence);
+        static vector<uint> get_psi_regular(const vector<uint>& A);
+        static vector<uint> get_psi(const vector<uint>& psi_reg);
         // map into final alphabet without holes
         uint get_map(uint symbol, ContactElementType type);
         // unmaps to the original alphabet
