@@ -23,7 +23,7 @@ class CompactSuffixArray {
 
         static uint mod(int a, int b);
         vector<Contact> get_sequence_with_offset(const vector<Contact> & contacts);
-        static Bitvector* get_bitvector(const vector<Contact>& contacts);
+        static Bitvector* get_bitvector_B(const vector<Contact>& contacts);
         uint map_id(uint symbol);
         uint unmap_id(uint id);
         static vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(const vector<uint>& sequence);
@@ -31,7 +31,7 @@ class CompactSuffixArray {
         pair<uint, uint> get_suffix_range(uint idx);
 
     public:
-        Bitvector* bitvector;
+        Bitvector* B;
         vector<uint> sid; // sequence of id without gaps in the alphabet, ids to sigma array
         vector<uint> A; // iCSA of sid
         vector<uint> psi;

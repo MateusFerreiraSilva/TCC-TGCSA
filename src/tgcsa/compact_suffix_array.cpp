@@ -21,7 +21,7 @@ vector<Contact> CompactSuffixArray::get_sequence_with_offset(const vector<Contac
     return contactsWithOffset;
 }
 
-Bitvector* CompactSuffixArray::get_bitvector(const vector<Contact>& contacts) {
+Bitvector* CompactSuffixArray::get_bitvector_B(const vector<Contact>& contacts) {
     // get max value
     uint maxValue = 0;
     for (auto c : contacts) {
@@ -47,8 +47,8 @@ Bitvector* CompactSuffixArray::get_bitvector(const vector<Contact>& contacts) {
  * @return `uint` the id of the corresponding element on the original sequece: array sigma
  */
 uint CompactSuffixArray::map_id(uint symbol) {
-    if (bitvector->access(symbol) == 1) {
-        return bitvector->rank1(symbol);
+    if (B->access(symbol) == 1) {
+        return B->rank1(symbol);
     }
 
     return 0;
@@ -61,7 +61,7 @@ uint CompactSuffixArray::map_id(uint symbol) {
  * @return `uint` corresponding value in contacts_with_offset
  */
 uint CompactSuffixArray::unmap_id(uint id) {
-    return bitvector->select1(id);
+    return B->select1(id);
 }
 
 /* O^2 to build PSI, can i be better? */
@@ -191,7 +191,7 @@ uint CompactSuffixArray::get_map(uint symbol, ContactElementType type) {
         throw invalid_argument("invalid type");
     }
 
-    return bitvector->rank1(symbol + gaps[(uint)type]);
+    return B->rank1(symbol + gaps[(uint)type]);
 }
 
 
@@ -206,7 +206,7 @@ uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
         throw invalid_argument("invalid type");
     }
 
-    return bitvector->select1(id) - gaps[(uint)type];
+    return B->select1(id) - gaps[(uint)type];
 }
 
 /**
@@ -293,7 +293,7 @@ void CompactSuffixArray::print() {
     puts("\n");
 
     puts("Bitvector:\n");
-    bitvector->print();
+    B->print();
     puts("\n");
 
     puts("Sid:\n");
@@ -330,7 +330,7 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     gaps = get_gaps(this->contacts);
     sort(this->contacts.begin(), this->contacts.end());
     contacts_with_offset = get_sequence_with_offset(this->contacts);
-    bitvector = get_bitvector(contacts_with_offset);
+    B = get_bitvector_B(contacts_with_offset);
 
     // if (!debug_mode) {
     //     delete &contacts;
