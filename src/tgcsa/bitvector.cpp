@@ -35,6 +35,8 @@ string Bitvector::to_string() {
         str.push_back(bs[i - 1] ? '1' : '0');
     }
 
+    reverse(str.begin(), str.end());
+
     return str;
 }
 

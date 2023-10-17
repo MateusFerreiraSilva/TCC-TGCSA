@@ -16,7 +16,7 @@ vector<Contact> contacts {
 CompactSuffixArray csa(contacts);
 
 TEST(BitvectorTests, BitvectorToStringTest) {
-    string expected_str = "110100000101000111101010110";
+    string expected_str = "011010101111000101000001011";
     string bitvector_str = csa.B->to_string();
 
     ASSERT_EQ(bitvector_str, expected_str);
@@ -83,4 +83,34 @@ TEST(BitvectorTests, BitvectorSelect0Tests) {
     ASSERT_EQ(csa.B->select0(6), 13);
     ASSERT_EQ(csa.B->select0(11), 20);
     ASSERT_EQ(csa.B->select0(14), 24);
+}
+
+TEST(BitvectorTests, BitvectorDToStringTest) {
+    string expected_str = "101101101110101111000";
+    string bitvector_str = csa.D->to_string();
+
+    ASSERT_EQ(bitvector_str, expected_str);
+}
+
+TEST(BitvectorTests, BitvectorDTests) {
+    // test made according with the example on Fig 2
+
+    ASSERT_EQ(csa.D->access(0), 1);
+    ASSERT_EQ(csa.D->access(1), 0);
+    ASSERT_EQ(csa.D->access(2), 1);
+    ASSERT_EQ(csa.D->access(10), 1);
+    ASSERT_EQ(csa.D->access(11), 0);
+    ASSERT_EQ(csa.D->access(17), 1);
+    ASSERT_EQ(csa.D->access(18), 0);
+    ASSERT_EQ(csa.D->access(19), 0);
+
+    ASSERT_EQ(csa.D->rank1(0), 1);
+    ASSERT_EQ(csa.D->rank1(1), 1);  
+    ASSERT_EQ(csa.D->rank1(10), 8);
+    ASSERT_EQ(csa.D->rank1(19), 13);
+
+    ASSERT_EQ(csa.D->select1(1), 0);
+    ASSERT_EQ(csa.D->select1(2), 2);  
+    ASSERT_EQ(csa.D->select1(8), 10);
+    ASSERT_EQ(csa.D->select1(13), 17);
 }

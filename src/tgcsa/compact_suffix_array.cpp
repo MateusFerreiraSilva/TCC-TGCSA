@@ -40,6 +40,26 @@ Bitvector* CompactSuffixArray::get_bitvector_B(const vector<Contact>& contacts) 
     return bitvector;
 }
 
+Bitvector* CompactSuffixArray::get_bitvector_D() {
+    Bitvector *bitvector = new Bitvector(A.size());
+
+    const uint first_idx = 0;
+
+    if (A.size() >= 1) {
+        bitvector->set(first_idx);
+    }
+
+    for (uint i = first_idx + 1; i < A.size(); i++) {
+        const uint curr_value = sid[A[i] - 1];
+        const uint prev_value = sid[A[i - 1] - 1];
+        if (curr_value != prev_value) {
+            bitvector->set(i);
+        }
+    }
+
+    return bitvector;
+}
+
 /**
  * Get the id of the where original symbol without offset is present
  * 
@@ -292,7 +312,7 @@ void CompactSuffixArray::print() {
     }
     puts("\n");
 
-    puts("Bitvector:\n");
+    puts("B:\n");
     B->print();
     puts("\n");
 
@@ -308,6 +328,10 @@ void CompactSuffixArray::print() {
         printf("%2d", it);
         printf(" ");
     }
+    puts("\n");
+
+    puts("D:\n");
+    D->print();
     puts("\n");
 
     puts("Psi Reg:\n");
@@ -341,6 +365,7 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
 
     sid = get_sid(contacts_with_offset);
     A = get_iCSA(sid);
+    D = get_bitvector_D();
     psi_reg = get_psi_regular(A);
     psi = get_psi(psi_reg);
 
