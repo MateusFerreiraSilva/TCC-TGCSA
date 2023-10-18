@@ -21,6 +21,21 @@ vector<Contact> CompactSuffixArray::get_sequence_with_offset(const vector<Contac
     return contactsWithOffset;
 }
 
+vector<uint> CompactSuffixArray::get_S(const vector<Contact>& contacts) {
+    set<uint> st;
+    for (auto c : contacts) {
+        st.insert(c.u);
+        st.insert(c.v);
+        st.insert(c.ts);
+        st.insert(c.te);
+    }
+
+
+    vector<uint> distinct_symbols(st.begin(), st.end());
+
+    return distinct_symbols;
+}
+
 Bitvector* CompactSuffixArray::get_bitvector_B(const vector<Contact>& contacts) {
     // get max value
     uint maxValue = 0;
@@ -244,6 +259,7 @@ pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what
 
         uint sid_idx = A[mid - 1];
         uint sid_value = sid[sid_idx - 1];
+        // uint sid_value = S[D->rank1(mid -1)];
 
         if (id < sid_value) {
             r = mid - 1;
@@ -318,14 +334,14 @@ void CompactSuffixArray::print() {
 
     puts("Sid:\n");
     for(auto it : sid) {
-        printf("%2d", it);
+        printf("%2u", it);
         printf(" ");
     }
     puts("\n");
 
     puts("A:\n");
     for(auto it : A) {
-        printf("%2d", it);
+        printf("%2u", it);
         printf(" ");
     }
     puts("\n");
@@ -334,16 +350,23 @@ void CompactSuffixArray::print() {
     D->print();
     puts("\n");
 
+    puts("S:\n");
+    for(auto it : S) {
+        printf("%2u", it);
+        printf(" ");
+    }
+    puts("\n");
+
     puts("Psi Reg:\n");
     for(auto it : psi_reg) {
-        printf("%2d", it);
+        printf("%2u", it);
         printf(" ");
     }
     puts("\n");
 
     puts("Psi:\n");
     for(auto it : psi) {
-        printf("%2d", it);
+        printf("%2u", it);
         printf(" ");
     }
     puts("");
@@ -354,6 +377,7 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     gaps = get_gaps(this->contacts);
     sort(this->contacts.begin(), this->contacts.end());
     contacts_with_offset = get_sequence_with_offset(this->contacts);
+    S = get_S(contacts_with_offset);
     B = get_bitvector_B(contacts_with_offset);
 
     // if (!debug_mode) {

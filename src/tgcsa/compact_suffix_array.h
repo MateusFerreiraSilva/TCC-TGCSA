@@ -22,7 +22,8 @@ class CompactSuffixArray {
         vector<uint> psi_reg; // psi regular
 
         static uint mod(int a, int b);
-        vector<Contact> get_sequence_with_offset(const vector<Contact> & contacts);
+        vector<Contact> get_sequence_with_offset(const vector<Contact>& contacts);
+        vector<uint> get_S(const vector<Contact>& contacts);
         static Bitvector* get_bitvector_B(const vector<Contact>& contacts);
         Bitvector* get_bitvector_D();
         uint map_id(uint symbol);
@@ -36,6 +37,7 @@ class CompactSuffixArray {
         Bitvector* D;
         vector<uint> sid; // sequence of id without gaps in the alphabet, ids to sigma array
         vector<uint> A; // iCSA of sid
+        vector<uint> S; // sort list of distinct symbols that occurs in the original sequence, see: Word-Based Self-Indexes for Natural Language Text
         vector<uint> psi;
 
         CompactSuffixArray(const vector<Contact>& contacts, const bool debug_mode=false);
