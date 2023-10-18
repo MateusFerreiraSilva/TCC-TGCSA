@@ -91,7 +91,7 @@
         "args": [
             "--file=${workspaceFolder}/random_contacts.csv",
             "--queries=${workspaceFolder}/queries.txt",
-            "--temporal_graph=adj_list",
+            "--temporal_graph=tgcsa",
         ]
     }
 }

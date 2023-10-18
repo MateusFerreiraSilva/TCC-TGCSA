@@ -21,6 +21,18 @@ void write_csv_file(vector<int> contacts, string file_name) {
     file.close();
 }
 
+void write_file(vector<string> lines, string file_name) {
+    ofstream file;
+    
+    file.open(file_name.c_str(), ofstream::out);
+
+    for (int i = 0; i < lines.size(); i++) {
+        file << lines[i] << endl;
+    }
+
+    file.close();
+}
+
 vector<string> string_split(string str, char delimiter) {
     vector<string> slices;
 

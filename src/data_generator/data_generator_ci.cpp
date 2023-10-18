@@ -2,11 +2,23 @@
 #include "../utils/file_utils.h"
 
 int main() {
-    vector<int> contacts = generate_random_contacts(10, 100, 500);
-    string file_name = "random_contacts.csv";
+    int vrtx_max = 100000;
+    int time_max = 10000;
+    int edges_number = 1000;
+    int queries_number = 100;
 
+    string file_name = "random_contacts.csv";
+    string random_queries_file = "queries.txt";
+
+    cout << "creating random_contacts.csv..." << endl;
+    vector<int> contacts = generate_random_contacts(vrtx_max, time_max, edges_number);
     write_csv_file(contacts, file_name);
-    read_csv_file(file_name);
+    cout << "random_contacts.csv created!" << endl;
+
+    cout << "creating queries.txt" << endl;
+    vector<string> queries = generate_random_queries(vrtx_max, time_max, queries_number);
+    write_file(queries, random_queries_file);
+    cout << "queries.txt created!" << endl;
 
     return 0;
 }

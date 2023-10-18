@@ -41,3 +41,33 @@ vector<int> generate_random_contacts(int vrtx_max, int time_max, int edges_numbe
 
     return contacts;
 }
+
+/**
+ * Generate a random generate_random_queries
+ * 
+ * @param int vrtx_max, the max number that can be generated to vrtx
+ * @param int time_max, the max number that can be generated to timestamp
+ * @param int queries_number, the total number of queries
+ * @return `vector<string>` A list of random queries
+ */
+vector<string> generate_random_queries(int vrtx_max, int time_max, int queries_number) {
+    srand(time(NULL)); // initialize random seed
+
+    vector<string> queries(queries_number);
+    for (int i = 0; i < queries.size(); i++) {
+        const string query_type = get_random_int(10) % 2 == 0 ? "dn" : "rn"; // Random query, direct neighbors or reverser neighbors
+        uint u = get_random_int(vrtx_max);
+        uint v = get_random_int(vrtx_max);
+
+        while (v == u) { // u and v cant be the same
+            v = get_random_int(vrtx_max);
+        }
+
+        stringstream query;
+        query << query_type << "," << u << "," << v;
+
+        queries[i] = query.str();
+    }
+
+    return queries;
+}

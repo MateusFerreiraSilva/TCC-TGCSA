@@ -15,3 +15,4 @@ ms_print_output
 queries.txt
 !tests/test_data/*
 output
+*.output
