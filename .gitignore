@@ -14,3 +14,4 @@ ms_print_output
 *.csv
 queries.txt
 !tests/test_data/*
+output

@@ -248,7 +248,7 @@ uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
  */
 pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what happens if we dont find the id?
     uint idx;
-    uint l = 0, mid, r = A.size() - 1;
+    uint l = 0, mid, r = sequence_size - 1;
 
     while (l <= r) {
         mid = l + (r - l) / 2;
@@ -293,8 +293,8 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
         }
     }
 
-    if (idx < sid.size()) {
-        for (uint i = idx + 1; i < sid.size(); i++) {
+    if (idx < sequence_size) {
+        for (uint i = idx + 1; i < sequence_size; i++) {
             uint right_sid = S[D->rank1(i) - 1];
 
             if (sid_value != right_sid) {
@@ -372,25 +372,19 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     gaps = get_gaps(this->contacts);
     sort(this->contacts.begin(), this->contacts.end());
     contacts_with_offset = get_sequence_with_offset(this->contacts);
-    sequence_size = contacts_with_offset.size();
     B = get_bitvector_B(contacts_with_offset);
-
-    // if (!debug_mode) {
-    //     delete &contacts;
-    //     delete &contacts_with_offset;
-    // } else {
-    //     this->contacts = contacts;
-    // }
-
     sid = get_sid(contacts_with_offset);
+    sequence_size = sid.size();
     S = get_S();
     A = get_iCSA(sid);
     D = get_bitvector_D();
     psi_reg = get_psi_regular(A);
     psi = get_psi(psi_reg);
 
-    // if (!debug_mode) {
-    //     delete &A;
-    //     delete &psi_reg;
-    // }
+    if (!debug_mode) {
+        contacts_with_offset.clear();
+        sid.clear();
+        A.clear();
+        psi_reg.clear();
+    }
 }
