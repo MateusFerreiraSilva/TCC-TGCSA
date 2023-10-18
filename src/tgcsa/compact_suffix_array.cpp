@@ -253,9 +253,7 @@ pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what
     while (l <= r) {
         mid = l + (r - l) / 2;
 
-        uint sid_idx = A[mid - 1];
-        uint sid_value = sid[sid_idx - 1];
-        uint test_sid_value = S[D->rank1(mid - 1)];
+        const uint sid_value = S[D->rank1(mid - 1) - 1];
 
         if (id < sid_value) {
             r = mid - 1;
@@ -276,11 +274,12 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
     uint range_start = idx;
     uint range_end = idx;
 
-    uint sid_value = sid[A[idx] - 1];
+    uint sid_value = S[D->rank1(idx) - 1];
 
     if (idx > 0) { // avoid seg fault
         for (uint i = idx - 1; i >= 0; i--) {
-            uint left_sid = sid[A[i] - 1];
+            uint left_sid = S[D->rank1(i) - 1];
+            
         
             if (sid_value != left_sid) {
                 break;
@@ -296,7 +295,7 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
 
     if (idx < sid.size()) {
         for (uint i = idx + 1; i < sid.size(); i++) {
-            uint right_sid = sid[A[i] - 1];
+            uint right_sid = S[D->rank1(i) - 1];
 
             if (sid_value != right_sid) {
                 break;
@@ -373,6 +372,7 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     gaps = get_gaps(this->contacts);
     sort(this->contacts.begin(), this->contacts.end());
     contacts_with_offset = get_sequence_with_offset(this->contacts);
+    sequence_size = contacts_with_offset.size();
     B = get_bitvector_B(contacts_with_offset);
 
     // if (!debug_mode) {
@@ -390,6 +390,7 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     psi = get_psi(psi_reg);
 
     // if (!debug_mode) {
+    //     delete &A;
     //     delete &psi_reg;
     // }
 }

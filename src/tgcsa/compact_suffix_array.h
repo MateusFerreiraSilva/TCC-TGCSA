@@ -39,6 +39,7 @@ class CompactSuffixArray {
         vector<uint> A; // iCSA of sid
         vector<uint> S; // sort list of distinct symbols that occurs in the original sequence, see: Word-Based Self-Indexes for Natural Language Text
         vector<uint> psi;
+        uint sequence_size;
 
         CompactSuffixArray(const vector<Contact>& contacts, const bool debug_mode=false);
         static vector<uint> get_gaps(const vector<Contact>& contacts);
