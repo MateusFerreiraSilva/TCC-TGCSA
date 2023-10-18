@@ -23,7 +23,7 @@ class CompactSuffixArray {
 
         static uint mod(int a, int b);
         vector<Contact> get_sequence_with_offset(const vector<Contact>& contacts);
-        vector<uint> get_S(const vector<Contact>& contacts);
+        vector<uint> get_S();
         static Bitvector* get_bitvector_B(const vector<Contact>& contacts);
         Bitvector* get_bitvector_D();
         uint map_id(uint symbol);

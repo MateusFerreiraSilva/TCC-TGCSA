@@ -21,15 +21,11 @@ vector<Contact> CompactSuffixArray::get_sequence_with_offset(const vector<Contac
     return contactsWithOffset;
 }
 
-vector<uint> CompactSuffixArray::get_S(const vector<Contact>& contacts) {
+vector<uint> CompactSuffixArray::get_S() {
     set<uint> st;
-    for (auto c : contacts) {
-        st.insert(c.u);
-        st.insert(c.v);
-        st.insert(c.ts);
-        st.insert(c.te);
+    for (auto id : sid) {
+        st.insert(id);
     }
-
 
     vector<uint> distinct_symbols(st.begin(), st.end());
 
@@ -259,7 +255,7 @@ pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what
 
         uint sid_idx = A[mid - 1];
         uint sid_value = sid[sid_idx - 1];
-        // uint sid_value = S[D->rank1(mid -1)];
+        uint test_sid_value = S[D->rank1(mid - 1)];
 
         if (id < sid_value) {
             r = mid - 1;
@@ -377,7 +373,6 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     gaps = get_gaps(this->contacts);
     sort(this->contacts.begin(), this->contacts.end());
     contacts_with_offset = get_sequence_with_offset(this->contacts);
-    S = get_S(contacts_with_offset);
     B = get_bitvector_B(contacts_with_offset);
 
     // if (!debug_mode) {
@@ -388,6 +383,7 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     // }
 
     sid = get_sid(contacts_with_offset);
+    S = get_S();
     A = get_iCSA(sid);
     D = get_bitvector_D();
     psi_reg = get_psi_regular(A);
