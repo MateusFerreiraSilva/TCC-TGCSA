@@ -35,8 +35,9 @@ TEST(CompactSuffixArrayTests, AssertSidValues) {
     1, 5, 8, 13, 1, 6, 9, 13, 2, 4, 8, 11, 3, 5, 10, 13, 3, 7, 9, 12
   };
 
+  vector<uint>* sid = csa.get_sid(sigmaLine);
 
-  ASSERT_EQ(csa.get_sid(sigmaLine), expected_sid_values);
+  ASSERT_EQ(*sid, expected_sid_values);
 }
 
 
@@ -49,7 +50,9 @@ TEST(CompactSuffixArrayTests, AssertiCsaValues) {
     1, 5, 9, 13, 17, 10, 2, 14, 6, 18, 11, 3, 19, 7, 15, 12, 20, 4, 8, 16
   };
 
-  ASSERT_EQ(csa.get_iCSA(sid), expectediCSAValues);
+  vector<uint>* iCSA = csa.get_iCSA(sid);
+
+  ASSERT_EQ(*iCSA, expectediCSAValues);
 }
 
 TEST(CompactSuffixArrayTests, AssertPsiRegularValues) {
@@ -61,7 +64,9 @@ TEST(CompactSuffixArrayTests, AssertPsiRegularValues) {
     7, 9, 6, 8, 10, 11, 12, 15, 14, 13, 16, 18, 17, 19, 20, 4, 1, 2, 3, 5
   };
 
-  ASSERT_EQ(csa.get_psi_regular(iCSA), expectedPsiRegularValues);
+  vector<uint>* psi_reg = csa.get_psi_regular(iCSA);
+
+  ASSERT_EQ(*psi_reg, expectedPsiRegularValues);
 }
 
 TEST(CompactSuffixArrayTests, AssertPsiValues) {

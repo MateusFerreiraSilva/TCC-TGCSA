@@ -105,7 +105,7 @@ vector<pair<uint, uint>> TGCSA::snapshot(uint time) {
     tie(lts, rts) = csa->CSA_binary_search(starting_time);
     tie(lte, rte) = csa->CSA_binary_search(ending_time);
 
-    uint n = csa->sid.size() / 4;
+    uint n = csa->sequence_size / 4;
     for (uint i = 2 * n;  i <= rts; i++) {
         uint z = csa->psi[i];
         if (z - 1 > rte) {

@@ -16,16 +16,12 @@ enum class ContactElementType {
 
 class CompactSuffixArray {
     private:
-        vector<Contact> contacts;
-        vector<Contact> contacts_with_offset;
-        vector<uint> psi_reg; // psi regular
-
         static uint mod(int a, int b);
         static vector<uint> get_gaps(const vector<Contact>& contacts);
-        vector<Contact> get_sequence_with_offset(const vector<Contact>& contacts);
-        vector<uint> get_S();
+        static vector<Contact>* get_sequence_with_offset(const vector<Contact>& contacts, const vector<uint>& gaps);
+        vector<uint> get_S(const vector<uint>& sid);
         static Bitvector* get_bitvector_B(const vector<Contact>& contacts);
-        Bitvector* get_bitvector_D();
+        Bitvector* get_bitvector_D(const vector<uint>& sid, const vector<uint>& A);
         uint map_id(uint symbol);
         uint unmap_id(uint id);
         static vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(const vector<uint>& sequence);
@@ -36,16 +32,15 @@ class CompactSuffixArray {
         vector<uint> gaps;
         Bitvector* B;
         Bitvector* D;
-        vector<uint> sid; // sequence of id without gaps in the alphabet, ids to sigma array
-        vector<uint> A; // iCSA of sid
         vector<uint> S; // sort list of distinct symbols that occurs in the original sequence, see: Word-Based Self-Indexes for Natural Language Text
         vector<uint> psi;
         uint sequence_size;
 
         CompactSuffixArray(vector<Contact>& contacts, const bool debug_mode=false);
-        vector<uint> get_sid(const vector<Contact>& contacts_with_offset);
-        static vector<uint> get_iCSA(const vector<uint>& sequence);
-        static vector<uint> get_psi_regular(const vector<uint>& A);
+        ~CompactSuffixArray();
+        vector<uint>* get_sid(const vector<Contact>& contacts_with_offset);
+        static vector<uint>* get_iCSA(const vector<uint>& sequence);
+        static vector<uint>* get_psi_regular(const vector<uint>& A);
         static vector<uint> get_psi(const vector<uint>& psi_reg);
         // map into final alphabet without holes
         uint get_map(uint symbol, ContactElementType type);
