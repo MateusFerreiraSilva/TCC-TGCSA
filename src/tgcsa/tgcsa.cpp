@@ -17,14 +17,15 @@ TGCSA::TGCSA(vector<Contact>* contacts, const bool debug_mode) {
 vector<uint> TGCSA::direct_neighbors(uint vrtx, uint time) {
     vector<uint> neighbors;
 
-    uint src_vrtx = csa.get_map(vrtx, ContactElementType::SrcVertex);
-    
-    if (src_vrtx == 0) { // TO DO, check when this will happen? Should happen when we pass a value out of the range. 
-        return neighbors; // vrtx does not appears as a source vertex
+    uint src_vrtx, starting_time, ending_time;
+    try { // if we don't get one of these it means they don't occur in our contacts
+        src_vrtx = csa.get_map(vrtx, ContactElementType::SrcVertex);
+        starting_time = csa.get_map(time, ContactElementType::StartingTime);
+        ending_time = csa.get_map(time, ContactElementType::EndingTime);
+    } catch (const invalid_argument& ex) {
+        cout << ex.what();
+        return neighbors;
     }
-
-    uint starting_time = csa.get_map(time, ContactElementType::StartingTime);
-    uint ending_time = csa.get_map(time, ContactElementType::EndingTime);
 
     uint lu, ru; // range A[lu, ru] for vertex u
     uint lts, rts; // range A[lts, rts] for starting time ts
@@ -40,7 +41,6 @@ vector<uint> TGCSA::direct_neighbors(uint vrtx, uint time) {
         if (y - 1 <= rts) {
             uint z = csa.psi[y - 1]; // z = position of ending time
             if (z - 1 > rte) {
-                // neighbors.push_back(get_unmap(x, ContactElementType::TargetVertex));
                 neighbors.push_back(csa.get_unmap(csa.S[csa.D.rank1(x - 1) - 1], ContactElementType::TargetVertex));
             }
         }
@@ -59,14 +59,16 @@ vector<uint> TGCSA::direct_neighbors(uint vrtx, uint time) {
 vector<uint> TGCSA::reverse_neighbors(uint vrtx, uint time) {
     vector<uint> neighbors;
 
-    uint target_vrtx = csa.get_map(vrtx, ContactElementType::TargetVertex);
-    
-    if (target_vrtx == 0) { // TO DO, check when this will happen? Should happen when we pass a value out of the range. 
-        return neighbors; // vrtx does not appears as a source vertex
-    }
+    uint target_vrtx, starting_time, ending_time;
 
-    uint starting_time = csa.get_map(time, ContactElementType::StartingTime);
-    uint ending_time = csa.get_map(time, ContactElementType::EndingTime);
+    try { // if we don't get one of these it means they don't occur in our contacts
+        target_vrtx = csa.get_map(vrtx, ContactElementType::TargetVertex);
+        starting_time = csa.get_map(time, ContactElementType::StartingTime);
+        ending_time = csa.get_map(time, ContactElementType::EndingTime);
+    } catch (const invalid_argument& ex) {
+        cout << ex.what();
+        return neighbors;
+    }
 
     uint lv, rv; // range A[lu, ru] for vertex u
     uint lts, rts; // range A[lts, rts] for starting time ts

@@ -213,10 +213,23 @@ vector<uint>* CompactSuffixArray::get_iCSA(const vector<uint>& sequence) {
  */
 uint CompactSuffixArray::get_map(uint symbol, ContactElementType type) {
     if ((uint)type >= gaps.size()) {
-        throw invalid_argument("invalid type");
+        stringstream stream;
+
+        stream << "[CompactSuffixArray exception][get_map] invalid type: " << (uint)type << endl;
+
+        throw invalid_argument(stream.str());
     }
 
-    return B.rank1(symbol + gaps[(uint)type]);
+    try {
+        return B.rank1(symbol + gaps[(uint)type]);
+
+    } catch(const invalid_argument& ex) {
+        stringstream stream;
+
+        stream << "[CompactSuffixArray exception][get_map] Element out of range, symbol: " << symbol << ", type:" << (uint)type << endl; 
+
+        throw invalid_argument(stream.str());
+    }
 }
 
 
@@ -228,7 +241,11 @@ uint CompactSuffixArray::get_map(uint symbol, ContactElementType type) {
  */
 uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
     if ((uint)type >= gaps.size()) {
-        throw invalid_argument("invalid type");
+        stringstream stream;
+
+        stream << "[CompactSuffixArray exception][get_map] invalid type: " << (uint)type << endl;
+
+        throw invalid_argument(stream.str());
     }
 
     return B.select1(id) - gaps[(uint)type];
