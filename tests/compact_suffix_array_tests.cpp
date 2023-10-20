@@ -14,7 +14,7 @@ CompactSuffixArray csa(contacts);
 TEST(CompactSuffixArrayTests, AssertGapsValues) {
   vector<uint> expected_gaps_values { 0, 5, 10, 18 };
 
-  vector<uint> gaps = csa.get_gaps(contacts);
+  vector<uint> gaps = csa.gaps;
 
   ASSERT_EQ(gaps.size(), CONTACT_LENGTH);
   ASSERT_EQ(gaps, expected_gaps_values);

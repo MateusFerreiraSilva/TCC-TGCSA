@@ -7,7 +7,11 @@ Bitvector::Bitvector(unsigned long size) {
 
 void Bitvector::validateIdx(uint idx) {
     if (idx >= bs.size()) {
-        throw invalid_argument("Element out of range");
+        stringstream stream;
+
+        stream << "Element out of range, idx: " << idx << " ,bitvetor.size: " << bs.size() << endl; 
+
+        throw invalid_argument(stream.str());
     }
 }
 

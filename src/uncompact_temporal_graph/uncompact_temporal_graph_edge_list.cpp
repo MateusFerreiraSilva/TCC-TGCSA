@@ -1,6 +1,6 @@
 #include "uncompact_temporal_graph_edge_list.h"
 
-UncompactTemporalGraphEdgeList::UncompactTemporalGraphEdgeList(const vector<Contact>& contacts) {
+UncompactTemporalGraphEdgeList::UncompactTemporalGraphEdgeList(vector<Contact>& contacts) {
     uint max_vrtx, max_time;
     tie(max_vrtx, max_time) = get_max_vrtx_and_time(contacts);
 
@@ -11,6 +11,8 @@ UncompactTemporalGraphEdgeList::UncompactTemporalGraphEdgeList(const vector<Cont
             temporal_edge_list[i].push_back(make_pair(c.u, c.v));
         }
     }
+
+    contacts.clear();
 }
 
 vector<uint> UncompactTemporalGraphEdgeList::direct_neighbors(uint vrtx, uint time) {

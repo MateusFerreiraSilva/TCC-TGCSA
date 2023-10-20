@@ -125,9 +125,10 @@ CommandLineInterface::CommandLineInterface(int argc, char* argv[]) {
 
 void CommandLineInterface::run_queries() {
     vector<TemporalGraphQuery> queries = read_queries_file(queries_file_name);
+    vector<Contact> contacts = get_contacts();
 
     if (temporal_graph_type == "adj_list") {
-        UncompactTemporalGraphAdjList temporal_graph(get_contacts());
+        UncompactTemporalGraphAdjList temporal_graph(contacts);
 
         for (auto query : queries) {
             if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
@@ -137,7 +138,7 @@ void CommandLineInterface::run_queries() {
             }
         }
     } else if (temporal_graph_type == "edge_list") {
-        UncompactTemporalGraphEdgeList temporal_graph(get_contacts());
+        UncompactTemporalGraphEdgeList temporal_graph(contacts);
 
         for (auto query : queries) {
             if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
@@ -147,7 +148,7 @@ void CommandLineInterface::run_queries() {
             }
         }
     } else {
-        TGCSA temporal_graph(get_contacts());
+        TGCSA temporal_graph(contacts);
 
         for (auto query : queries) {
             if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {

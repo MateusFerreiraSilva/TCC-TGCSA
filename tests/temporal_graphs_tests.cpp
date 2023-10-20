@@ -19,11 +19,14 @@ vector<pair<int, int>> queries {
     make_pair(9, 100),
 };
 
-const vector<Contact> contacts = read_csv_file(test_data_file_name);
+vector<Contact> contacts = read_csv_file(test_data_file_name);
+vector<Contact> tgcsa_contacts = read_csv_file(test_data_file_name);
+vector<Contact> adj_list_contacts = read_csv_file(test_data_file_name);
+vector<Contact> edge_list_contacts = read_csv_file(test_data_file_name);
 
-const auto tgcsa = new TGCSA(contacts);
-const auto adj_list = new UncompactTemporalGraphAdjList(contacts);
-const auto edge_list = new UncompactTemporalGraphEdgeList(contacts);
+const auto tgcsa = new TGCSA(tgcsa_contacts);
+const auto adj_list = new UncompactTemporalGraphAdjList(adj_list_contacts);
+const auto edge_list = new UncompactTemporalGraphEdgeList(edge_list_contacts);
 
 TEST(GraphsTests, GraphsDirectNeighborsTest) {
     ASSERT_EQ(contacts.size(), test_data_contacts_number);

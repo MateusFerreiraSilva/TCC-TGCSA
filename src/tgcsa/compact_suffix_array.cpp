@@ -367,7 +367,7 @@ void CompactSuffixArray::print() {
     puts("");
 }
 
-CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bool debug_mode) {
+CompactSuffixArray::CompactSuffixArray(vector<Contact>& contacts, const bool debug_mode) {
     copy(contacts.begin(), contacts.end(), back_inserter(this->contacts));
     gaps = get_gaps(this->contacts);
     sort(this->contacts.begin(), this->contacts.end());
@@ -382,6 +382,7 @@ CompactSuffixArray::CompactSuffixArray(const vector<Contact>& contacts, const bo
     psi = get_psi(psi_reg);
 
     if (!debug_mode) {
+        contacts.clear();
         contacts_with_offset.clear();
         sid.clear();
         A.clear();

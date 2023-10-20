@@ -7,7 +7,7 @@ class UncompactTemporalGraphEdgeList {
     public:
         vector<vector<pair<uint, uint>>> temporal_edge_list;
 
-        UncompactTemporalGraphEdgeList(const vector<Contact>& contacts);
+        UncompactTemporalGraphEdgeList(vector<Contact>& contacts);
         vector<uint> direct_neighbors(uint vrtx, uint time);
         vector<uint> reverse_neighbors(uint vrtx, uint time);
 };

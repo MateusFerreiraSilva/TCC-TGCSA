@@ -7,7 +7,7 @@ class UncompactTemporalGraphAdjList  { // TO DO use generics
     public:
         vector<vector<vector<uint>>> temporal_adj_list;
 
-        UncompactTemporalGraphAdjList(const vector<Contact>& contacts);
+        UncompactTemporalGraphAdjList(vector<Contact>& contacts);
         vector<uint> direct_neighbors(uint vrtx, uint time);
         vector<uint> reverse_neighbors(uint vrtx, uint time);
 };

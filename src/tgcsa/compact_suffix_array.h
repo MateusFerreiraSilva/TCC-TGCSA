@@ -16,7 +16,6 @@ enum class ContactElementType {
 
 class CompactSuffixArray {
     private:
-        vector<uint> gaps;
         vector<Contact> contacts;
         vector<Contact> contacts_with_offset;
         vector<uint> psi_reg; // psi regular
@@ -33,6 +32,7 @@ class CompactSuffixArray {
         pair<uint, uint> get_suffix_range(uint idx);
 
     public:
+        vector<uint> gaps;
         Bitvector* B;
         Bitvector* D;
         vector<uint> sid; // sequence of id without gaps in the alphabet, ids to sigma array
@@ -41,7 +41,7 @@ class CompactSuffixArray {
         vector<uint> psi;
         uint sequence_size;
 
-        CompactSuffixArray(const vector<Contact>& contacts, const bool debug_mode=false);
+        CompactSuffixArray(vector<Contact>& contacts, const bool debug_mode=false);
         static vector<uint> get_gaps(const vector<Contact>& contacts);
         vector<uint> get_sid(const vector<Contact>& contacts_with_offset);
         static vector<uint> get_iCSA(const vector<uint>& sequence);
