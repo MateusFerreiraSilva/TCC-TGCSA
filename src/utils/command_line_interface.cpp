@@ -9,16 +9,7 @@ void CommandLineInterface::print_article_example() {
         Contact(4, 5, 5, 7)
     };
 
-    puts("Contacts:\n");
-    for(auto c : contacts) {
-        c.print();
-        printf(" ");
-    }
-    puts("");
-
-    TGCSA tgcsa(contacts);
-
-    tgcsa.print();
+    TGCSA tgcsa(contacts, true);
 }
 
 vector<string> CommandLineInterface::get_args(int argc, char* argv[]) {

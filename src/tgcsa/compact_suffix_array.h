@@ -21,6 +21,7 @@ class CompactSuffixArray {
         vector<uint> psi_reg; // psi regular
 
         static uint mod(int a, int b);
+        static vector<uint> get_gaps(const vector<Contact>& contacts);
         vector<Contact> get_sequence_with_offset(const vector<Contact>& contacts);
         vector<uint> get_S();
         static Bitvector* get_bitvector_B(const vector<Contact>& contacts);
@@ -42,7 +43,6 @@ class CompactSuffixArray {
         uint sequence_size;
 
         CompactSuffixArray(vector<Contact>& contacts, const bool debug_mode=false);
-        static vector<uint> get_gaps(const vector<Contact>& contacts);
         vector<uint> get_sid(const vector<Contact>& contacts_with_offset);
         static vector<uint> get_iCSA(const vector<uint>& sequence);
         static vector<uint> get_psi_regular(const vector<uint>& A);
@@ -53,8 +53,6 @@ class CompactSuffixArray {
         uint get_unmap(uint id, ContactElementType type);
         // return the range (start, end) on the CSA where the symbol occurs
         pair<uint, uint> CSA_binary_search(uint id);
-        
-        void print();
 };
 
 #endif

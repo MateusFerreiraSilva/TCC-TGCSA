@@ -35,13 +35,13 @@ vector<uint> CompactSuffixArray::get_S() {
 Bitvector* CompactSuffixArray::get_bitvector_B(const vector<Contact>& contacts) {
     // get max value
     uint maxValue = 0;
-    for (auto c : contacts) {
+    for (const auto& c : contacts) {
         maxValue = max(maxValue, c.te); // the max value will be te, because te are the greater values
     }
 
     Bitvector *bitvector = new Bitvector(maxValue);
 
-    for (auto c : contacts) {
+    for (const auto& c : contacts) {
         bitvector->set(c.u);
         bitvector->set(c.v);
         bitvector->set(c.ts);
@@ -169,20 +169,14 @@ vector<uint> CompactSuffixArray::get_psi(const vector<uint>& psi_reg) {
  * returns an array with the "offsets"
 */
 vector<uint> CompactSuffixArray::get_gaps(const vector<Contact>& contacts) {
-    
     uint maxVertice = 0, maxTimestamp = 0;
 
-    for (auto c : contacts) {
+    for (const auto c : contacts) {
         maxVertice = max(max(maxVertice, c.u), max(maxVertice, c.v));
         maxTimestamp = max(max(maxTimestamp, c.ts), max(maxTimestamp, c.te));
     }
 
-    vector<uint> gaps = vector<uint>(CONTACT_LENGTH);
-
-    gaps[0] = 0;
-    gaps[1] = maxVertice;
-    gaps[2] = maxVertice * 2;
-    gaps[3] = maxVertice * 2 + maxTimestamp;
+    const vector<uint> gaps { 0, maxVertice, maxVertice * 2, maxVertice * 2 + maxTimestamp };
 
     return gaps;
 }
@@ -308,78 +302,84 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
     return make_pair(range_start, range_end);
 }
 
-void CompactSuffixArray::print() {
-    puts("Sigma:\n");
-    for(auto c : contacts) {
-        c.print();
-        printf(" ");
+void debug_print(bool debug_mode, const vector<Contact>& contacts, string name) {
+    if (!debug_mode) {
+        return;
     }
-    puts("\n");
-    
-    puts("Sigma Line:\n");
-    for(auto contact : contacts_with_offset) {
-        contact.print();
-        printf(" ");
+
+    name += ":";
+
+    cout << name << endl;
+    for (Contact it : contacts) {
+        it.print();
     }
-    puts("\n");
+    cout << endl << endl;
+}
 
-    puts("B:\n");
-    B->print();
-    puts("\n");
-
-    puts("Sid:\n");
-    for(auto it : sid) {
-        printf("%2u", it);
-        printf(" ");
+void debug_print(bool debug_mode, Bitvector* bitvector, string name) {
+    if (!debug_mode) {
+        return;
     }
-    puts("\n");
 
-    puts("A:\n");
-    for(auto it : A) {
-        printf("%2u", it);
-        printf(" ");
+    name += ":";
+
+    cout << name << endl;
+    bitvector->print();
+    cout << endl << endl;
+}
+
+template <class T>
+void debug_print(bool debug_mode, const vector<T>& vec, string name) {
+    if (!debug_mode) {
+        return;
     }
-    puts("\n");
 
-    puts("D:\n");
-    D->print();
-    puts("\n");
+    name += ":";
 
-    puts("S:\n");
-    for(auto it : S) {
-        printf("%2u", it);
-        printf(" ");
+    cout << name << endl;
+    for (const T& it : vec) {
+        cout << it << " ";
     }
-    puts("\n");
-
-    puts("Psi Reg:\n");
-    for(auto it : psi_reg) {
-        printf("%2u", it);
-        printf(" ");
-    }
-    puts("\n");
-
-    puts("Psi:\n");
-    for(auto it : psi) {
-        printf("%2u", it);
-        printf(" ");
-    }
-    puts("");
+    cout << endl << endl;
 }
 
 CompactSuffixArray::CompactSuffixArray(vector<Contact>& contacts, const bool debug_mode) {
-    copy(contacts.begin(), contacts.end(), back_inserter(this->contacts));
-    gaps = get_gaps(this->contacts);
-    sort(this->contacts.begin(), this->contacts.end());
-    contacts_with_offset = get_sequence_with_offset(this->contacts);
+    debug_print(debug_mode, contacts, "Contacts");
+    
+    gaps = get_gaps(contacts);
+    
+    sort(contacts.begin(), contacts.end());
+    debug_print(debug_mode, contacts, "Sigma");
+
+    contacts_with_offset = get_sequence_with_offset(contacts);
+    debug_print(debug_mode, contacts_with_offset, "SigmaLine");
+
+    // delete contacts;
+
     B = get_bitvector_B(contacts_with_offset);
+    debug_print(debug_mode, B, "B");
+
+
     sid = get_sid(contacts_with_offset);
     sequence_size = sid.size();
+    debug_print(debug_mode, sid, "Sid");
+
     S = get_S();
+    debug_print(debug_mode, S, "S");
+
+
     A = get_iCSA(sid);
+    debug_print(debug_mode, A, "A");
+
+
     D = get_bitvector_D();
+    debug_print(debug_mode, D, "D");
+
     psi_reg = get_psi_regular(A);
+    debug_print(debug_mode, psi_reg, "Psi Regular");
+
     psi = get_psi(psi_reg);
+    debug_print(debug_mode, psi, "Psi");
 
     if (!debug_mode) {
         contacts.clear();

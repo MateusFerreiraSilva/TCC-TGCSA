@@ -14,7 +14,6 @@ class TGCSA {
         vector<uint> direct_neighbors(uint vrtx, uint time);
         vector<uint> reverse_neighbors(uint vrtx, uint time);
         vector<pair<uint, uint>> snapshot(uint time);
-        void print();
 };
 
 #endif
