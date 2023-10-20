@@ -1,7 +1,7 @@
 #include "command_line_interface.h"
 
 void CommandLineInterface::print_article_example() {
-    vector<Contact> contacts {
+    vector<Contact>* contacts = new vector<Contact> {
         Contact(1, 3, 1, 8),
         Contact(1, 4, 5, 8),
         Contact(2, 1, 1, 5),
@@ -89,8 +89,8 @@ string CommandLineInterface::get_temporal_graph_type(vector<string> args) {
     return "";
 }
 
-vector<Contact> CommandLineInterface::get_contacts() {
-    vector<Contact> contacts;
+vector<Contact>* CommandLineInterface::get_contacts() {
+    vector<Contact>* contacts = new vector<Contact>();
     if (!contacts_csv_file_name.empty()) {
         contacts = read_csv_file(contacts_csv_file_name); 
     }
@@ -116,7 +116,7 @@ CommandLineInterface::CommandLineInterface(int argc, char* argv[]) {
 
 void CommandLineInterface::run_queries() {
     vector<TemporalGraphQuery> queries = read_queries_file(queries_file_name);
-    vector<Contact> contacts = get_contacts();
+    vector<Contact>* contacts = get_contacts();
 
     if (temporal_graph_type == "adj_list") {
         UncompactTemporalGraphAdjList temporal_graph(contacts);

@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<Contact> contacts {
+vector<Contact>* contacts = new vector<Contact> {
     Contact(1, 3, 1, 8),
     Contact(1, 4, 5, 8),
     Contact(2, 1, 1, 5),

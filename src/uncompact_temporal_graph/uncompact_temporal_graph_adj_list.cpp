@@ -1,21 +1,19 @@
 #include "uncompact_temporal_graph_adj_list.h"
 
-UncompactTemporalGraphAdjList::UncompactTemporalGraphAdjList(vector<Contact>& contacts) {
+UncompactTemporalGraphAdjList::UncompactTemporalGraphAdjList(vector<Contact>* contacts) {
     uint max_vrtx, max_time;
-    tie(max_vrtx, max_time) = get_max_vrtx_and_time(contacts);
+    tie(max_vrtx, max_time) = get_max_vrtx_and_time(*contacts);
 
     temporal_adj_list.resize(max_time + 1);
     for (uint i = 0; i < temporal_adj_list.size(); i++) {
         temporal_adj_list[i].resize(max_vrtx + 1);
     }
     
-    for (auto c : contacts) {
+    for (const auto& c : *contacts) {
         for (uint i = c.ts; i < c.te; i++) {
             temporal_adj_list[i][c.u].push_back(c.v);
         }
     }
-
-    contacts.clear();
 }
 
 vector<uint> UncompactTemporalGraphAdjList::direct_neighbors(uint vrtx, uint time) {

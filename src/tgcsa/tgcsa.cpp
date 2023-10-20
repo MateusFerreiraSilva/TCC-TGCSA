@@ -1,6 +1,6 @@
 #include "tgcsa.h"
 
-TGCSA::TGCSA(vector<Contact>& contacts, const bool debug_mode) {
+TGCSA::TGCSA(vector<Contact>* contacts, const bool debug_mode) {
     csa = new CompactSuffixArray(contacts, debug_mode);
 }
 

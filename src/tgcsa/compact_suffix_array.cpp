@@ -343,18 +343,17 @@ void debug_print(bool debug_mode, const vector<T>& vec, string name) {
     cout << endl << endl;
 }
 
-CompactSuffixArray::CompactSuffixArray(vector<Contact>& contacts, const bool debug_mode) {
-    debug_print(debug_mode, contacts, "Contacts");
+CompactSuffixArray::CompactSuffixArray(vector<Contact>* contacts, const bool debug_mode) {
+    debug_print(debug_mode, *contacts, "Contacts");
     
-    gaps = get_gaps(contacts);
+    gaps = get_gaps(*contacts);
     
-    sort(contacts.begin(), contacts.end());
-    debug_print(debug_mode, contacts, "Sigma");
+    sort(contacts->begin(), contacts->end());
+    debug_print(debug_mode, *contacts, "Sigma");
 
-    vector<Contact>* contacts_with_offset = get_sequence_with_offset(contacts, gaps);
+    vector<Contact>* contacts_with_offset = get_sequence_with_offset(*contacts, gaps);
+    delete contacts;
     debug_print(debug_mode, *contacts_with_offset, "SigmaLine");
-
-    // delete contacts;
 
     B = get_bitvector_B(*contacts_with_offset);
     debug_print(debug_mode, B, "B (Bitvector)");
@@ -384,8 +383,4 @@ CompactSuffixArray::CompactSuffixArray(vector<Contact>& contacts, const bool deb
     psi = get_psi(*psi_reg);
     delete psi_reg;
     debug_print(debug_mode, psi, "Psi");
-
-    if (!debug_mode) {
-        contacts.clear();
-    }
 }
