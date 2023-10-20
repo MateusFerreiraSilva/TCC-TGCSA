@@ -32,39 +32,39 @@ vector<uint> CompactSuffixArray::get_S(const vector<uint>& sid) {
     return distinct_symbols;
 }
 
-Bitvector* CompactSuffixArray::get_bitvector_B(const vector<Contact>& contacts) {
+Bitvector CompactSuffixArray::get_bitvector_B(const vector<Contact>& contacts) {
     // get max value
     uint maxValue = 0;
     for (const auto& c : contacts) {
         maxValue = max(maxValue, c.te); // the max value will be te, because te are the greater values
     }
 
-    Bitvector *bitvector = new Bitvector(maxValue);
+    Bitvector bitvector(maxValue);
 
     for (const auto& c : contacts) {
-        bitvector->set(c.u);
-        bitvector->set(c.v);
-        bitvector->set(c.ts);
-        bitvector->set(c.te);
+        bitvector.set(c.u);
+        bitvector.set(c.v);
+        bitvector.set(c.ts);
+        bitvector.set(c.te);
     }
 
     return bitvector;
 }
 
-Bitvector* CompactSuffixArray::get_bitvector_D(const vector<uint>& sid, const vector<uint>& A) {
-    Bitvector *bitvector = new Bitvector(A.size());
+Bitvector CompactSuffixArray::get_bitvector_D(const vector<uint>& sid, const vector<uint>& A) {
+    Bitvector bitvector(A.size());
 
     const uint first_idx = 0;
 
     if (A.size() >= 1) {
-        bitvector->set(first_idx);
+        bitvector.set(first_idx);
     }
 
     for (uint i = first_idx + 1; i < A.size(); i++) {
         const uint curr_value = sid[A[i] - 1];
         const uint prev_value = sid[A[i - 1] - 1];
         if (curr_value != prev_value) {
-            bitvector->set(i);
+            bitvector.set(i);
         }
     }
 
@@ -78,8 +78,8 @@ Bitvector* CompactSuffixArray::get_bitvector_D(const vector<uint>& sid, const ve
  * @return `uint` the id of the corresponding element on the original sequece: array sigma
  */
 uint CompactSuffixArray::map_id(uint symbol) {
-    if (B->access(symbol) == 1) {
-        return B->rank1(symbol);
+    if (B.access(symbol) == 1) {
+        return B.rank1(symbol);
     }
 
     return 0;
@@ -92,7 +92,7 @@ uint CompactSuffixArray::map_id(uint symbol) {
  * @return `uint` corresponding value in contacts_with_offset
  */
 uint CompactSuffixArray::unmap_id(uint id) {
-    return B->select1(id);
+    return B.select1(id);
 }
 
 /* O^2 to build PSI, can i be better? */
@@ -216,7 +216,7 @@ uint CompactSuffixArray::get_map(uint symbol, ContactElementType type) {
         throw invalid_argument("invalid type");
     }
 
-    return B->rank1(symbol + gaps[(uint)type]);
+    return B.rank1(symbol + gaps[(uint)type]);
 }
 
 
@@ -231,7 +231,7 @@ uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
         throw invalid_argument("invalid type");
     }
 
-    return B->select1(id) - gaps[(uint)type];
+    return B.select1(id) - gaps[(uint)type];
 }
 
 /**
@@ -247,7 +247,7 @@ pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what
     while (l <= r) {
         mid = l + (r - l) / 2;
 
-        const uint sid_value = S[D->rank1(mid - 1) - 1];
+        const uint sid_value = S[D.rank1(mid - 1) - 1];
 
         if (id < sid_value) {
             r = mid - 1;
@@ -268,11 +268,11 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
     uint range_start = idx;
     uint range_end = idx;
 
-    uint sid_value = S[D->rank1(idx) - 1];
+    uint sid_value = S[D.rank1(idx) - 1];
 
     if (idx > 0) { // avoid seg fault
         for (uint i = idx - 1; i >= 0; i--) {
-            uint left_sid = S[D->rank1(i) - 1];
+            uint left_sid = S[D.rank1(i) - 1];
             
         
             if (sid_value != left_sid) {
@@ -289,7 +289,7 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
 
     if (idx < sequence_size) {
         for (uint i = idx + 1; i < sequence_size; i++) {
-            uint right_sid = S[D->rank1(i) - 1];
+            uint right_sid = S[D.rank1(i) - 1];
 
             if (sid_value != right_sid) {
                 break;
@@ -316,7 +316,7 @@ void debug_print(bool debug_mode, const vector<Contact>& contacts, string name) 
     cout << endl << endl;
 }
 
-void debug_print(bool debug_mode, Bitvector* bitvector, string name) {
+void debug_print(bool debug_mode, Bitvector bitvector, string name) {
     if (!debug_mode) {
         return;
     }
@@ -324,7 +324,7 @@ void debug_print(bool debug_mode, Bitvector* bitvector, string name) {
     name += ":";
 
     cout << name << endl;
-    bitvector->print();
+    bitvector.print();
     cout << endl << endl;
 }
 
@@ -388,9 +388,4 @@ CompactSuffixArray::CompactSuffixArray(vector<Contact>& contacts, const bool deb
     if (!debug_mode) {
         contacts.clear();
     }
-}
-
-CompactSuffixArray::~CompactSuffixArray() {
-    delete B;
-    delete D;
 }

@@ -1,5 +1,9 @@
 #include "bitvector.h"
 
+Bitvector::Bitvector() {
+    return;
+}
+
 Bitvector::Bitvector(unsigned long size) {
     bs.resize(size + 1);
     fill(bs.begin(), bs.end(), false); // TODO check if already iniatialized with false
