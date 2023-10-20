@@ -37,6 +37,7 @@ class CompactSuffixArray {
         vector<uint> psi;
         uint sequence_size;
 
+        CompactSuffixArray();
         CompactSuffixArray(vector<Contact>* contacts, const bool debug_mode=false);
         vector<uint>* get_sid(const vector<Contact>& contacts_with_offset);
         static vector<uint>* get_iCSA(const vector<uint>& sequence);

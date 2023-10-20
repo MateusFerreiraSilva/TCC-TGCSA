@@ -343,6 +343,8 @@ void debug_print(bool debug_mode, const vector<T>& vec, string name) {
     cout << endl << endl;
 }
 
+CompactSuffixArray::CompactSuffixArray() {}
+
 CompactSuffixArray::CompactSuffixArray(vector<Contact>* contacts, const bool debug_mode) {
     debug_print(debug_mode, *contacts, "Contacts");
     
