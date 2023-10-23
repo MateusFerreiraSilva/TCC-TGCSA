@@ -3,7 +3,7 @@
 
 int main() {
     int vrtx_max = 100000;
-    int time_max = 10000;
+    int time_max = 300;
     int edges_number = 1000;
     int queries_number = 100;
 

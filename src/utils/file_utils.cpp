@@ -18,17 +18,21 @@ void write_csv_file(vector<int> contacts, string file_name) {
         file << contacts[i + 3] << endl;
     }
 
+    file << flush;
+
     file.close();
 }
 
 void write_file(vector<string> lines, string file_name) {
     ofstream file;
-    
+
     file.open(file_name.c_str(), ofstream::out);
 
-    for (int i = 0; i < lines.size(); i++) {
-        file << lines[i] << endl;
+    for (const auto& l : lines) {
+        file << l << endl;
     }
+
+    file << flush;
 
     file.close();
 }
