@@ -3,7 +3,6 @@
 - cmake >= version 3.25
 - valgrind >= 3.18.1
 - googletest commit 8be20cce6931433c8bc3124beea91922cd621423 or later
-- google benchmark commit 7736df03049c362c7275f7573de6d6a685630e0a or later
 
 # Enviroment
 - [Visual Studio Code](https://code.visualstudio.com/)
@@ -39,8 +38,6 @@ cd build && ctest && cd ..
 
 ## Benchmarking
 
-### Space Benchmark
-
 The space benchmarks of this project were made with [valgrind](https://valgrind.org/) tool [massif](https://valgrind.org/docs/manual/ms-manual.html)
 
 ``` zsh
@@ -49,14 +46,5 @@ ms_print massif.output
 ```
 Run all benchmarks
 ``` zsh
-zsh ./benchmark/space_benchmark/space_benchmark.sh
-```
-
-
-### Time Benchmark
-
-The time benchmarks of this project were made with [google benchmark](https://github.com/google/benchmark)
-
-``` zsh
-./build/benchmark/time_benchmark/time_benchmark
+zsh ./benchmark/space_benchmark.sh
 ```

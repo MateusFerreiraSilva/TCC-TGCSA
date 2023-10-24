@@ -115,8 +115,8 @@ vector<uint>* CompactSuffixArray::get_psi_regular(const vector<uint>& A) { // O^
     for (uint i = 0; i < A.size(); i++) {
 
         if (A[i] == A.size()) {
-                psi_reg->push_back(1);
-                continue;
+            psi_reg->push_back(1);
+            continue;
         }
 
         for (uint j = 0; j < A.size(); j++) {
@@ -246,14 +246,17 @@ pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what
     while (l <= r) {
         mid = l + (r - l) / 2;
 
-        const uint sid_value = S[D.rank1(mid - 1) - 1];
+        const uint sid_value = S[D.rank1(mid > 0 ? mid - 1 : 0) - 1];
+        // const uint sid_value = S[D.rank1(mid - 1) - 1]; // Original
 
         if (id < sid_value) {
-            r = mid - 1;
+            r = mid > 0 ? mid - 1 : 0;
+            // r = mid - 1; // original
         } else if (id > sid_value) {
             l = mid + 1;
         } else {
-            idx = mid - 1;
+            idx = mid > 0 ? mid - 1 : 0;
+            // idx = mid - 1; // original
             break;
         }
     }
