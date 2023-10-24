@@ -15,5 +15,6 @@ target_link_libraries(time_benchmark PUBLIC
     tgcsa
     compact_suffix_array
     contact
+    suffix
     bitvector
 )

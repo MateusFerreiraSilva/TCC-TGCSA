@@ -95,34 +95,16 @@ uint CompactSuffixArray::unmap_id(uint id) {
     return B.select1(id);
 }
 
-/* O^2 to build PSI, can i be better? */
-vector<pair<vector<uint>, uint>> CompactSuffixArray::get_suffixes_and_indexes(const vector<uint>& sequence) {
-    vector<vector<uint>> suffixes;
-    
-    for (uint i = 0; i < sequence.size(); i++) { // O^2, somatorio
-        suffixes.push_back(vector<uint>());
-        for (uint j = i; j < sequence.size(); j++) {
-            suffixes[i].push_back(sequence[j]);
-        }
-    }
+vector<Suffix> CompactSuffixArray::get_suffixes(const vector<uint>& sequence) {
+    suffix_sequence = sequence;
+    vector<Suffix> suffixes(sequence.size());
 
-    vector<pair<vector<uint>, uint>> suffixes_and_indexes;
+    // iCSA need to be in base 1 because of the "$"
     for (uint i = 0; i < suffixes.size(); i++) {
-        suffixes_and_indexes.push_back(make_pair(suffixes[i], i + 1));
-        // iCSA need to be in base 1 because of the "$"
+        suffixes[i].idx = i + 1;
     }
 
-    sort(suffixes_and_indexes.begin(), suffixes_and_indexes.end());
-
-    return suffixes_and_indexes;
-}
-
-vector<vector<uint>> CompactSuffixArray::get_suffixes(const vector<pair<vector<uint>, uint>>&  suffixes_and_indexes) {
-    vector<vector<uint>> suffixes;
-    
-    for (auto it : suffixes_and_indexes) {
-        suffixes.push_back(it.first);
-    }
+    sort(suffixes.begin(), suffixes.end());
 
     return suffixes;
 }
@@ -195,14 +177,14 @@ vector<uint>* CompactSuffixArray::get_sid(const vector<Contact>& contacts_with_o
 }
 
 vector<uint>* CompactSuffixArray::get_iCSA(const vector<uint>& sequence) {
-    vector<pair<vector<uint>, uint>>suffixes_and_indexes = get_suffixes_and_indexes(sequence);
-    
-    vector<uint>* iCSA = new vector<uint>();
-    for (const auto& it : suffixes_and_indexes) {
-        iCSA->push_back(it.second);
+    vector<Suffix> suffixes = get_suffixes(sequence);
+
+    vector<uint>* suffixes_idx = new vector<uint>();
+    for (const auto& s : suffixes) {
+        suffixes_idx->push_back(s.idx);
     }
 
-    return iCSA;
+    return suffixes_idx;
 }
 
 /**

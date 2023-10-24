@@ -3,6 +3,7 @@
 
 #include <bits/stdc++.h>
 #include "../utils/contact.h"
+#include "../utils/suffix.h"
 #include "bitvector.h"
 
 using namespace std;
@@ -24,8 +25,7 @@ class CompactSuffixArray {
         Bitvector get_bitvector_D(const vector<uint>& sid, const vector<uint>& A);
         uint map_id(uint symbol);
         uint unmap_id(uint id);
-        static vector<pair<vector<uint>, uint>> get_suffixes_and_indexes(const vector<uint>& sequence);
-        static vector<vector<uint>> get_suffixes(const vector<pair<vector<uint>, uint>>&  suffixes_and_indexes);
+        static vector<Suffix> get_suffixes(const vector<uint>& sequence);
         pair<uint, uint> get_suffix_range(uint idx);
 
     public:
