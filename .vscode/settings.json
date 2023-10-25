@@ -93,5 +93,6 @@
             "--queries=${workspaceFolder}/queries.txt",
             "--temporal_graph=tgcsa",
         ]
-    }
+    },
+    "cmake.configureOnOpen": false
 }
