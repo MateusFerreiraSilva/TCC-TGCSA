@@ -1,5 +1,7 @@
 #include "bitvector.h"
 
+Bitvector::Bitvector() {}
+
 Bitvector::Bitvector(unsigned long size) {
     bs.resize(size + 1);
     fill(bs.begin(), bs.end(), false); // TODO check if already iniatialized with false
@@ -7,7 +9,11 @@ Bitvector::Bitvector(unsigned long size) {
 
 void Bitvector::validateIdx(uint idx) {
     if (idx >= bs.size()) {
-        throw invalid_argument("Element out of range");
+        stringstream stream;
+
+        stream << "[Bitvector exception][validateIdx] Element out of range, idx: " << idx << ", bitvetor.size: " << bs.size() << endl; 
+
+        throw invalid_argument(stream.str());
     }
 }
 
@@ -22,7 +28,11 @@ uint Bitvector::select(uint idx, uint type) {
         }
     }
 
-    throw invalid_argument("Not found");
+    stringstream stream;
+
+    stream << "[Bitvector exception][select] Not found, idx: " << idx << ", type: " << type << endl; 
+
+    throw invalid_argument(stream.str());
 }
 
 void Bitvector::print() {
@@ -34,6 +44,8 @@ string Bitvector::to_string() {
     for (unsigned long i = bs.size(); i > 0; i--) {
         str.push_back(bs[i - 1] ? '1' : '0');
     }
+
+    reverse(str.begin(), str.end());
 
     return str;
 }
@@ -63,23 +75,39 @@ void Bitvector::flip(uint idx) {
 }
 
 uint Bitvector::rank1(uint idx) {
-    validateIdx(idx);
+    try {
+        validateIdx(idx);
 
-    uint count = 0;
+        uint count = 0;
 
-    for (uint i = 0; i <= idx; i++) {
-        if (bs[i] == 1) {
-            count++;
+        for (uint i = 0; i <= idx; i++) {
+            if (bs[i] == 1) {
+                count++;
+            }
         }
-    }
 
-    return count;
+        return count;
+    } catch(const invalid_argument& ex) {
+        stringstream stream;
+
+        stream << "[Bitvector exception][rank1] Element out of range, idx: " << idx << endl; 
+
+        throw invalid_argument(stream.str());
+    }
 }
 
 uint Bitvector::rank0(uint idx) {
-    validateIdx(idx);
+    try {
+        validateIdx(idx);
 
-    return idx - rank1(idx);
+        return idx - rank1(idx);
+    } catch(const invalid_argument& ex) {
+        stringstream stream;
+
+        stream << "[Bitvector exception][rank1] Element out of range, idx: " << idx << endl; 
+
+        throw invalid_argument(stream.str());
+    }
 }
 
 uint Bitvector::select1(uint idx) {

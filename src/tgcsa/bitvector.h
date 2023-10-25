@@ -13,6 +13,7 @@ class Bitvector {
         uint select(uint idx, uint type);
 
     public:
+        Bitvector();
         Bitvector(unsigned long size);
         void print();
         string to_string();

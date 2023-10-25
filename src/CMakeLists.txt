@@ -11,6 +11,7 @@ target_link_libraries(main PUBLIC
     tgcsa
     compact_suffix_array
     contact
+    suffix
     bitvector
     file_utils
     uncompact_temporal_graph_adj_list

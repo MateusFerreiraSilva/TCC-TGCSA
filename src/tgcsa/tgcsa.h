@@ -8,13 +8,13 @@ using namespace std;
 
 class TGCSA {
     private:
-        CompactSuffixArray *csa;
+        CompactSuffixArray csa;
     public:
-        TGCSA(const vector<Contact>& contacts, const bool debug_mode=false);
+        TGCSA();
+        TGCSA(vector<Contact>* contacts, const bool debug_mode=false);
         vector<uint> direct_neighbors(uint vrtx, uint time);
         vector<uint> reverse_neighbors(uint vrtx, uint time);
         vector<pair<uint, uint>> snapshot(uint time);
-        void print();
 };
 
 #endif

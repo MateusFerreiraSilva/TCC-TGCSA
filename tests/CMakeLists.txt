@@ -34,6 +34,7 @@ target_link_libraries(compact_suffix_array_tests PUBLIC
   GTest::gtest_main
   compact_suffix_array
   contact
+  suffix
   bitvector
 )
 
@@ -41,6 +42,7 @@ target_link_libraries(bitvector_tests PUBLIC
   GTest::gtest_main
   compact_suffix_array
   contact
+  suffix
   bitvector
 )
 
@@ -49,6 +51,7 @@ target_link_libraries(tgcsa_tests PUBLIC
   tgcsa
   compact_suffix_array
   contact
+  suffix
   bitvector
 )
 
@@ -58,6 +61,7 @@ target_link_libraries(temporal_graphs_tests PUBLIC
   compact_suffix_array
   bitvector
   contact
+  suffix
   uncompact_temporal_graph_adj_list
   uncompact_temporal_graph_edge_list
   file_utils

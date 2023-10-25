@@ -18,6 +18,22 @@ void write_csv_file(vector<int> contacts, string file_name) {
         file << contacts[i + 3] << endl;
     }
 
+    file << flush;
+
+    file.close();
+}
+
+void write_file(vector<string> lines, string file_name) {
+    ofstream file;
+
+    file.open(file_name.c_str(), ofstream::out);
+
+    for (const auto& l : lines) {
+        file << l << endl;
+    }
+
+    file << flush;
+
     file.close();
 }
 
@@ -67,8 +83,8 @@ vector<int> read_csv_file_int(string file_name) {
     return contacts;
 }
 
-vector<Contact> read_csv_file(string file_name) {
-    vector<Contact> contacts;
+vector<Contact>* read_csv_file(string file_name) {
+    vector<Contact>* contacts = new vector<Contact>();
     vector<int> contacts_int = read_csv_file_int(file_name);
 
     for (uint i = 0; i + 3 < contacts_int.size(); i += 4) {
@@ -77,7 +93,7 @@ vector<Contact> read_csv_file(string file_name) {
             (uint)contacts_int[i + 2], (uint)contacts_int[i + 3]
         );
 
-        contacts.push_back(c);
+        contacts->push_back(c);
     }
 
     return contacts;
