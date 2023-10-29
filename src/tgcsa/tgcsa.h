@@ -1,7 +1,13 @@
 #ifndef TGCSA_CLASS
 #define TGCSA_CLASS
 
-#include <bits/stdc++.h>
+#include <sys/types.h>
+#include <vector>
+#include <string>
+#include <tuple>
+#include <iostream>
+#include <stdexcept>
+
 #include "compact_suffix_array.h"
 
 using namespace std;

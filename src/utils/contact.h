@@ -1,8 +1,11 @@
 #ifndef CONTACT
 #define CONTACT
 
-#include <bits/stdc++.h>
-
+#include <sys/types.h>
+#include <stdio.h>
+#include <vector>
+#include <stdexcept>
+	
 using namespace std;
 
 #define CONTACT_LENGTH 4

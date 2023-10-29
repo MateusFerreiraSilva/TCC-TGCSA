@@ -1,4 +1,3 @@
-#include <bits/stdc++.h>
 #include  "utils/command_line_interface.h"
 
 using namespace std;

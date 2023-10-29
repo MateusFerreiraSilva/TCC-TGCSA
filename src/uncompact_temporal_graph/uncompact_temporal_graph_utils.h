@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <sys/types.h>
+#include <vector>
+#include <algorithm> 
+
 #include "../utils/contact.h"
 
 using namespace std;

@@ -1,4 +1,9 @@
-#include <bits/stdc++.h>
+#include <sys/types.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <algorithm> 
+
 #include "file_utils.h"
 #include "temporal_graph_query.h"
 #include "../tgcsa/tgcsa.h"
