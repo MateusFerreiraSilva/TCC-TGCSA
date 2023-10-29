@@ -1,7 +1,11 @@
 #ifndef BITVECTOR
 #define BITVECTOR
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <algorithm> 
 
 using namespace std;
 

@@ -1,7 +1,16 @@
 #ifndef COMPACT_SUFFIX_ARRAY
 #define COMPACT_SUFFIX_ARRAY
 
-#include <bits/stdc++.h>
+#include <sys/types.h>
+#include <vector>
+#include <set>
+#include <map>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <algorithm> 
+#include <stdexcept>
+
 #include "../utils/contact.h"
 #include "../utils/suffix.h"
 #include "bitvector.h"

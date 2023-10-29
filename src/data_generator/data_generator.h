@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <string>
+#include <sstream>
+
 using namespace std;
 
 #define CONTACT_LENGHT 4

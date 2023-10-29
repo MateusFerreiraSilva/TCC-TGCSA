@@ -1,7 +1,8 @@
 #ifndef SUFFIX
 #define SUFFIX
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <sys/types.h>
 
 using namespace std;
 

@@ -1,7 +1,9 @@
+#include <vector>
+#include <string>
+
 #include <gtest/gtest.h>
 #include "../src/tgcsa/bitvector.h"
 #include "../src/tgcsa/compact_suffix_array.h"
-#include <bits/stdc++.h>
 
 using namespace std;
 

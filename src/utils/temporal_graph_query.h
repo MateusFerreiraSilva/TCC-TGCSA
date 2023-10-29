@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+#include <sys/types.h>
+#include "string.h"
 
 #pragma once
 

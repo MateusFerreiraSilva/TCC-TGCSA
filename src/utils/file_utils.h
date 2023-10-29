@@ -1,6 +1,12 @@
-#include <bits/stdc++.h>
+#include <sys/types.h>
+#include <vector>
+#include <string>
+#include <iostream>
+#include <fstream>
+
 #include "contact.h"
 #include "temporal_graph_query.h"
+
 using namespace std;
 
 void write_csv_file(vector<int> contacts, string file_name);
