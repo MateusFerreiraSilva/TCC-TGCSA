@@ -74,7 +74,7 @@ vector<int> read_csv_file_int(string file_name) {
     while (file >> csv_line) {
         vector<string> contact_values = string_split(csv_line, ',');
 
-        for (auto c : contact_values) {
+        for (const auto& c : contact_values) {
             uint value = stoi(c, nullptr, 0);
             contacts.push_back(value);
         }

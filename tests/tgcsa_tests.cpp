@@ -35,7 +35,7 @@ TEST(TGCSATest, direct_neighbors_test) {
     );
 
     cout <<  "neighbors:" << endl;
-    for (auto n : neighbors) {
+    for (const auto& n : neighbors) {
       cout << n << " ";
     }
     cout << endl << endl;
@@ -78,7 +78,7 @@ TEST(TGCSATest, reverse_neighbors_test) {
     );
 
     cout <<  "neighbors:" << endl;
-    for (auto n : neighbors) {
+    for (const auto& n : neighbors) {
       cout << n << " ";
     }
     cout << endl << endl;

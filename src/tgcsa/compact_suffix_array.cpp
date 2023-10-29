@@ -8,6 +8,7 @@ uint CompactSuffixArray::mod(int a, int b) { // using this function bc in c++ -1
 
 vector<Contact>* CompactSuffixArray::get_sequence_with_offset(const vector<Contact>& contacts, const vector<uint>& gaps) {
     vector<Contact>* contacts_with_offset = new vector<Contact>;
+    contacts_with_offset->reserve(contacts.size());
 
     for (auto c : contacts) {
         c.u += gaps[(uint)ContactElementType::SrcVertex];
@@ -23,7 +24,7 @@ vector<Contact>* CompactSuffixArray::get_sequence_with_offset(const vector<Conta
 
 vector<uint> CompactSuffixArray::get_S(const vector<uint>& sid) {
     set<uint> st;
-    for (auto id : sid) {
+    for (const auto& id : sid) {
         st.insert(id);
     }
 
@@ -111,6 +112,7 @@ vector<Suffix> CompactSuffixArray::get_suffixes(const vector<uint>& sequence) {
 
 vector<uint>* CompactSuffixArray::get_psi_regular(const vector<uint>& A) {
     vector<uint>* psi_reg = new vector<uint>();
+    psi_reg->reserve(A.size());
 
     map<uint, uint> values_to_indexes;
     for (uint i = 0; i < A.size(); i++) {
@@ -127,6 +129,7 @@ vector<uint>* CompactSuffixArray::get_psi_regular(const vector<uint>& A) {
 
 vector<uint> CompactSuffixArray::get_psi(const vector<uint>& psi_reg) {
     vector<uint> psi;
+    psi.reserve(psi_reg.size());
     
     const uint n = psi_reg.size() / 4;
 
@@ -159,6 +162,7 @@ vector<uint> CompactSuffixArray::get_gaps(const vector<Contact>& contacts) {
 
 vector<uint>* CompactSuffixArray::get_sid(const vector<Contact>& contacts_with_offset) {
     vector<uint>* sid = new vector<uint>();
+    sid->reserve(contacts_with_offset.size() * CONTACT_LENGTH);
     
     for (const auto& contact : contacts_with_offset) {
         sid->push_back(map_id(contact.u));

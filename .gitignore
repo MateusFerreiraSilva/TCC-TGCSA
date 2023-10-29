@@ -9,7 +9,7 @@ build
 benchmark_results.json
 massif.out.*
 massif.output
-ms_print_output
+ms_print_*
 *_massif.output
 *.csv
 queries.txt

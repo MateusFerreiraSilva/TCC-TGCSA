@@ -32,7 +32,7 @@ string CommandLineInterface::get_contacts_csv_file_name(vector<string> args) {
     const string delimitor = "=";
     const string csv_ext = ".csv";
 
-    for (auto a : args) {
+    for (const auto& a : args) {
         int patter_idx = a.find(file_arg);
         if (patter_idx != string::npos) {
             int delimitor_idx = a.find(delimitor);
@@ -51,7 +51,7 @@ string CommandLineInterface::get_queries_file_name(vector<string> args) {
     const string queries_arg = "--queries";
     const string delimitor = "=";
 
-    for (auto a : args) {
+    for (const auto& a : args) {
         int patter_idx = a.find(queries_arg);
         if (patter_idx != string::npos) {
             int delimitor_idx = a.find(delimitor);
@@ -71,7 +71,7 @@ string CommandLineInterface::get_temporal_graph_type(vector<string> args) {
         "tgcsa", "adj_list", "edge_list"
     };
 
-    for (auto a : args) {
+    for (const auto& a : args) {
         int patter_idx = a.find(temporal_graph_arg);
         if (patter_idx != string::npos) {
             int delimitor_idx = a.find(delimitor);
@@ -121,7 +121,7 @@ void CommandLineInterface::run_queries() {
     if (temporal_graph_type == "adj_list") {
         UncompactTemporalGraphAdjList temporal_graph(contacts);
 
-        for (auto query : queries) {
+        for (const auto& query : queries) {
             if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
                 temporal_graph.direct_neighbors(query.vrtx, query.time);
             } else {
@@ -131,7 +131,7 @@ void CommandLineInterface::run_queries() {
     } else if (temporal_graph_type == "edge_list") {
         UncompactTemporalGraphEdgeList temporal_graph(contacts);
 
-        for (auto query : queries) {
+        for (const auto& query : queries) {
             if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
                 temporal_graph.direct_neighbors(query.vrtx, query.time);
             } else {
@@ -141,7 +141,7 @@ void CommandLineInterface::run_queries() {
     } else {
         TGCSA temporal_graph(contacts);
 
-        for (auto query : queries) {
+        for (const auto& query : queries) {
             if (query.queryType == TemporalGraphQueryType::DirectNeighbors) {
                 temporal_graph.direct_neighbors(query.vrtx, query.time);
             } else {

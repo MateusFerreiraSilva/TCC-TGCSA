@@ -31,7 +31,7 @@ const auto edge_list = new UncompactTemporalGraphEdgeList(edge_list_contacts);
 TEST(GraphsTests, GraphsDirectNeighborsTest) {
     ASSERT_EQ(contacts->size(), test_data_contacts_number);
 
-    for (auto q : queries) {
+    for (const auto& q : queries) {
         auto tgcsa_direct_neighbors = tgcsa->direct_neighbors(q.first, q.second);
         auto adj_list_direct_neighbors = adj_list->direct_neighbors(q.first, q.second);
         auto edge_list_direct_neighbors = edge_list->direct_neighbors(q.first, q.second);
@@ -49,7 +49,7 @@ TEST(GraphsTests, GraphsDirectNeighborsTest) {
 TEST(GraphsTests, GraphsReverseNeighborsTest) {
     ASSERT_EQ(contacts->size(), test_data_contacts_number);
 
-    for (auto q : queries) {
+    for (const auto& q : queries) {
         auto tgcsa_reverse_neighbors = tgcsa->reverse_neighbors(q.first, q.second);
         auto adj_list_reverse_neighbors = adj_list->reverse_neighbors(q.first, q.second);
         auto edge_list_reverse_neighbors = edge_list->reverse_neighbors(q.first, q.second);

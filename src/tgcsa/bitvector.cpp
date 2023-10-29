@@ -41,6 +41,7 @@ void Bitvector::print() {
 
 string Bitvector::to_string() {
     string str;
+    str.reserve(bs.size());
     for (unsigned long i = bs.size(); i > 0; i--) {
         str.push_back(bs[i - 1] ? '1' : '0');
     }
