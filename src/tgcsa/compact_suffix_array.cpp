@@ -109,23 +109,17 @@ vector<Suffix> CompactSuffixArray::get_suffixes(const vector<uint>& sequence) {
     return suffixes;
 }
 
-vector<uint>* CompactSuffixArray::get_psi_regular(const vector<uint>& A) { // O^2 to build PSI, can i be better?
+vector<uint>* CompactSuffixArray::get_psi_regular(const vector<uint>& A) {
     vector<uint>* psi_reg = new vector<uint>();
-    
+
+    map<uint, uint> values_to_indexes;
     for (uint i = 0; i < A.size(); i++) {
+        values_to_indexes[A[i]] = i + 1; 
+    }
+    values_to_indexes[A.size() + 1] = 1;
 
-        if (A[i] == A.size()) {
-            psi_reg->push_back(1);
-            continue;
-        }
-
-        for (uint j = 0; j < A.size(); j++) {
-            if (A[j] == A[i] + 1) {
-                const uint successorIdx = j + 1;
-                psi_reg->push_back(successorIdx);
-                break;
-            }
-        }
+    for (uint i = 0; i < A.size(); i++) {
+        psi_reg->push_back(values_to_indexes[A[i] + 1]); 
     }
 
     return psi_reg;
