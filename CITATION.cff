@@ -1,9 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it using these metadata."
+message: If you use this software, please cite it using these metadata.
 authors:
-- family-names: "Silva"
-  given-names: "Mateus"
-title: "Desenvolvimento e Avaliação do TGCSA para Redução de Consumo de Memória em Grafos Temporais"
+- family-names: Silva
+  given-names: Mateus
+title: Desenvolvimento e Avaliação do TGCSA para Redução de Consumo de Memória em Grafos Temporais
 version: 0.1.0
 date-released: "2023-11-04"
-repository-code: : "https://github.com/MateusFerreiraSilva/TCC-TGCSA"
+license: BSD-3-Clause
+repository-code: "https://github.com/MateusFerreiraSilva/TCC-TGCSA"
