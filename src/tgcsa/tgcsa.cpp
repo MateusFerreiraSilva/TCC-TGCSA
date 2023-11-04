@@ -41,7 +41,7 @@ vector<uint> TGCSA::direct_neighbors(uint vrtx, uint time) {
         if (y - 1 <= rts) {
             uint z = csa.psi[y - 1]; // z = position of ending time
             if (z - 1 > rte) {
-                neighbors.push_back(csa.get_unmap(csa.S[csa.D.rank1(x - 1) - 1], ContactElementType::TargetVertex));
+                neighbors.push_back(csa.get_unmap(csa.D.rank1(x - 1), ContactElementType::TargetVertex));
             }
         }
     }
@@ -84,7 +84,7 @@ vector<uint> TGCSA::reverse_neighbors(uint vrtx, uint time) {
             uint z = csa.psi[y - 1]; // z = position of ending time
             if (z - 1 > rte) {
                 uint u = csa.psi[z - 1];
-                neighbors.push_back(csa.get_unmap(csa.S[csa.D.rank1(u - 1) - 1], ContactElementType::SrcVertex));
+                neighbors.push_back(csa.get_unmap(csa.D.rank1(u - 1), ContactElementType::SrcVertex));
             }
         }
     }
@@ -117,8 +117,8 @@ vector<pair<uint, uint>> TGCSA::snapshot(uint time) {
             uint x = csa.psi[z - 1];
             uint y = csa.psi[x - 1];
 
-            uint u = csa.get_unmap(csa.S[csa.D.rank1(x - 1) - 1], ContactElementType::SrcVertex);
-            uint v = csa.get_unmap(csa.S[csa.D.rank1(y - 1) - 1], ContactElementType::TargetVertex);
+            uint u = csa.get_unmap(csa.D.rank1(x - 1), ContactElementType::SrcVertex);
+            uint v = csa.get_unmap(csa.D.rank1(y - 1), ContactElementType::TargetVertex);
 
             snaps.push_back(make_pair(u, v));
         }

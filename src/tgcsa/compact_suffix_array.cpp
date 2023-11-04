@@ -22,17 +22,6 @@ vector<Contact>* CompactSuffixArray::get_sequence_with_offset(const vector<Conta
     return contacts_with_offset;
 }
 
-vector<uint> CompactSuffixArray::get_S(const vector<uint>& sid) {
-    set<uint> st;
-    for (const auto& id : sid) {
-        st.insert(id);
-    }
-
-    vector<uint> distinct_symbols(st.begin(), st.end());
-
-    return distinct_symbols;
-}
-
 Bitvector CompactSuffixArray::get_bitvector_B(const vector<Contact>& contacts) {
     // get max value
     uint maxValue = 0;
@@ -244,7 +233,7 @@ pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what
     while (l <= r) {
         mid = l + (r - l) / 2;
 
-        const uint sid_value = S[D.rank1(mid > 0 ? mid - 1 : 0) - 1];
+        const uint sid_value = D.rank1(mid > 0 ? mid - 1 : 0);
         // const uint sid_value = S[D.rank1(mid - 1) - 1]; // Original
 
         if (id < sid_value) {
@@ -268,11 +257,11 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
     uint range_start = idx;
     uint range_end = idx;
 
-    uint sid_value = S[D.rank1(idx) - 1];
+    uint sid_value = D.rank1(idx);
 
     if (idx > 0) { // avoid seg fault
         for (uint i = idx - 1; i >= 0; i--) {
-            uint left_sid = S[D.rank1(i) - 1];
+            uint left_sid = D.rank1(i);
             
         
             if (sid_value != left_sid) {
@@ -289,7 +278,7 @@ pair<uint, uint> CompactSuffixArray::get_suffix_range(uint idx) {
 
     if (idx < sequence_size) {
         for (uint i = idx + 1; i < sequence_size; i++) {
-            uint right_sid = S[D.rank1(i) - 1];
+            uint right_sid = D.rank1(i);
 
             if (sid_value != right_sid) {
                 break;
@@ -366,9 +355,6 @@ CompactSuffixArray::CompactSuffixArray(vector<Contact>* contacts, const bool deb
     delete contacts_with_offset;
     sequence_size = sid->size();
     debug_print(debug_mode, *sid, "Sid");
-
-    S = get_S(*sid);
-    debug_print(debug_mode, S, "S (Distinct Symbols)");
 
     // iCSA of sid
     vector<uint>* A = get_iCSA(*sid);

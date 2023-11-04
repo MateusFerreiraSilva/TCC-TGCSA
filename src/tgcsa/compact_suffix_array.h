@@ -3,7 +3,6 @@
 
 #include <sys/types.h>
 #include <vector>
-#include <set>
 #include <map>
 #include <string>
 #include <iostream>
@@ -29,7 +28,6 @@ class CompactSuffixArray {
         static uint mod(int a, int b);
         static vector<uint> get_gaps(const vector<Contact>& contacts);
         static vector<Contact>* get_sequence_with_offset(const vector<Contact>& contacts, const vector<uint>& gaps);
-        vector<uint> get_S(const vector<uint>& sid);
         static Bitvector get_bitvector_B(const vector<Contact>& contacts);
         Bitvector get_bitvector_D(const vector<uint>& sid, const vector<uint>& A);
         uint map_id(uint symbol);
@@ -41,8 +39,6 @@ class CompactSuffixArray {
         vector<uint> gaps;
         Bitvector B;
         Bitvector D;
-        // sort list of distinct symbols that occurs in the original sequence, see: Word-Based Self-Indexes for Natural Language Text
-        vector<uint> S;
         vector<uint> psi;
         uint sequence_size;
 
