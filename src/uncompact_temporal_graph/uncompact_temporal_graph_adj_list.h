@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class UncompactTemporalGraphAdjList  { // TO DO use generics
+class UncompactTemporalGraphAdjList  {
     public:
         vector<vector<vector<uint>>> temporal_adj_list;
 

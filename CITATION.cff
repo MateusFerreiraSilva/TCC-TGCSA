@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: If you use this software, please cite it using these metadata.
 authors:
-- family-names: Silva
+- family-names: Ferreira
   given-names: Mateus
 title: Desenvolvimento e Avaliação do TGCSA para Redução de Consumo de Memória em Grafos Temporais
 version: 0.1.0

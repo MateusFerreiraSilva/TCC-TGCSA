@@ -226,7 +226,7 @@ uint CompactSuffixArray::get_unmap(uint id, ContactElementType type) {
  * @param uint id
  * @return `pair<uint, pair>` range it the index [start, end]
  */
-pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what happens if we dont find the id?
+pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) {
     uint idx;
     uint l = 0, mid, r = sequence_size - 1;
 
@@ -234,16 +234,13 @@ pair<uint, uint> CompactSuffixArray::CSA_binary_search(uint id) { // TO DO, what
         mid = l + (r - l) / 2;
 
         const uint sid_value = D.rank1(mid > 0 ? mid - 1 : 0);
-        // const uint sid_value = S[D.rank1(mid - 1) - 1]; // Original
 
         if (id < sid_value) {
             r = mid > 0 ? mid - 1 : 0;
-            // r = mid - 1; // original
         } else if (id > sid_value) {
             l = mid + 1;
         } else {
             idx = mid > 0 ? mid - 1 : 0;
-            // idx = mid - 1; // original
             break;
         }
     }

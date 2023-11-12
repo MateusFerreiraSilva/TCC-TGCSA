@@ -67,8 +67,6 @@ target_link_libraries(temporal_graphs_tests PUBLIC
   file_utils
 )
 
-# TO DO understand what means "PUBLIC" in the targtarget_link_libraries
-
 include(GoogleTest)
 
 gtest_discover_tests(file_utils_tests)
