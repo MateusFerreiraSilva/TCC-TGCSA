@@ -1,3 +1,7 @@
+# About
+
+This repository contains the implementation of the described in the following work: [Desenvolvimento e avaliação do TGCSA para redução de consumo de memória em grafos temporais](https://repositorio.ufu.br/handle/123456789/39758)
+
 # Dependencies
 - g++ >= version 11.4.0
 - cmake >= version 3.25
